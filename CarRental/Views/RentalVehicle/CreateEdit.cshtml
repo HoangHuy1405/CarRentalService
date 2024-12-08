@@ -1,0 +1,104 @@
+﻿@model RentalVehicle
+@{
+	ViewBag.Title = "Upload Car";
+}
+<h1> @ViewBag.Operation Car</h1>
+<form enctype="multipart/form-data" asp-action="CreateEdit" method="post">
+	@* Add a hidden field to the form so the existing ThumbnailUrl value is submitted back to the server if no new file is uploaded. *@
+	<input type = "hidden" asp-for="RentalVehicleID" />
+	<input type = "hidden" asp-for="OwnerId" />
+	<input type = "hidden" asp-for="ThumbnailUrl" />
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group mb-4">
+				<label asp-for="LicensePlate"></label>
+				<input asp-for="LicensePlate" class="form-control" />
+				<span asp-validation-for="LicensePlate" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Brand"></label>
+				<input asp-for="Brand" class="form-control" />
+				<span asp-validation-for="Brand" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Model"></label>
+				<input asp-for="Model" class="form-control" />
+				<span asp-validation-for="Model" class="text-danger"></span>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label asp-for="ManuYear"></label>
+						<input asp-for="ManuYear" class="form-control" type="date" min="1990" max="2100" />
+						<span asp-validation-for="ManuYear" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<label asp-for="NumberOfSeats"></label>
+						<input asp-for="NumberOfSeats" class="form-control" type="number" min="1" max="100" />
+						<span asp-validation-for="NumberOfSeats" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label asp-for="Description"></label>
+				<textarea asp-for="Description" class="form-control" rows="4"></textarea>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label asp-for="RentalFeePerDay"></label>
+						<input asp-for="RentalFeePerDay" class="form-control" type="number"/>
+						<span asp-validation-for="RentalFeePerDay" class="text-danger" ></span>
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<label asp-for="RentalFeePerKilo"></label>
+						<input asp-for="RentalFeePerKilo" class="form-control" type="number"/>
+						<span asp-validation-for="RentalFeePerKilo" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label asp-for="ThumbnailImage"></label>
+				<input class="form-control" id="ThumbnailImage" name="ThumbnailImage" asp-for="ThumbnailImage" type="file" />
+			</div>
+			<div class="form-group">
+				<label asp-for="ImageGallery"></label>
+				<input class="form-control" id="ImageGallery" name="ImageGallery" asp-for="ImageGallery" type="file" multiple/>
+			</div>
+			<button type="submit" class="btn btn-primary w-25">@ViewBag.Operation</button>
+			<a asp-controller="ApplicationUser" asp-action="Index" class="btn btn-secondary w-25">Back</a>
+		</div>
+	</div>
+	
+</form>
+
+@* @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script>
+		$(document).ready(function () {
+			// Check if it's an edit operation (i.e., RentalVehicleID is set)
+			var rentalVehicleID = $('#RentalVehicleID').val();
+
+			// If it's an edit and no new images are selected, disable the required validation
+			if (rentalVehicleID && !$('#ThumbnailImage').val()) {
+				$('#ThumbnailImage').removeAttr('data-val-required');
+			}
+
+			if (rentalVehicleID && $('#ImageGallery').get(0).files.length === 0) {
+				$('#ImageGallery').removeAttr('data-val-required');
+			}
+		});
+	</script>
+} *@
+
+
