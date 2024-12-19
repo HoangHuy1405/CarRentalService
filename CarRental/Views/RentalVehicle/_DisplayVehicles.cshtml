@@ -1,0 +1,49 @@
+﻿@model IEnumerable<RentalVehicle>
+@{
+	bool isForDetails = ViewData["IsForDetails"] != null && (bool)ViewData["IsForDetails"];
+	var currentId = ViewData["CurrentId"] as int? ?? 0; // Pass 'CurrentId' to the view
+}
+<div class="row g-3 m-4"> 
+	@foreach (RentalVehicle vehicle in Model) {
+		@if (!isForDetails && @vehicle.RentalVehicleID == @currentId) {
+			continue;
+		}
+		<div class="col-md-4">
+			<div class="card shadow-sm h-100">
+				<img src="@Url.Content(vehicle?.ThumbnailUrl)" class="card-img-top" alt="@vehicle.Brand" style="height: 200px; object-fit: cover;" />
+				<div class="card-body">
+					<h5 class="card-title">@vehicle.Brand @vehicle.Model</h5>
+					<ul class="list-unstyled mb-3">
+						<li><strong>Rental Fee (Per Kilo):</strong> @vehicle.RentalFeePerKilo</li>
+						<li><strong>Rental Fee (Per Day):</strong> @vehicle.RentalFeePerDay</li>
+						<li><strong>Year:</strong> @vehicle.ManuYear.Year</li>
+						<li><strong>Seats:</strong> @vehicle.NumberOfSeats</li>
+					</ul>
+				</div>
+				<div class="card-footer bg-transparent border-0 text-center">
+					@if (isForDetails) {
+						<a asp-controller="RentalVehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary">View Details</a>
+					} else {
+						<a asp-controller="RentalVehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary">Compare</a>
+					}
+				</div>
+			</div>
+		</div>
+	}
+</div>
+@section Scripts {
+	<script>
+		// Function to get query parameter by name
+		function getQueryParam(param) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(param);
+		}
+		var currentId = getQueryParam('currentId'); // Get the 'currentId' parameter from the URL
+	</script>
+}
+
+
+
+
+
+

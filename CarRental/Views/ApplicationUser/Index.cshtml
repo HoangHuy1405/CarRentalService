@@ -10,7 +10,16 @@
         return "deleteModal" + vehicle.RentalVehicleID;
     }
 }
-<a asp-controller="RentalVehicle" asp-action="CreateEdit" class="btn-primary btn-lg">Upload Your Car</a>
+<div class="row">
+    <div class="col">
+        <a asp-controller="RentalVehicle" asp-action="CreateEdit" class="btn-primary btn-lg">Upload Your Car</a>
+    </div>
+    <div class="col">
+        <a asp-controller="" asp-action="" class="btn-primary btn-lg">Open Share Drive</a>
+        <a asp-controller="" asp-action="" class="btn-primary btn-lg">Close Share Drive</a>
+    </div>
+</div>
+
 
 <div class="row g-3 m-4">
     @foreach (RentalVehicle vehicle in Model) {

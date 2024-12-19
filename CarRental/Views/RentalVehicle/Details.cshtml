@@ -1,0 +1,115 @@
+﻿@model RentalVehicle
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- Bootstrap and JS Links -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<div class="container mt-5">
+    <div id="carImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            @for (int i = 0; i < Model.Gallery.Count; i++) {
+                <li data-bs-target="#carImageCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+            }
+        </ol>
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+            @foreach (var image in Model.Gallery) {
+                <div class="carousel-item @(Model.Gallery.IndexOf(image) == 0 ? "active" : "")">
+                    <img src="@Url.Content(image?.ImageUrl)" class="d-block w-100" alt="Car Image" style="height: 400px; object-fit: cover;" />
+                </div>
+            }
+        </div>
+
+        <!-- Navigation Controls -->
+        <a class="carousel-control-prev" href="#carImageCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carImageCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+    <!-- Car Details and Total Fee -->
+    <div class="row">
+        <!-- Left Column: Car Details -->
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold mb-4">@Model.Brand @Model.Model</h1> <!-- Slightly larger than before -->
+            <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
+                <!-- Increased list font size -->
+                <li><strong>License Plate:</strong> @Model.LicensePlate</li>
+                <li><strong>Fuel type:</strong> @Model.FuelType</li>
+                <li><strong>Transmission:</strong> @Model.Transmission</li>
+                <li><strong>Manufacture Year:</strong> @Model.ManuYear.Year</li>
+                <li><strong>Number of Seats:</strong> @Model.NumberOfSeats</li>
+                <li><strong>Fuel consumption:</strong> @Model.FuelConsumption / 100km</li>
+                <li><strong>Pickup location:</strong> @Model.Location</li>
+
+                <li><strong>Rental Fee (Per Kilo):</strong> @Model.RentalFeePerKilo</li>
+            </ul>
+            <h3 class="fw-bold mb-2" style="font-size: 1.5rem;">Description</h3>
+            <p style="font-size: 1.2rem;" class="text-muted mb-4">@Model.Description</p>
+
+            <h3 class="fw-bold mb-2" style="font-size: 1.5rem;">Contact</h3>
+            <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
+                <li><strong>Name:</strong> @Model.Owner.UserName </li>
+                <li><strong>Email:</strong> @Model.Owner.Email </li>
+                <li><strong>Phone number:</strong> @Model.Owner.PhoneNumber </li>
+            </ul>
+        </div>
+
+
+        <!-- Right Column: Total Fee -->
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="display-5 fw-bold text-center mb-4" style="font-size: 1.75rem;">Charge Fee</h2> <!-- Larger and bolder -->
+                    <h3 class="text-center text-success" style="font-size: 2rem;">@Model.RentalFeePerDay$/day</h3>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <button class="btn btn-primary w-75 mx-auto" data-bs-toggle="modal" data-bs-target="#compare-modal">Make comparison</button>
+            </div>
+            <div class="row mt-4">
+                <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-primary w-75 mx-auto">Rent</a>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="compare-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl custom-fullscreen-modal modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">Choose a vehicle to compare</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body" id="partialDisplay">
+                        <!-- Render code -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $('#partialDisplay').load(`/RentalVehicle/AllVehiclePartial?isForDetails=false&currentId=${@Model.RentalVehicleID}`)
+    </script>
+}

@@ -1,0 +1,146 @@
+﻿@model Rental
+@{
+	ViewBag.Title = "Rent Car";
+}
+
+<form asp-controller="RentalVehicle" asp-action="Rent" method="post">
+    <input type="hidden" asp-for="totalFee" id="totalFeeInput" />
+    <input type="hidden" asp-for="depositFee" id="depositFeeInput" />
+    <input type="hidden" asp-for="RentalVehicleID" />
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="StartDate"></label>
+                <input id="startDate" asp-for="StartDate" class="form-control" type="date" min="1990" max="2100" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate"></label>
+                <input id="endDate" asp-for="EndDate" class="form-control" type="date" min="1990" max="2100" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PickUpLocation"></label>
+                <input asp-for="PickUpLocation" class="form-control" />
+                <span asp-validation-for="PickUpLocation" class="text-danger"></span>
+            </div>
+
+            <span id="check-valid" class="alert-warning"></span>
+        </div>
+        <div class="col-md-5 card shadow">
+            <div class="card-body">
+                <h2 class="display-5 fw-bold text-center mb-2" style="font-size: 1.75rem;">
+                    Charge Fee: <h3 class="text-center text-success rent-fee" style="font-size: 2rem;"></h3>
+                </h2>
+                <h2 class="display-5 fw-bold text-left mb-2" style="font-size: 1.75rem;">total fee = <span id="totalFee" class="font-weight-bold"></span></h2>
+                <h2 class="display-5 fw-bold text-left mb-2" style="font-size: 1.75rem;">deposit fee = <span id="depositFee" class="font-weight-bold"></span></h2>
+                <button class="btn btn-primary w-25 mx-auto d-block" type="submit">Pay</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    let apiData;
+
+    async function fetchRentalDataFee(rentalVehicleId) {
+        try {
+            const response = await fetch(`/api/rentalvehicles/${rentalVehicleId}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error(errorData.Message);
+                return null;
+            }
+            const data = await response.json();
+            apiData = data;
+            console.log('Vehicle Data:', data);
+            // Update UI with fetched data
+            displayData(data);
+            
+            return data.Vehicle;
+        } catch (error) {
+            console.error('Error fetching rental data:', error);
+        }
+    }
+
+   // Call the function with the current Rental model's IDs
+    const rentalVehicleId = @Model.RentalVehicleID;
+    fetchRentalDataFee(rentalVehicleId);
+
+    function displayData(data) {
+        console.log(document.querySelector(".rent-fee"));
+        document.querySelector(".rent-fee").textContent = `${data.feePerDay}$/day`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const startDateInput = document.getElementById("startDate");
+        const endDateInput = document.getElementById("endDate");
+        const totalFeeSpan = document.getElementById("totalFee");
+        const depositFeeSpan = document.getElementById("depositFee");
+
+        const today = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
+
+        // Set the default value of both inputs to today's date
+        startDateInput.value = today;
+        endDateInput.value = today;
+
+        // Function to validate and reset invalid inputs
+        function validateInput() {
+            console.log("validating")
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+
+            // Check if the start date is in the past
+            if (startDateValue < today) {
+                startDateInput.value = today;
+                alert("Start date cannot be in the past. Resetting to today's date.");
+            }
+
+            // Check if the end date is in the past
+            if (endDateValue < today) {
+                endDateInput.value = today;
+                alert("End date cannot be in the past. Resetting to today's date.");
+            }
+
+            // Check if the end date is earlier than the start date
+            if (endDateValue < startDateInput.value) {
+                endDateInput.value = startDateInput.value;
+                alert("End date cannot be before the start date. Resetting to match the start date.");
+            }
+
+            updateDaysDifference(); // Update the number of days difference if inputs are valid
+        }
+
+        // Function to calculate and display the difference in days
+        function updateDaysDifference() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            const timeDiff = endDate - startDate; // Difference in milliseconds
+            const daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
+
+            if (daysDiff > 100) {
+                alert("You cannot book the car for more than 100 days.");
+                totalFeeSpan.textContent = ""; // Clear the message
+            } else {
+                let depositPercent = 0.4;
+                let totalFee = daysDiff * apiData.feePerDay;
+                let depositFee = depositPercent * totalFee;
+                totalFeeSpan.textContent = `${daysDiff} x ${apiData.feePerDay} = ${totalFee}$`;
+                depositFeeSpan.textContent = `${depositPercent * 100}% * ${totalFee} = ${depositFee}$`;
+
+                // Update hidden inputs to pass to the server
+                document.getElementById("totalFeeInput").value = totalFee;
+                document.getElementById("depositFeeInput").value = depositFee;
+            }
+        }
+
+        // Attach event listeners to both inputs
+        startDateInput.addEventListener("change", validateInput);
+        endDateInput.addEventListener("change", validateInput);
+    });
+
+
+
+</script>

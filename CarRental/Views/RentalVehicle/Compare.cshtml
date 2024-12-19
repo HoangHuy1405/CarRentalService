@@ -1,0 +1,30 @@
+﻿@model List<RentalVehicle>
+
+<div class="row">
+    @foreach (RentalVehicle vehicle in Model) {
+        <div class="col-md-6 mb-4">
+            <!-- Vehicle Card for comparison -->
+            <div class="card shadow-sm h-100">
+                <img src="@Url.Content(vehicle?.ThumbnailUrl)" class="card-img-top" alt="@vehicle.Brand @vehicle.Model" style="height: 200px; object-fit: cover;" />
+                <div class="card-body">
+                    <h1 class="display-4 fw-bold mb-4">@vehicle.Brand @vehicle.Model</h1> <!-- Larger vehicle name -->
+                    <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
+                        <li><strong>License Plate:</strong> @vehicle.LicensePlate</li>
+                        <li><strong>Fuel type:</strong> @vehicle.FuelType</li>
+                        <li><strong>Transmission:</strong> @vehicle.Transmission</li>
+                        <li><strong>Manufacture Year:</strong> @vehicle.ManuYear.Year</li>
+                        <li><strong>Number of Seats:</strong> @vehicle.NumberOfSeats</li>
+                        <li><strong>Fuel consumption:</strong> @vehicle.FuelConsumption / 100km</li>
+                        <li><strong>Pickup location:</strong> @vehicle.Location</li>
+                        <li><strong>Rental Fee (Per Kilo):</strong> @vehicle.RentalFeePerKilo</li>
+                        <li><strong>Rental Fee (Per Day):</strong> @vehicle.RentalFeePerDay</li>
+                    </ul>
+                    <h3 class="fw-bold mb-3" style="font-size: 1.5rem;">Description</h3>
+                    <p style="font-size: 1.2rem;" class="text-muted">@vehicle.Description</p>
+                </div>
+                <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary w-75 mx-auto mb-4">Rent</a>
+            </div>
+            
+        </div>
+    }
+</div>

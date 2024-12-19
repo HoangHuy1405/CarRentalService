@@ -94,16 +94,16 @@ namespace CarRental.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9427b49-bbe1-49d3-84d0-59751b3bfce8",
+                            ConcurrencyStamp = "01551f33-b5c3-49e6-8df2-ce5111fac048",
                             Email = "user1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFxYj7vOWzKI1PEW9ZMVApRb8lpfGQvVhbjhmoWDAC0WVALsgCevBENmKhubBU4smQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHZIiFCDLewZ8bGz7LeseJoJiCpi8K3pPR7/dgxrBoIkPUBz8zVAs6JGq6TtyE6f2Q==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "cd8a89b4-6ac4-4d5b-abfb-b269d8809a2a",
+                            SecurityStamp = "30f27601-10f4-4210-9a43-37777a5840b3",
                             TwoFactorEnabled = false,
                             UserName = "user1@example.com"
                         },
@@ -111,16 +111,16 @@ namespace CarRental.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "645af4a2-2616-4ef8-bb00-7ed860e66e72",
+                            ConcurrencyStamp = "aba1c6d4-4cfa-475a-9fc0-eb93f2dedab1",
                             Email = "user2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENtTtV3RwTUO41kfPhg5G6fYvO+G3FWr14XfHqHKl3Rh/TLvLPdJFnoAIILC7AZpGA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELDtAth+XgIyDtGKkfVyK4cA9qZlBYAFvCtvcEsTXFAcD8HCsohY6415H9CSmWIT2Q==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "2f94eec5-5b45-4c4f-89e2-0bb5d2640bc5",
+                            SecurityStamp = "23f0a9fb-9bfd-4589-866d-a8a6c95c560a",
                             TwoFactorEnabled = false,
                             UserName = "user2@example.com"
                         },
@@ -128,16 +128,16 @@ namespace CarRental.Migrations
                         {
                             Id = "owner1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4034464-bde5-41a9-a61a-eb49be93244d",
+                            ConcurrencyStamp = "e731c3d5-b4ae-4bdb-badf-d2fd87301da4",
                             Email = "owner1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER1@EXAMPLE.COM",
                             NormalizedUserName = "OWNER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFDO7O8Yk+P1v21NRS72zaNm4xg0+3ycgtxCKUloJzwVxQH/yG9/7eOmmhg/8/VL1g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIbArjw2M5JwofGMc+8VIdDd0YnaewSkFJPtPXe5XRhO3O3NDdIBOxe8i248pX3TUA==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "d607ae46-9940-4a2b-ae1e-42d122eaf3f4",
+                            SecurityStamp = "bcb8eaba-dedd-4136-8eac-361446295d07",
                             TwoFactorEnabled = false,
                             UserName = "owner1@example.com"
                         },
@@ -145,16 +145,16 @@ namespace CarRental.Migrations
                         {
                             Id = "owner2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac17b11c-95fc-4be0-b7dd-650bef5ba9ad",
+                            ConcurrencyStamp = "c9eefdc4-3e1a-4455-9bd9-6c6aeeb57fd4",
                             Email = "owner2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER2@EXAMPLE.COM",
                             NormalizedUserName = "OWNER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKM1UTOBcaO3HEFBQeRubtL2ZRN6cQCu/BLNV81r7EAmhIwgEJZMiCL7ty7dUZwKow==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF7wAn60oG9i9XeIqdPxebfrVk5+exxZbForWm1zNOWvdde83RZtuGFSwKq3k+gyMA==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "678d287e-7e20-447d-b01d-37541713730f",
+                            SecurityStamp = "7743099d-bc17-4580-9fe3-8ad044473c7f",
                             TwoFactorEnabled = false,
                             UserName = "owner2@example.com"
                         });
@@ -177,6 +177,86 @@ namespace CarRental.Migrations
                     b.HasIndex("RentalVehicleID");
 
                     b.ToTable("CarImages");
+
+                    b.HasData(
+                        new
+                        {
+                            CarImageID = "1",
+                            ImageUrl = "/images/Gallery/ToyotaCorolla_1.png",
+                            RentalVehicleID = 1
+                        },
+                        new
+                        {
+                            CarImageID = "2",
+                            ImageUrl = "/images/Gallery/ToyotaCorolla_2.png",
+                            RentalVehicleID = 1
+                        },
+                        new
+                        {
+                            CarImageID = "3",
+                            ImageUrl = "/images/Gallery/ToyotaCorolla_3.jpg",
+                            RentalVehicleID = 1
+                        },
+                        new
+                        {
+                            CarImageID = "4",
+                            ImageUrl = "/images/Gallery/FordFocus_1.jpg",
+                            RentalVehicleID = 2
+                        },
+                        new
+                        {
+                            CarImageID = "5",
+                            ImageUrl = "/images/Gallery/FordFocus_2.jpg",
+                            RentalVehicleID = 2
+                        },
+                        new
+                        {
+                            CarImageID = "6",
+                            ImageUrl = "/images/Gallery/BMWx5_1.jpg",
+                            RentalVehicleID = 3
+                        },
+                        new
+                        {
+                            CarImageID = "7",
+                            ImageUrl = "/images/Gallery/BMWx5_2.jpg",
+                            RentalVehicleID = 3
+                        },
+                        new
+                        {
+                            CarImageID = "8",
+                            ImageUrl = "/images/Gallery/HondaCivic_1.jpg",
+                            RentalVehicleID = 4
+                        },
+                        new
+                        {
+                            CarImageID = "9",
+                            ImageUrl = "/images/Gallery/HondaCivic_2.jpg",
+                            RentalVehicleID = 4
+                        },
+                        new
+                        {
+                            CarImageID = "10",
+                            ImageUrl = "/images/Gallery/MercedesEclass_1.jpg",
+                            RentalVehicleID = 5
+                        },
+                        new
+                        {
+                            CarImageID = "11",
+                            ImageUrl = "/images/Gallery/MercedesEclass_2.jpg",
+                            RentalVehicleID = 5
+                        },
+                        new
+                        {
+                            CarImageID = "12",
+                            ImageUrl = "/images/Gallery/ChervroletTahoe_1.png",
+                            RentalVehicleID = 6
+                        },
+                        new
+                        {
+                            CarImageID = "13",
+                            ImageUrl = "/images/Gallery/ChervroletTahoe_2.png",
+                            RentalVehicleID = 6
+                        });
                 });
 
             modelBuilder.Entity("CarRental.Models.Rental", b =>
@@ -190,6 +270,10 @@ namespace CarRental.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PickUpLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("RentalVehicleID")
                         .HasColumnType("int");
 
@@ -202,6 +286,12 @@ namespace CarRental.Migrations
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<float>("depositFee")
+                        .HasColumnType("real");
+
+                    b.Property<float>("totalFee")
+                        .HasColumnType("real");
+
                     b.HasKey("RentalId");
 
                     b.HasIndex("RentalVehicleID");
@@ -209,35 +299,6 @@ namespace CarRental.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Rentals");
-
-                    b.HasData(
-                        new
-                        {
-                            RentalId = 1,
-                            EndDate = new DateTime(2024, 12, 10, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9189),
-                            RentalVehicleID = 1,
-                            StartDate = new DateTime(2024, 12, 5, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9180),
-                            Status = 1,
-                            UserID = "user1"
-                        },
-                        new
-                        {
-                            RentalId = 2,
-                            EndDate = new DateTime(2024, 12, 12, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9198),
-                            RentalVehicleID = 2,
-                            StartDate = new DateTime(2024, 12, 7, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9197),
-                            Status = 0,
-                            UserID = "user2"
-                        },
-                        new
-                        {
-                            RentalId = 3,
-                            EndDate = new DateTime(2024, 12, 13, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9201),
-                            RentalVehicleID = 3,
-                            StartDate = new DateTime(2024, 12, 8, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(9201),
-                            Status = 2,
-                            UserID = "user1"
-                        });
                 });
 
             modelBuilder.Entity("CarRental.Models.RentalVehicle", b =>
@@ -253,10 +314,20 @@ namespace CarRental.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<float>("FuelConsumption")
+                        .HasColumnType("real");
+
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
 
                     b.Property<string>("LicensePlate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -275,7 +346,7 @@ namespace CarRental.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("RentalFeePerDay")
-                        .HasColumnType("REAL");
+                        .HasColumnType("real");
 
                     b.Property<float>("RentalFeePerKilo")
                         .HasColumnType("real");
@@ -286,6 +357,9 @@ namespace CarRental.Migrations
 
                     b.Property<DateTime>("TimeCreated")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Transmission")
+                        .HasColumnType("int");
 
                     b.HasKey("RentalVehicleID");
 
@@ -298,46 +372,115 @@ namespace CarRental.Migrations
                         {
                             RentalVehicleID = 1,
                             Brand = "Toyota",
-                            Description = "Toyota 50 negiotable",
-                            LicensePlate = "ABC-1234",
-                            ManuYear = new DateTime(2018, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Compact sedan, well-maintained, perfect for city driving.",
+                            FuelConsumption = 8f,
+                            FuelType = 0,
+                            LicensePlate = "ABC1234",
+                            Location = "Quan 1, TP HCM",
+                            ManuYear = new DateTime(2018, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Model = "Corolla",
-                            NumberOfSeats = 4,
-                            OwnerId = "owner1",
-                            RentalFeePerDay = 712f,
-                            RentalFeePerKilo = 50.5f,
-                            ThumbnailUrl = "https://via.placeholder.com/150",
-                            TimeCreated = new DateTime(2024, 12, 8, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(7606)
+                            NumberOfSeats = 5,
+                            OwnerId = "user1",
+                            RentalFeePerDay = 25f,
+                            RentalFeePerKilo = 0.18f,
+                            ThumbnailUrl = "/images/Thumbnail/ToyotaCorolla.jpg",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8506),
+                            Transmission = 1
                         },
                         new
                         {
                             RentalVehicleID = 2,
-                            Brand = "Honda",
-                            Description = "For rental negiotable",
-                            LicensePlate = "DL05 XY5678",
-                            ManuYear = new DateTime(2018, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Model = "Civic",
-                            NumberOfSeats = 4,
-                            OwnerId = "owner2",
-                            RentalFeePerDay = 800f,
-                            RentalFeePerKilo = 60f,
-                            ThumbnailUrl = "https://via.placeholder.com/150",
-                            TimeCreated = new DateTime(2024, 12, 8, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(7618)
+                            Brand = "Ford",
+                            Description = "Spacious hatchback, ideal for city drives and family trips.",
+                            FuelConsumption = 9f,
+                            FuelType = 0,
+                            LicensePlate = "XYZ5678",
+                            Location = "Quan 2, TP HCM",
+                            ManuYear = new DateTime(2020, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Model = "Focus",
+                            NumberOfSeats = 5,
+                            OwnerId = "user1",
+                            RentalFeePerDay = 30f,
+                            RentalFeePerKilo = 0.2f,
+                            ThumbnailUrl = "/images/Thumbnail/FordFocus.jpg",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8525),
+                            Transmission = 1
                         },
                         new
                         {
                             RentalVehicleID = 3,
-                            Brand = "Ford",
-                            Description = "For rental",
-                            LicensePlate = "GH78 JKL",
-                            ManuYear = new DateTime(2017, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Model = "Focus",
-                            NumberOfSeats = 4,
+                            Brand = "BMW",
+                            Description = "Luxury SUV with premium features, perfect for long road trips.",
+                            FuelConsumption = 10f,
+                            FuelType = 1,
+                            LicensePlate = "LMN7890",
+                            Location = "Quan 3, TP HCM",
+                            ManuYear = new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Model = "X5",
+                            NumberOfSeats = 7,
+                            OwnerId = "user1",
+                            RentalFeePerDay = 95f,
+                            RentalFeePerKilo = 0.5f,
+                            ThumbnailUrl = "/images/Thumbnail/BMWx5.png",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8528),
+                            Transmission = 1
+                        },
+                        new
+                        {
+                            RentalVehicleID = 4,
+                            Brand = "Honda",
+                            Description = "Economical sedan, perfect for daily use and city driving.",
+                            FuelConsumption = 11f,
+                            FuelType = 0,
+                            LicensePlate = "OPQ1122",
+                            Location = "Quan 4, TP HCM",
+                            ManuYear = new DateTime(2019, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Model = "Civic",
+                            NumberOfSeats = 5,
+                            OwnerId = "user2",
+                            RentalFeePerDay = 22f,
+                            RentalFeePerKilo = 0.17f,
+                            ThumbnailUrl = "/images/Thumbnail/HondaCivic.png",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8530),
+                            Transmission = 1
+                        },
+                        new
+                        {
+                            RentalVehicleID = 5,
+                            Brand = "Mercedes",
+                            Description = "High-end luxury sedan with modern technology and comfort features.",
+                            FuelConsumption = 8f,
+                            FuelType = 0,
+                            LicensePlate = "RST9876",
+                            Location = "Quan 4, TP HCM",
+                            ManuYear = new DateTime(2021, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Model = "E-Class",
+                            NumberOfSeats = 5,
+                            OwnerId = "user2",
+                            RentalFeePerDay = 150f,
+                            RentalFeePerKilo = 1f,
+                            ThumbnailUrl = "/images/Thumbnail/MercedesEclass.png",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8533),
+                            Transmission = 1
+                        },
+                        new
+                        {
+                            RentalVehicleID = 6,
+                            Brand = "Chevrolet",
+                            Description = "Spacious full-size SUV, great for large families or group trips.",
+                            FuelConsumption = 10f,
+                            FuelType = 0,
+                            LicensePlate = "UVW6543",
+                            Location = "Quan 4, TP HCM",
+                            ManuYear = new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Model = "Tahoe",
+                            NumberOfSeats = 8,
                             OwnerId = "owner1",
-                            RentalFeePerDay = 900.2f,
-                            RentalFeePerKilo = 66.3f,
-                            ThumbnailUrl = "https://via.placeholder.com/150",
-                            TimeCreated = new DateTime(2024, 12, 8, 17, 20, 10, 107, DateTimeKind.Local).AddTicks(7622)
+                            RentalFeePerDay = 85f,
+                            RentalFeePerKilo = 0.6f,
+                            ThumbnailUrl = "/images/Thumbnail/ChervroletTahoe.png",
+                            TimeCreated = new DateTime(2024, 12, 17, 23, 0, 22, 299, DateTimeKind.Local).AddTicks(8535),
+                            Transmission = 1
                         });
                 });
 

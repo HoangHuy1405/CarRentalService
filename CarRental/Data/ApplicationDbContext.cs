@@ -16,142 +16,187 @@ namespace CarRental.Data {
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
-
-            // Seed ApplicationUser
-            var users = new List<ApplicationUser>
-            {
-                new ApplicationUser
-                {
-                    Id = "user1",
-                    UserName = "user1@example.com",
-                    Email = "user1@example.com",
-                    Role = Role.User,
-                    NormalizedUserName = "USER1@EXAMPLE.COM",
-                    NormalizedEmail = "USER1@EXAMPLE.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-                },
-                new ApplicationUser
-                {
-                    Id = "user2",
-                    UserName = "user2@example.com",
-                    Email = "user2@example.com",
-                    Role = Role.User,
-                    NormalizedUserName = "USER2@EXAMPLE.COM",
-                    NormalizedEmail = "USER2@EXAMPLE.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-                },
-                new ApplicationUser
-                {
-                    Id = "owner1",
-                    UserName = "owner1@example.com",
-                    Email = "owner1@example.com",
-                    Role = Role.User,
-                    NormalizedUserName = "OWNER1@EXAMPLE.COM",
-                    NormalizedEmail = "OWNER1@EXAMPLE.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-                },
-                new ApplicationUser
-                {
-                    Id = "owner2",
-                    UserName = "owner2@example.com",
-                    Email = "owner2@example.com",
-                    Role = Role.User,
-                    NormalizedUserName = "OWNER2@EXAMPLE.COM",
-                    NormalizedEmail = "OWNER2@EXAMPLE.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-                }
-            };
-
-            builder.Entity<ApplicationUser>().HasData(users);
-
-            // Seed RentalVehicle
-            var vehicles = new List<RentalVehicle>
-            {
-                new RentalVehicle
-                {
-                    RentalVehicleID = 1,
-                    LicensePlate = "ABC-1234",
-					OwnerId = users[2].Id, // owner1
-                    Brand = "Toyota",
-                    Model = "Corolla",
-                    ManuYear = new DateTime(2018,1,1),
-                    NumberOfSeats = 4,
-                    Description = "Toyota 50 negiotable",
-					RentalFeePerKilo = 50.5f,
-                    RentalFeePerDay = 712,
-					TimeCreated = DateTime.Now,
-                },
-                new RentalVehicle
-                {
-                    RentalVehicleID = 2,
-					LicensePlate = "DL05 XY5678",
-					OwnerId = users[3].Id, // owner2
-                    Brand = "Honda",
-                    Model = "Civic",
-                    ManuYear = new DateTime(2018,1,1),
-                    NumberOfSeats = 4,
-					Description = "For rental negiotable",
-                    RentalFeePerKilo = 60,
-                    RentalFeePerDay = 800,
-					TimeCreated = DateTime.Now,
-				},
-                new RentalVehicle
-                {
-                    RentalVehicleID = 3,
-					LicensePlate = "GH78 JKL",
-					OwnerId = users[2].Id, // owner1
-                    Brand = "Ford",
-                    Model = "Focus",
-					ManuYear = new DateTime(2017,1,1),
-					NumberOfSeats = 4,
-					Description = "For rental",
-					RentalFeePerKilo = 66.3f,
-					RentalFeePerDay = 900.2f,
-					TimeCreated = DateTime.Now,
-				}
-            };
-			builder.Entity<RentalVehicle>()
-		        .Property(r => r.RentalFeePerDay)
-		        .HasColumnType("REAL"); // Use appropriate database column type
-			builder.Entity<RentalVehicle>().HasData(vehicles);
-
-            // Seed Rental
-            var rentals = new List<Rental>
-            {
-                new Rental
-                {
-                    RentalId = 1,
-                    UserID = users[0].Id, // user1
-                    RentalVehicleID = vehicles[0].RentalVehicleID,
-                    StartDate = DateTime.Now.AddDays(-3),
-                    EndDate = DateTime.Now.AddDays(2),
-                    Status = Status.Confirmed
-                },
-                new Rental
-                {
-                    RentalId = 2,
-                    UserID = users[1].Id, // user2
-                    RentalVehicleID = vehicles[1].RentalVehicleID,
-                    StartDate = DateTime.Now.AddDays(-1),
-                    EndDate = DateTime.Now.AddDays(4),
-                    Status = Status.Pending
-                },
-                new Rental
-                {
-                    RentalId = 3,
-                    UserID = users[0].Id, // user1
-                    RentalVehicleID = vehicles[2].RentalVehicleID,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(5),
-                    Status = Status.Cancelled
-                }
-            };
-
-            builder.Entity<Rental>().HasData(rentals);
+			SeedData(builder);
         }
-    }
+		public void SeedData(ModelBuilder modelBuilder) {
+			// Seed ApplicationUser entities
+			var users = new List<ApplicationUser>
+			{
+				new ApplicationUser
+				{
+					Id = "user1",
+					UserName = "user1@example.com",
+					Email = "user1@example.com",
+					Role = Role.User,
+					NormalizedUserName = "USER1@EXAMPLE.COM",
+					NormalizedEmail = "USER1@EXAMPLE.COM",
+					EmailConfirmed = true,
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+				},
+				new ApplicationUser
+				{
+					Id = "user2",
+					UserName = "user2@example.com",
+					Email = "user2@example.com",
+					Role = Role.User,
+					NormalizedUserName = "USER2@EXAMPLE.COM",
+					NormalizedEmail = "USER2@EXAMPLE.COM",
+					EmailConfirmed = true,
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+				},
+				new ApplicationUser
+				{
+					Id = "owner1",
+					UserName = "owner1@example.com",
+					Email = "owner1@example.com",
+					Role = Role.User,
+					NormalizedUserName = "OWNER1@EXAMPLE.COM",
+					NormalizedEmail = "OWNER1@EXAMPLE.COM",
+					EmailConfirmed = true,
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+				},
+				new ApplicationUser
+				{
+					Id = "owner2",
+					UserName = "owner2@example.com",
+					Email = "owner2@example.com",
+					Role = Role.User,
+					NormalizedUserName = "OWNER2@EXAMPLE.COM",
+					NormalizedEmail = "OWNER2@EXAMPLE.COM",
+					EmailConfirmed = true,
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+				}
+			};
+			modelBuilder.Entity<ApplicationUser>().HasData(users);
+
+			// Seed RentalVehicle entities
+			modelBuilder.Entity<RentalVehicle>().HasData(
+				new RentalVehicle {
+					RentalVehicleID = 1,
+					LicensePlate = "ABC1234",
+					Brand = "Toyota",
+					Model = "Corolla",
+					ManuYear = new DateTime(2018, 5, 1),
+					NumberOfSeats = 5,
+					Description = "Compact sedan, well-maintained, perfect for city driving.",
+					RentalFeePerDay = 25.0f,
+					RentalFeePerKilo = 0.18f,
+					OwnerId = "user1", // Assuming ApplicationUser with ID user123 exists
+					ThumbnailUrl = "/images/Thumbnail/ToyotaCorolla.jpg",
+					Location = "Quan 1, TP HCM",
+					FuelType = FuelType.Petrol,
+                    Transmission = Transmission.Automatic,
+					FuelConsumption = 8
+                },
+				new RentalVehicle {
+					RentalVehicleID = 2,
+					LicensePlate = "XYZ5678",
+					Brand = "Ford",
+					Model = "Focus",
+					ManuYear = new DateTime(2020, 7, 15),
+					NumberOfSeats = 5,
+					Description = "Spacious hatchback, ideal for city drives and family trips.",
+					RentalFeePerDay = 30.0f,
+					RentalFeePerKilo = 0.20f,
+					OwnerId = "user1", // Assuming ApplicationUser with ID user124 exists
+					ThumbnailUrl = "/images/Thumbnail/FordFocus.jpg",
+                    Location = "Quan 2, TP HCM",
+                    FuelType = FuelType.Petrol,
+                    Transmission = Transmission.Automatic,
+                    FuelConsumption = 9
+                },
+				new RentalVehicle {
+					RentalVehicleID = 3,
+					LicensePlate = "LMN7890",
+					Brand = "BMW",
+					Model = "X5",
+					ManuYear = new DateTime(2022, 3, 10),
+					NumberOfSeats = 7,
+					Description = "Luxury SUV with premium features, perfect for long road trips.",
+					RentalFeePerDay = 95.0f,
+					RentalFeePerKilo = 0.50f,
+					OwnerId = "user1",
+					ThumbnailUrl = "/images/Thumbnail/BMWx5.png",
+                    Location = "Quan 3, TP HCM",
+                    FuelType = FuelType.Diesel,
+                    Transmission = Transmission.Automatic,
+                    FuelConsumption = 10
+                },
+				new RentalVehicle {
+					RentalVehicleID = 4,
+					LicensePlate = "OPQ1122",
+					Brand = "Honda",
+					Model = "Civic",
+					ManuYear = new DateTime(2019, 6, 5),
+					NumberOfSeats = 5,
+					Description = "Economical sedan, perfect for daily use and city driving.",
+					RentalFeePerDay = 22.0f,
+					RentalFeePerKilo = 0.17f,
+					OwnerId = "user2",
+					ThumbnailUrl = "/images/Thumbnail/HondaCivic.png",
+                    Location = "Quan 4, TP HCM",
+                    FuelType = FuelType.Petrol,
+                    Transmission = Transmission.Automatic,
+                    FuelConsumption = 11
+                },
+				new RentalVehicle {
+					RentalVehicleID = 5,
+					LicensePlate = "RST9876",
+					Brand = "Mercedes",
+					Model = "E-Class",
+					ManuYear = new DateTime(2021, 11, 20),
+					NumberOfSeats = 5,
+					Description = "High-end luxury sedan with modern technology and comfort features.",
+					RentalFeePerDay = 150.0f,
+					RentalFeePerKilo = 1.0f,
+					OwnerId = "user2",
+					ThumbnailUrl = "/images/Thumbnail/MercedesEclass.png",
+                    Location = "Quan 4, TP HCM",
+                    FuelType = FuelType.Petrol,
+                    Transmission = Transmission.Automatic,
+                    FuelConsumption = 8
+                },
+				new RentalVehicle {
+					RentalVehicleID = 6,
+					LicensePlate = "UVW6543",
+					Brand = "Chevrolet",
+					Model = "Tahoe",
+					ManuYear = new DateTime(2023, 5, 10),
+					NumberOfSeats = 8,
+					Description = "Spacious full-size SUV, great for large families or group trips.",
+					RentalFeePerDay = 85.0f,
+					RentalFeePerKilo = 0.60f,
+					OwnerId = "owner1",
+					ThumbnailUrl = "/images/Thumbnail/ChervroletTahoe.png",
+                    Location = "Quan 4, TP HCM",
+                    FuelType = FuelType.Petrol,
+                    Transmission = Transmission.Automatic,
+                    FuelConsumption = 10
+                }
+			);
+
+
+			// Seed CarImage entities (set foreign key explicitly)
+			modelBuilder.Entity<CarImage>().HasData(
+				new CarImage { CarImageID = "1", RentalVehicleID = 1, ImageUrl = "/images/Gallery/ToyotaCorolla_1.png" },
+				new CarImage { CarImageID = "2", RentalVehicleID = 1, ImageUrl = "/images/Gallery/ToyotaCorolla_2.png" },
+				new CarImage { CarImageID = "3", RentalVehicleID = 1, ImageUrl = "/images/Gallery/ToyotaCorolla_3.jpg" },
+
+				new CarImage { CarImageID = "4", RentalVehicleID = 2, ImageUrl = "/images/Gallery/FordFocus_1.jpg" },
+				new CarImage { CarImageID = "5", RentalVehicleID = 2, ImageUrl = "/images/Gallery/FordFocus_2.jpg" },
+
+				new CarImage { CarImageID = "6", RentalVehicleID = 3, ImageUrl = "/images/Gallery/BMWx5_1.jpg" },
+				new CarImage { CarImageID = "7", RentalVehicleID = 3, ImageUrl = "/images/Gallery/BMWx5_2.jpg" },
+				
+				new CarImage { CarImageID = "8", RentalVehicleID = 4, ImageUrl = "/images/Gallery/HondaCivic_1.jpg" },
+				new CarImage { CarImageID = "9", RentalVehicleID = 4, ImageUrl = "/images/Gallery/HondaCivic_2.jpg" },
+
+				new CarImage { CarImageID = "10", RentalVehicleID = 5, ImageUrl = "/images/Gallery/MercedesEclass_1.jpg" },
+				new CarImage { CarImageID = "11", RentalVehicleID = 5, ImageUrl = "/images/Gallery/MercedesEclass_2.jpg" },
+
+				new CarImage { CarImageID = "12", RentalVehicleID = 6, ImageUrl = "/images/Gallery/ChervroletTahoe_1.png" },
+				new CarImage { CarImageID = "13", RentalVehicleID = 6, ImageUrl = "/images/Gallery/ChervroletTahoe_2.png" }
+			);
+		}
+	}
 }

@@ -15,8 +15,5 @@ namespace CarRental.Services {
             var ownedCar = await context.RentalVehicles.Where(rv => rv.OwnerId == OwnerID).ToListAsync();
             return ownedCar;
 		}
-        public async Task AddNewVehicle(RentalVehicle vehicle) {
-            
-        }
     }
 }

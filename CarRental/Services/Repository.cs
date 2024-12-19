@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CarRental.Services {
     public class Repository<T> : IRepository<T> where T : class {
-        // di
         protected ApplicationDbContext context { get; set; }
         public DbSet<T> dbSet { get; set; }
 

@@ -1,0 +1,36 @@
+﻿
+@{
+}
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Shared Drive Route Finder</h1>
+
+    <!-- Input form -->
+    <div class="row mb-4">
+        <!-- Passenger inputs -->
+        <div class="col-md-6">
+            <h5 class="mb-3">Passenger</h5>
+            <input class="form-control mb-2" type="text" id="passenger-start" placeholder="Passenger's Starting Location" />
+            <input class="form-control mb-2" type="text" id="passenger-end" placeholder="Passenger's Target Location" />
+        </div>
+
+        <!-- Driver inputs -->
+        <div class="col-md-6">
+            <h5 class="mb-3">Driver</h5>
+            <input class="form-control mb-2" type="text" id="driver-start" placeholder="Driver's Starting Location" />
+            <input class="form-control mb-2" type="text" id="driver-end" placeholder="Driver's Target Location" />
+        </div>
+    </div>
+
+    <!-- Button -->
+    <div class="text-center">
+        <button onclick="findSharedRoute()" class="btn btn-primary">Find Shared Route</button>
+    </div>
+
+    <!-- Map -->
+    <div id="map" class="mt-4"></div>
+</div>
+
+
+<script src="~/js//map.js"></script>
+<script src="~/js//shareDrive.js"></script> 
