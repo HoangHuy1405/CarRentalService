@@ -1,10 +1,10 @@
-﻿@model IEnumerable<RentalVehicle>
+﻿@model IEnumerable<Vehicle>
 @{
 	bool isForDetails = ViewData["IsForDetails"] != null && (bool)ViewData["IsForDetails"];
 	var currentId = ViewData["CurrentId"] as int? ?? 0; // Pass 'CurrentId' to the view
 }
 <div class="row g-3 m-4"> 
-	@foreach (RentalVehicle vehicle in Model) {
+	@foreach (Vehicle vehicle in Model) {
 		@if (!isForDetails && @vehicle.RentalVehicleID == @currentId) {
 			continue;
 		}
@@ -22,9 +22,9 @@
 				</div>
 				<div class="card-footer bg-transparent border-0 text-center">
 					@if (isForDetails) {
-						<a asp-controller="RentalVehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary">View Details</a>
+						<a asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary">View Details</a>
 					} else {
-						<a asp-controller="RentalVehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary">Compare</a>
+						<a asp-controller="Vehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary">Compare</a>
 					}
 				</div>
 			</div>

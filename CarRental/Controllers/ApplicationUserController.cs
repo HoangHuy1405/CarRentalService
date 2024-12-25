@@ -7,10 +7,10 @@ using System.Security.Claims;
 
 namespace CarRental.Controllers {
     public class ApplicationUserController : Controller {
-        private RentalVehicleRepository rentalVehicles;
+        private VehicleRepository rentalVehicles;
 
         public ApplicationUserController(ApplicationDbContext context) {
-            rentalVehicles = new RentalVehicleRepository(context);
+            rentalVehicles = new VehicleRepository(context);
         }
 
         [HttpGet]
@@ -19,7 +19,7 @@ namespace CarRental.Controllers {
             // Get the current user's ID from the claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             // Fetch the user with their cars using the repository
-            List<RentalVehicle> vehicles = await rentalVehicles.getAllFromId(userId);
+            List<Vehicle> vehicles = await rentalVehicles.getAllFromId(userId);
 
             if (vehicles == null) {
                 return NotFound(); // Return 404 if the user is not found

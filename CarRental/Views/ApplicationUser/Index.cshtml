@@ -1,12 +1,12 @@
-﻿@model IEnumerable<RentalVehicle>
+﻿@model IEnumerable<Vehicle>
 @{
     ViewBag.Title = ViewBag.Operation + " Your cars";
 }
 @functions {
-    string GetDeleteModalId(RentalVehicle vehicle) {
+    string GetDeleteModalId(Vehicle vehicle) {
         return "#deleteModal" + vehicle.RentalVehicleID;
     }
-    string GetModalId(RentalVehicle vehicle) {
+    string GetModalId(Vehicle vehicle) {
         return "deleteModal" + vehicle.RentalVehicleID;
     }
 }
@@ -22,7 +22,7 @@
 
 
 <div class="row g-3 m-4">
-    @foreach (RentalVehicle vehicle in Model) {
+    @foreach (Vehicle vehicle in Model) {
         <div class="col-md-4">
             <div class="card shadow-sm h-100">
                 <img src="@Url.Content(vehicle?.ThumbnailUrl)" class="card-img-top" alt="@vehicle.Brand" style="height: 200px; object-fit: cover;" />

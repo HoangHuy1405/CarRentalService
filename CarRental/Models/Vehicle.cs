@@ -14,7 +14,7 @@ namespace CarRental.Models {
 		Electric,
 		Hybrid
 	}
-    public class RentalVehicle {
+    public class Vehicle {
 		[Key]
         public int RentalVehicleID { get; set; } //pk
 

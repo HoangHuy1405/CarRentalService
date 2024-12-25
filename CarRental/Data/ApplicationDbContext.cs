@@ -10,7 +10,7 @@ namespace CarRental.Data {
             : base(options) {
         }
 
-        public DbSet<RentalVehicle> RentalVehicles { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
 
@@ -19,15 +19,25 @@ namespace CarRental.Data {
 			SeedData(builder);
         }
 		public void SeedData(ModelBuilder modelBuilder) {
-			// Seed ApplicationUser entities
-			var users = new List<ApplicationUser>
+            // Seed Roles into AspNetRoles (with generated GUIDs for RoleId)
+            var adminRoleId = Guid.NewGuid().ToString();
+            var driverRoleId = Guid.NewGuid().ToString();
+            var userRoleId = Guid.NewGuid().ToString();
+            // Seed Roles into AspNetRoles
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Id = adminRoleId, Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = driverRoleId, Name = "Driver", NormalizedName = "DRIVER" },
+                new IdentityRole { Id = userRoleId, Name = "User", NormalizedName = "USER" }
+            );
+            // Seed ApplicationUser entities
+            var users = new List<ApplicationUser>
 			{
 				new ApplicationUser
 				{
 					Id = "user1",
-					UserName = "user1@example.com",
+					UserName = "user1",
 					Email = "user1@example.com",
-					Role = Role.User,
+					//Role = Role.User,
 					NormalizedUserName = "USER1@EXAMPLE.COM",
 					NormalizedEmail = "USER1@EXAMPLE.COM",
 					EmailConfirmed = true,
@@ -36,9 +46,9 @@ namespace CarRental.Data {
 				new ApplicationUser
 				{
 					Id = "user2",
-					UserName = "user2@example.com",
+					UserName = "user2@example.co",
 					Email = "user2@example.com",
-					Role = Role.User,
+					//Role = Role.User,
 					NormalizedUserName = "USER2@EXAMPLE.COM",
 					NormalizedEmail = "USER2@EXAMPLE.COM",
 					EmailConfirmed = true,
@@ -47,9 +57,9 @@ namespace CarRental.Data {
 				new ApplicationUser
 				{
 					Id = "owner1",
-					UserName = "owner1@example.com",
+					UserName = "owner1",
 					Email = "owner1@example.com",
-					Role = Role.User,
+					//Role = Role.Driver,
 					NormalizedUserName = "OWNER1@EXAMPLE.COM",
 					NormalizedEmail = "OWNER1@EXAMPLE.COM",
 					EmailConfirmed = true,
@@ -58,20 +68,41 @@ namespace CarRental.Data {
 				new ApplicationUser
 				{
 					Id = "owner2",
-					UserName = "owner2@example.com",
+					UserName = "owner2",
 					Email = "owner2@example.com",
-					Role = Role.User,
+					//Role = Role.Driver,
 					NormalizedUserName = "OWNER2@EXAMPLE.COM",
 					NormalizedEmail = "OWNER2@EXAMPLE.COM",
 					EmailConfirmed = true,
 					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-				}
-			};
+				},
+                new ApplicationUser
+                {
+                    Id = "Admin",
+                    UserName = "Admin",
+                    Email = "admin@example.com",
+                    //Role = Role.Admin,
+                    NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                    NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+                }
+            };
 			modelBuilder.Entity<ApplicationUser>().HasData(users);
+			
+            // Seed UserRoles (assign users to roles)
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string> { UserId = "user1", RoleId = userRoleId }, 
+                new IdentityUserRole<string> { UserId = "user2", RoleId = userRoleId }, 
+                new IdentityUserRole<string> { UserId = "owner1", RoleId = driverRoleId }, 
+                new IdentityUserRole<string> { UserId = "owner2", RoleId = driverRoleId },
+                new IdentityUserRole<string> { UserId = "Admin", RoleId = adminRoleId } 
+            );
 
-			// Seed RentalVehicle entities
-			modelBuilder.Entity<RentalVehicle>().HasData(
-				new RentalVehicle {
+
+            // Seed RentalVehicle entities
+            modelBuilder.Entity<Vehicle>().HasData(
+				new Vehicle {
 					RentalVehicleID = 1,
 					LicensePlate = "ABC1234",
 					Brand = "Toyota",
@@ -88,7 +119,7 @@ namespace CarRental.Data {
                     Transmission = Transmission.Automatic,
 					FuelConsumption = 8
                 },
-				new RentalVehicle {
+				new Vehicle {
 					RentalVehicleID = 2,
 					LicensePlate = "XYZ5678",
 					Brand = "Ford",
@@ -105,7 +136,7 @@ namespace CarRental.Data {
                     Transmission = Transmission.Automatic,
                     FuelConsumption = 9
                 },
-				new RentalVehicle {
+				new Vehicle {
 					RentalVehicleID = 3,
 					LicensePlate = "LMN7890",
 					Brand = "BMW",
@@ -122,7 +153,7 @@ namespace CarRental.Data {
                     Transmission = Transmission.Automatic,
                     FuelConsumption = 10
                 },
-				new RentalVehicle {
+				new Vehicle {
 					RentalVehicleID = 4,
 					LicensePlate = "OPQ1122",
 					Brand = "Honda",
@@ -139,7 +170,7 @@ namespace CarRental.Data {
                     Transmission = Transmission.Automatic,
                     FuelConsumption = 11
                 },
-				new RentalVehicle {
+				new Vehicle {
 					RentalVehicleID = 5,
 					LicensePlate = "RST9876",
 					Brand = "Mercedes",
@@ -156,7 +187,7 @@ namespace CarRental.Data {
                     Transmission = Transmission.Automatic,
                     FuelConsumption = 8
                 },
-				new RentalVehicle {
+				new Vehicle {
 					RentalVehicleID = 6,
 					LicensePlate = "UVW6543",
 					Brand = "Chevrolet",

@@ -16,21 +16,21 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CarRental.Controllers
 {
-    public class RentalVehicleController : Controller {
+    public class VehicleController : Controller {
         
 
-		private RentalVehicleService service;
+		private VehicleService service;
 
-		public RentalVehicleController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {
+		public VehicleController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {
 
-            service = new RentalVehicleService(context, webHostEnvironment);
+            service = new VehicleService(context, webHostEnvironment);
         }
         public async Task<IActionResult> Index() {
 			return View();
         }
 		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
             //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
-            IEnumerable<RentalVehicle> vehicles = await service.getAllAsync();
+            IEnumerable<Vehicle> vehicles = await service.getAllAsync();
             ViewData["IsForDetails"] = isForDetails;
 			ViewData["CurrentId"] = currentId; // Pass 'currentId' to the view
 
@@ -42,20 +42,20 @@ namespace CarRental.Controllers
 			if (id == 0) {
 				// Create
 				ViewBag.Operation = "Upload";
-				return View(new RentalVehicle());
+				return View(new Vehicle());
 			} else {
 				// Edit
 				ViewBag.Operation = "Edit";
-                var queryOption = new QueryOption<RentalVehicle> {
+                var queryOption = new QueryOption<Vehicle> {
                     Includes = "Gallery"
                 };
-                RentalVehicle vehicle = await service.GetByIdAsync(id, queryOption);
+                Vehicle vehicle = await service.GetByIdAsync(id, queryOption);
 				return View(vehicle);
 			}
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateEdit(RentalVehicle vehicle) {
+		public async Task<IActionResult> CreateEdit(Vehicle vehicle) {
 			vehicle.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			if (vehicle.RentalVehicleID == 0) {
@@ -108,23 +108,23 @@ namespace CarRental.Controllers
 
 		[HttpGet]
 		public async Task<IActionResult> Details(int id) {
-			var queryOption = new QueryOption<RentalVehicle> {
+			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery, Owner"
 			};
-			RentalVehicle vehicle = await service.GetByIdAsync(id, queryOption);
+			Vehicle vehicle = await service.GetByIdAsync(id, queryOption);
 			return View(vehicle);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Compare(int currentId, int id) {
-			var queryOption = new QueryOption<RentalVehicle> {
+			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery"
 			};
 
-			RentalVehicle currentVehicle = await service.GetByIdAsync(currentId, queryOption);
-			RentalVehicle compareVehicle = await service.GetByIdAsync(id, queryOption);
+			Vehicle currentVehicle = await service.GetByIdAsync(currentId, queryOption);
+			Vehicle compareVehicle = await service.GetByIdAsync(id, queryOption);
 
-			List<RentalVehicle> vehicles = new List<RentalVehicle>();
+			List<Vehicle> vehicles = new List<Vehicle>();
 			vehicles.Add(currentVehicle);
 			vehicles.Add(compareVehicle);
 
@@ -134,7 +134,7 @@ namespace CarRental.Controllers
 		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> Rent(int id) {
-			var queryOption = new QueryOption<RentalVehicle> {
+			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery, Owner"
 			};
 			Rental rent = new Rental();
@@ -147,10 +147,10 @@ namespace CarRental.Controllers
 		[Route("api/rentalvehicles/{rentalVehicleId}")]
 		public async Task<IActionResult> GetRentalVehicleFee(int rentalVehicleId) {
 			// Example: Fetch data from repositories or services
-			var queryOption = new QueryOption<RentalVehicle> {
+			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery, Owner"
 			};
-			RentalVehicle vehicleData = await service.GetByIdAsync(rentalVehicleId, queryOption);
+			Vehicle vehicleData = await service.GetByIdAsync(rentalVehicleId, queryOption);
 
 			if (vehicleData == null) {
 				return NotFound("Rental Vehicle data not found.");

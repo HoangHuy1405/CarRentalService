@@ -5,7 +5,7 @@ namespace CarRental.Models {
 		public string CarImageID { get; set; }			//pk
 
 		public int RentalVehicleID { get; set; }		//fk
-		public RentalVehicle RentalVehicle { get; set; }
+		public Vehicle RentalVehicle { get; set; }
 
 		public string ImageUrl { get; set; } = "https://via.placeholder.com/150";
 

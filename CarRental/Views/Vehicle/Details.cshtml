@@ -1,4 +1,4 @@
-﻿@model RentalVehicle
+﻿@model Vehicle
 @{
     ViewBag.Title = "Details";
 }
@@ -80,7 +80,7 @@
                 <button class="btn btn-primary w-75 mx-auto" data-bs-toggle="modal" data-bs-target="#compare-modal">Make comparison</button>
             </div>
             <div class="row mt-4">
-                <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-primary w-75 mx-auto">Rent</a>
+                <a asp-controller="Vehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-primary w-75 mx-auto">Rent</a>
             </div>
         </div>
 
@@ -100,9 +100,6 @@
                 </div>
             </div>
         </div>
-
-        
-
     </div>
 </div>
 
@@ -110,6 +107,6 @@
 
 @section Scripts {
     <script>
-        $('#partialDisplay').load(`/RentalVehicle/AllVehiclePartial?isForDetails=false&currentId=${@Model.RentalVehicleID}`)
+        $('#partialDisplay').load(`/Vehicle/AllVehiclePartial?isForDetails=false&currentId=${@Model.RentalVehicleID}`)
     </script>
 }

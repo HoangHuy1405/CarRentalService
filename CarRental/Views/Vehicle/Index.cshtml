@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalVehicle>
+﻿@model IEnumerable<Vehicle>
 @{
     ViewBag.Title = "Car Rental";
 }
@@ -34,7 +34,7 @@
 @* render partial view *@
 @section Scripts {
     <script>
-        $('#partialDisplay').load("/RentalVehicle/AllVehiclePartial?isForDetails=true");
+        $('#partialDisplay').load("/Vehicle/AllVehiclePartial?isForDetails=true");
     </script>
 }
 

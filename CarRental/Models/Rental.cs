@@ -18,7 +18,7 @@ namespace CarRental.Models {
 
         public int? RentalVehicleID { get; set; }   //fk
         [ValidateNever]
-        public RentalVehicle RentalVehicle { get; set; }
+        public Vehicle RentalVehicle { get; set; }
 
         [Required(ErrorMessage = "Date Start is required.")]
 		[Display(Name = "Date Start")]

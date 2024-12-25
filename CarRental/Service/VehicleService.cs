@@ -5,33 +5,33 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CarRental.Service
 {
-    public class RentalVehicleService
+    public class VehicleService
     {
-        private Repository<RentalVehicle> rentalVehicleRepo;
+        private Repository<Vehicle> rentalVehicleRepo;
         private Repository<Rental> rentalRepo;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public RentalVehicleService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public VehicleService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
-            rentalVehicleRepo = new Repository<RentalVehicle>(context);
+            rentalVehicleRepo = new Repository<Vehicle>(context);
             rentalRepo = new Repository<Rental>(context);
 
             _webHostEnvironment = webHostEnvironment;
         }
 
 
-        public async Task<IEnumerable<RentalVehicle>> getAllAsync() {
-            IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
+        public async Task<IEnumerable<Vehicle>> getAllAsync() {
+            IEnumerable<Vehicle> vehicles = await rentalVehicleRepo.GetAll();
             return vehicles;
         }
 
-        public async Task<RentalVehicle> GetByIdAsync(int id, QueryOption<RentalVehicle> options) {
-            RentalVehicle vehicle = await rentalVehicleRepo.GetById(id, options);
+        public async Task<Vehicle> GetByIdAsync(int id, QueryOption<Vehicle> options) {
+            Vehicle vehicle = await rentalVehicleRepo.GetById(id, options);
             return vehicle;
         }
 
-        public async void AddVehicleAsync(RentalVehicle vehicle) {
+        public async void AddVehicleAsync(Vehicle vehicle) {
             vehicle.Gallery = new List<CarImage>();
             await rentalVehicleRepo.Add(vehicle);
             // thumbnail image
@@ -54,13 +54,13 @@ namespace CarRental.Service
                 await rentalVehicleRepo.Update(vehicle);
             }
         }
-        public async Task<ServiceResult> EditVehicleAsync(RentalVehicle vehicle) {
+        public async Task<ServiceResult> EditVehicleAsync(Vehicle vehicle) {
             // Skip the validation for IFormFile properties (ThumbnailImage, ImageGallery)
 
-            var queryOption = new QueryOption<RentalVehicle> {
+            var queryOption = new QueryOption<Vehicle> {
                 Includes = "Gallery"
             };
-            RentalVehicle existingVehicle = await rentalVehicleRepo.GetById(vehicle.RentalVehicleID, queryOption);
+            Vehicle existingVehicle = await rentalVehicleRepo.GetById(vehicle.RentalVehicleID, queryOption);
             if (existingVehicle == null) {
                 // return error
                 return ServiceResult.FailureResult("vehicle not found");
