@@ -46,9 +46,9 @@ namespace CarRental.Models {
 		[Range(0.01, double.MaxValue, ErrorMessage = "Fee Per Day must be a positive number.")]
 		public float RentalFeePerDay { get; set; }
 
-		[Display(Name = "Rental Fee Per Kilo")]
+		[Display(Name = "Rental Fee Per Hour")]
 		[Required]
-		[Range(0.01, double.MaxValue, ErrorMessage = "Fee Per Kilo must be a positive number.")]
+		[Range(0.01, double.MaxValue, ErrorMessage = "Fee Per Hour must be a positive number.")]
 		public float RentalFeePerKilo { get; set; }
 		public DateTime TimeCreated { get; set; } = DateTime.Now;
 
