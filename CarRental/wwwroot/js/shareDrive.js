@@ -29,7 +29,7 @@ function areRoutesSimilar(route1, route2, threshold = 0.5) {
 
     // Define the similarity as a percentage of shared points
     const similarityPercentage = (sharedSegments / route1.length) * 100;
-    return similarityPercentage > 30; // Consider routes similar if 30% overlap
+    return similarityPercentage > 80; // Consider routes similar if 30% overlap
 }
 
 // Haversine distance to calculate proximity in kilometers
