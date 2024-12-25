@@ -17,20 +17,20 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace CarRental.Controllers
 {
     public class RentalVehicleController : Controller {
-        
 
-		private RentalVehicleService service;
+		private RentalVehicleService vehicleService;
+		private RentalService rentalService;
 
 		public RentalVehicleController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {
-
-            service = new RentalVehicleService(context, webHostEnvironment);
+            rentalService = new RentalService(context, webHostEnvironment);
+            vehicleService = new RentalVehicleService(context, webHostEnvironment);
         }
         public async Task<IActionResult> Index() {
 			return View();
         }
 		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
             //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
-            IEnumerable<RentalVehicle> vehicles = await service.getAllAsync();
+            IEnumerable<RentalVehicle> vehicles = await vehicleService.getAllAsync();
             ViewData["IsForDetails"] = isForDetails;
 			ViewData["CurrentId"] = currentId; // Pass 'currentId' to the view
 
@@ -49,7 +49,7 @@ namespace CarRental.Controllers
                 var queryOption = new QueryOption<RentalVehicle> {
                     Includes = "Gallery"
                 };
-                RentalVehicle vehicle = await service.GetByIdAsync(id, queryOption);
+                RentalVehicle vehicle = await vehicleService.GetByIdAsync(id, queryOption);
 				return View(vehicle);
 			}
 		}
@@ -61,7 +61,7 @@ namespace CarRental.Controllers
 			if (vehicle.RentalVehicleID == 0) {
 				if (ModelState.IsValid) {
 					//add
-					service.AddVehicleAsync(vehicle);
+					vehicleService.AddVehicleAsync(vehicle);
 					return RedirectToAction("Index", "ApplicationUser");
 				}
 			} else {
@@ -74,7 +74,7 @@ namespace CarRental.Controllers
 					ModelState.Remove("ImageGallery"); // Remove validation for ImageGallery
 				}
 				if (ModelState.IsValid) {
-                    var result = await service.EditVehicleAsync(vehicle);
+                    var result = await vehicleService.EditVehicleAsync(vehicle);
                     if (!result.Success) {
                         ModelState.AddModelError("", result.Errors.FirstOrDefault());
                         return View(); // Return an error view
@@ -96,7 +96,7 @@ namespace CarRental.Controllers
 
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id) {
-            var result = await service.DeleteVehicleAsync(id);
+            var result = await vehicleService.DeleteVehicleAsync(id);
             if (!result.Success) {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error); // Add error messages to ModelState
@@ -111,7 +111,7 @@ namespace CarRental.Controllers
 			var queryOption = new QueryOption<RentalVehicle> {
 				Includes = "Gallery, Owner"
 			};
-			RentalVehicle vehicle = await service.GetByIdAsync(id, queryOption);
+			RentalVehicle vehicle = await vehicleService.GetByIdAsync(id, queryOption);
 			return View(vehicle);
 		}
 
@@ -121,8 +121,8 @@ namespace CarRental.Controllers
 				Includes = "Gallery"
 			};
 
-			RentalVehicle currentVehicle = await service.GetByIdAsync(currentId, queryOption);
-			RentalVehicle compareVehicle = await service.GetByIdAsync(id, queryOption);
+			RentalVehicle currentVehicle = await vehicleService.GetByIdAsync(currentId, queryOption);
+			RentalVehicle compareVehicle = await vehicleService.GetByIdAsync(id, queryOption);
 
 			List<RentalVehicle> vehicles = new List<RentalVehicle>();
 			vehicles.Add(currentVehicle);
@@ -150,7 +150,7 @@ namespace CarRental.Controllers
 			var queryOption = new QueryOption<RentalVehicle> {
 				Includes = "Gallery, Owner"
 			};
-			RentalVehicle vehicleData = await service.GetByIdAsync(rentalVehicleId, queryOption);
+			RentalVehicle vehicleData = await vehicleService.GetByIdAsync(rentalVehicleId, queryOption);
 
 			if (vehicleData == null) {
 				return NotFound("Rental Vehicle data not found.");
@@ -168,12 +168,11 @@ namespace CarRental.Controllers
 		public async Task<IActionResult> Rent(Rental rental) {
 			rental.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (ModelState.IsValid) {
-				// must add the functionality to validate the overlapping of the rental vehicle id 
-				// before can actually 
-				var result = await service.AddRentAsync(rental);
+                var result = await rentalService.rent(rental);
+
                 if (!result.Success) {
                     foreach (var error in result.Errors) {
-                        ModelState.AddModelError("", error); // Add error messages to ModelState
+                        ModelState.AddModelError("", error);
                     }
                     return View(rental);
                 }
