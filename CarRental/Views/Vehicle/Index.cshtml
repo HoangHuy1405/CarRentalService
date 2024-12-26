@@ -3,39 +3,38 @@
     ViewBag.Title = "Car Rental";
 }
 
-@* <div class="row g-3 m-4">
-    @foreach (RentalVehicle vehicle in Model) {
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <img src="@Url.Content(vehicle?.ThumbnailUrl)" class="card-img-top" alt="@vehicle.Brand" style="height: 200px; object-fit: cover;" />
-                <div class="card-body">
-                    <h5 class="card-title">@vehicle.Brand @vehicle.Model</h5>
-                    <ul class="list-unstyled mb-3">
-                        <li><strong>Rental Fee (Per Kilo):</strong> @vehicle.RentalFeePerKilo</li>
-                        <li><strong>Rental Fee (Per Day):</strong> @vehicle.RentalFeePerDay</li>
-                        <li><strong>Year:</strong> @vehicle.ManuYear.Year</li>
-                        <li><strong>Seats:</strong> @vehicle.NumberOfSeats</li>
-                    </ul>
-                </div>
-                <div class="card-footer bg-transparent border-0 text-center">
-                    <a asp-controller="RentalVehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
-    }
-</div> *@
-
-
-<div id="partialDisplay">
-
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form asp-action="Index" method="get" class="input-group mb-3">
+            <input type="text" name="searchString" class="form-control" placeholder="Search by brand..." />
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class="bi bi-search"></i> Search
+            </button>
+        </form>
+    </div>
 </div>
 
+<div id="partialDisplay">
+</div>
 
-@* render partial view *@
 @section Scripts {
     <script>
-        $('#partialDisplay').load("/Vehicle/AllVehiclePartial?isForDetails=true");
+        function refreshPartialView(searchString = '') {
+            let url = "/RentalVehicle/AllVehiclePartial?isForDetails=true";
+            if (searchString) {
+                url += "&searchString=" + encodeURIComponent(searchString);
+            }
+            $('#partialDisplay').load(url);
+        }
+
+        // Initial Load
+        refreshPartialView();
+
+        // Handle Search Form Submission (using AJAX)
+        $('form').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            var searchString = $('input[name=searchString]').val();
+            refreshPartialView(searchString);
+        });
     </script>
 }
-
-

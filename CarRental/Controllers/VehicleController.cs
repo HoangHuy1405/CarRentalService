@@ -33,7 +33,7 @@ namespace CarRental.Controllers
             //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
             IEnumerable<Vehicle> vehicles = await service.getAllAsync();
             ViewData["IsForDetails"] = isForDetails;
-			ViewData["CurrentId"] = currentId; // Pass 'currentId' to the view
+            ViewData["CurrentId"] = currentId;
 
 			return PartialView("_DisplayVehicles", vehicles);
 		}
