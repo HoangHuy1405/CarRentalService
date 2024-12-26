@@ -21,7 +21,6 @@ namespace CarRental.Service
             _webHostEnvironment = webHostEnvironment;
         }
 
-
         public async Task<IEnumerable<RentalVehicle>> getAllAsync() {
             IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
             return vehicles;
@@ -113,7 +112,23 @@ namespace CarRental.Service
             return "/" + folderPath;
         }
 
-        public async Task<ServiceResult> DeleteVehicleAsync(int id) {
+		public async Task<IEnumerable<RentalVehicle>> searchVehicles(string keyword)
+		{
+			if (string.IsNullOrWhiteSpace(keyword))
+				return Enumerable.Empty<RentalVehicle>();
+
+			keyword = keyword.ToLower().Trim(); 
+			IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
+
+			return vehicles.Where(rv =>
+				(!string.IsNullOrEmpty(rv.Brand) && rv.Brand.ToLower().Contains(keyword)) ||
+				(!string.IsNullOrEmpty(rv.Model) && rv.Model.ToLower().Contains(keyword)) ||
+				(!string.IsNullOrEmpty(rv.Location) && rv.Location.ToLower().Contains(keyword)) ||
+				(int.TryParse(keyword, out int numSeat) && rv.NumberOfSeats == numSeat)
+			);
+		}
+
+		public async Task<ServiceResult> DeleteVehicleAsync(int id) {
             try {
                 await rentalVehicleRepo.Delete(id);
                 return ServiceResult.SuccessResult();
@@ -122,7 +137,7 @@ namespace CarRental.Service
             }
         }
 
-
+        
 
 
     }

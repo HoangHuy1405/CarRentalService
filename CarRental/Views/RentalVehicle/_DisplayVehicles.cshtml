@@ -3,7 +3,14 @@
 	bool isForDetails = ViewData["IsForDetails"] != null && (bool)ViewData["IsForDetails"];
 	var currentId = ViewData["CurrentId"] as int? ?? 0; // Pass 'CurrentId' to the view
 }
-<div class="row g-3 m-4"> 
+<div class="row g-3 m-4">
+	<div class="search-container">
+		<form asp-controller="RentalVehicle" asp-action="Search" method="get">
+			<input type="text" name="keyword" placeholder="Search..." class="search-input">
+			<button type="submit" class="search-button">Search</button>
+		</form>
+	</div>
+
 	@foreach (RentalVehicle vehicle in Model) {
 		@if (!isForDetails && @vehicle.RentalVehicleID == @currentId) {
 			continue;
