@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CarRental.Services {
+namespace CarRental.Repository {
     public class QueryOption<T> where T : class {
         public Expression<Func<T, Object>> OrderBy { get; set; } = null!;
         public Expression<Func<T, bool>> Where { get; set; } = null!;

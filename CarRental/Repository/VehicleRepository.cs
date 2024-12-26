@@ -2,7 +2,7 @@
 using CarRental.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Services {
+namespace CarRental.Repository {
     public class VehicleRepository : Repository<Vehicle>, IVehicleRepository {
         public VehicleRepository(ApplicationDbContext context) : base(context) {
 

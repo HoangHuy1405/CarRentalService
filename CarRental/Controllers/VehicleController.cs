@@ -2,7 +2,7 @@
 using CarRental.Data;
 using CarRental.Models;
 using CarRental.Service;
-using CarRental.Services;
+using CarRental.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

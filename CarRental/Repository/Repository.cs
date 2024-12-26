@@ -4,7 +4,7 @@ using CarRental.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace CarRental.Services {
+namespace CarRental.Repository {
     public class Repository<T> : IRepository<T> where T : class {
         protected ApplicationDbContext context { get; set; }
         public DbSet<T> dbSet { get; set; }

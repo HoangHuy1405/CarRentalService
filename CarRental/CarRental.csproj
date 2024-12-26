@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\images\Licenses\" />
+    <Folder Include="wwwroot\images\NationalID\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,6 @@ namespace CarRental.Models {
     public class Rental {
         public int? RentalId { get; set; }
 
-        
         public string? UserID { get; set; } //fk
         [ValidateNever]
         public ApplicationUser User { get; set; }

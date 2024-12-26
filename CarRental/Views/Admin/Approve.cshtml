@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Driver>
+@{
+    ViewData["Title"] = "Pending Drivers";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>License Number</th>
+            <th>License Expiry Date</th>
+            <th>License Image</th>
+            <th>National ID Image</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var driver in Model)
+        {
+            <tr>
+                <td>@driver.LicenseNumber</td>
+                <td>@driver.LicenseExpiryDate.ToString("d")</td>
+                <td>
+                    <img src="@driver.LicenseImageUrl" alt="License Image" class="img-thumbnail" width="100" />
+                </td>
+                <td>
+                    <img src="@driver.NationalIdUrl" alt="National ID Image" class="img-thumbnail" width="100" />
+                </td>
+                <td>@driver.Status</td>
+                <td>
+                    @if (driver.Status == DriverStatus.Pending)
+                    {
+                        <form method="post" asp-action="Approve" asp-route-id="@driver.UserID" style="display:inline;">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form method="post" asp-action="Reject" asp-route-id="@driver.UserID" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Action not available</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "Admin")" class="btn btn-secondary">Back</a>

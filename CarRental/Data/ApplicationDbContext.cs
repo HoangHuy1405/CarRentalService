@@ -13,6 +13,7 @@ namespace CarRental.Data {
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
+		public DbSet<Driver> Drivers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
@@ -94,8 +95,8 @@ namespace CarRental.Data {
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string> { UserId = "user1", RoleId = userRoleId }, 
                 new IdentityUserRole<string> { UserId = "user2", RoleId = userRoleId }, 
-                new IdentityUserRole<string> { UserId = "owner1", RoleId = driverRoleId }, 
-                new IdentityUserRole<string> { UserId = "owner2", RoleId = driverRoleId },
+                new IdentityUserRole<string> { UserId = "owner1", RoleId = userRoleId }, 
+                new IdentityUserRole<string> { UserId = "owner2", RoleId = userRoleId },
                 new IdentityUserRole<string> { UserId = "Admin", RoleId = adminRoleId } 
             );
 

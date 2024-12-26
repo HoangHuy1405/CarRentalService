@@ -1,6 +1,6 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
-using CarRental.Services;
+using CarRental.Repository;
 using Microsoft.AspNetCore.Hosting;
 
 namespace CarRental.Service

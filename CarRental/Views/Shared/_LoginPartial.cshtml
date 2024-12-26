@@ -12,21 +12,24 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="#"><i class="fas fa-key"></i> Change password</a></li>
                 <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
-                <li><a class="dropdown-item" asp-area="" asp-controller="ApplicationUser" asp-action="Index"> <i class="fa-solid fa-car-side"></i>My Car</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-car"></i> Register as driver</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-history"></i> History</a></li>
+                <li><a class="dropdown-item" asp-controller="ApplicationUser" asp-action="Index"> <i class="fa-solid fa-car-side"></i> My Car</a></li>
+                @if (!User.IsInRole("Driver")) {
+                    <li><a class="dropdown-item" asp-controller="Driver" asp-action="RegisterDriver"><i class="fas fa-car"></i> Register as driver</a></li>
+                }
+                <li><a class="dropdown-item" asp-controller="ApplicationUser" asp-action="Index"><i class="fas fa-history"></i> History</a></li>
+                @if (User.IsInRole("Admin")) {
+                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Approve"><i class="fas fa-person"></i> Approval</a></li>
+                }
                 <li>
-                    <form class="form-inline dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <form class="form-inline dropdown-item" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="dropdown-item btn btn-link text-dark">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
                     </form>
                 </li>
+                
             </ul>
         </li>
-
-        
-
 }
 else
 {
