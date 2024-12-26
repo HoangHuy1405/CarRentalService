@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
@@ -27,7 +28,7 @@ namespace CarRental.Controllers
         }
         public async Task<IActionResult> Index() {
 			return View();
-        }
+		}
 		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
             //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
             IEnumerable<Vehicle> vehicles = await service.getAllAsync();
@@ -36,6 +37,7 @@ namespace CarRental.Controllers
 
 			return PartialView("_DisplayVehicles", vehicles);
 		}
+
 		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> CreateEdit(int id) {
@@ -74,13 +76,13 @@ namespace CarRental.Controllers
 					ModelState.Remove("ImageGallery"); // Remove validation for ImageGallery
 				}
 				if (ModelState.IsValid) {
-                    var result = await vehicleService.EditVehicleAsync(vehicle);
-                    if (!result.Success) {
-                        ModelState.AddModelError("", result.Errors.FirstOrDefault());
-                        return View(); // Return an error view
-                    }
+					var result = await vehicleService.EditVehicleAsync(vehicle);
+					if (!result.Success) {
+						ModelState.AddModelError("", result.Errors.FirstOrDefault());
+						return View(); // Return an error view
+					}
 
-                    return RedirectToAction("Index", "ApplicationUser");
+					return RedirectToAction("Index", "ApplicationUser");
 				}
 				/*if (!ModelState.IsValid) {
 					foreach (var key in ModelState.Keys) {
@@ -96,15 +98,15 @@ namespace CarRental.Controllers
 
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id) {
-            var result = await vehicleService.DeleteVehicleAsync(id);
-            if (!result.Success) {
-                foreach (var error in result.Errors) {
-                    ModelState.AddModelError("", error); // Add error messages to ModelState
-                }
+			var result = await vehicleService.DeleteVehicleAsync(id);
+			if (!result.Success) {
+				foreach (var error in result.Errors) {
+					ModelState.AddModelError("", error); // Add error messages to ModelState
+				}
 				return RedirectToAction("Index", "ApplicationUser");
-            }
-            return RedirectToAction("Index", "ApplicationUser");
-        }
+			}
+			return RedirectToAction("Index", "ApplicationUser");
+		}
 
 		[HttpGet]
 		public async Task<IActionResult> Details(int id) {
@@ -168,17 +170,31 @@ namespace CarRental.Controllers
 		public async Task<IActionResult> Rent(Rental rental) {
 			rental.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (ModelState.IsValid) {
-                var result = await rentalService.rent(rental);
+				var result = await rentalService.rent(rental);
 
-                if (!result.Success) {
-                    foreach (var error in result.Errors) {
-                        ModelState.AddModelError("", error);
-                    }
-                    return View(rental);
-                }
-                return RedirectToAction("Index");
+				if (!result.Success) {
+					foreach (var error in result.Errors) {
+						ModelState.AddModelError("", error);
+					}
+					return View(rental);
+				}
+				return RedirectToAction("Index");
 			}
 			return View(rental);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Search(string keyword)
+		{
+			IEnumerable<RentalVehicle> vehicles = await vehicleService.searchVehicles(keyword);
+			if (!vehicles.Any())
+			{
+				return NotFound();
+
+			}
+
+			ViewData["IsForDetails"] = false;
+			return PartialView("_DisplayVehicles", vehicles);
 		}
 	}
 }
