@@ -28,15 +28,23 @@ namespace CarRental.Controllers
         public async Task<IActionResult> Index() {
 			return View();
         }
-		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
-            //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
-            IEnumerable<RentalVehicle> vehicles = await service.getAllAsync();
-            ViewData["IsForDetails"] = isForDetails;
-			ViewData["CurrentId"] = currentId; // Pass 'currentId' to the view
+        // In RentalVehicleController.cs
 
-			return PartialView("_DisplayVehicles", vehicles);
-		}
-		[Authorize]
+        public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId, string searchString)
+        {
+            IEnumerable<RentalVehicle> vehicles = await service.getAllAsync();
+
+            if (!System.String.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+            }
+
+            ViewData["IsForDetails"] = isForDetails;
+            ViewData["CurrentId"] = currentId;
+
+            return PartialView("_DisplayVehicles", vehicles);
+        }
+        [Authorize]
 		[HttpGet]
 		public async Task<IActionResult> CreateEdit(int id) {
 			if (id == 0) {

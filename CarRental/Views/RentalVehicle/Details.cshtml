@@ -3,31 +3,122 @@
     ViewBag.Title = "Details";
 }
 
-<!-- Bootstrap and JS Links -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<style>
+    /* Global font styling */
+    body {
+        font-family: "Manrope", "Encode Sans Expanded", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 16px; /* Adjust base font size as needed */
+        line-height: 1.5;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700; /* Bold headings */
+    }
+
+    h1 {
+        font-size: 2.5rem; /* Adjust heading sizes as needed */
+    }
+
+    h5 {
+        font-size: 1.3rem;
+    }
+
+    /* Specific elements */
+    .display-4 { /* For the main vehicle title */
+        font-size: 2.8rem; /* Make it a bit larger */
+        font-weight: 700;
+    }
+
+    .card-body {
+        font-size: 1rem;
+    }
+
+    .alert {
+        font-size: 1rem;
+    }
+
+        .alert strong {
+            font-weight: 600; /* Slightly bolder than normal text */
+        }
+
+    .alert-secondary ul {
+        list-style-type: none; /* Remove bullet point */
+        padding-left: 0;
+    }
+
+    .owner-info {
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .owner-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .owner-name {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .owner-stats {
+        font-size: 0.9rem;
+        color: #6c757d; /* Muted text color */
+    }
+
+    .review-section {
+        margin-top: 20px;
+    }
+
+    .review-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .review-name {
+        font-weight: bold;
+    }
+
+    .review-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .review-comment {
+        margin-top: 5px;
+    }
+</style>
+
 <div class="container mt-5">
     <div id="carImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
-        <!-- Indicators -->
         <ol class="carousel-indicators">
-            @for (int i = 0; i < Model.Gallery.Count; i++) {
+            @for (int i = 0; i < Model.Gallery.Count; i++)
+            {
                 <li data-bs-target="#carImageCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
             }
         </ol>
 
-        <!-- Carousel Items -->
         <div class="carousel-inner">
-            @foreach (var image in Model.Gallery) {
+            @foreach (var image in Model.Gallery)
+            {
                 <div class="carousel-item @(Model.Gallery.IndexOf(image) == 0 ? "active" : "")">
                     <img src="@Url.Content(image?.ImageUrl)" class="d-block w-100" alt="Car Image" style="height: 400px; object-fit: cover;" />
                 </div>
             }
         </div>
 
-        <!-- Navigation Controls -->
         <a class="carousel-control-prev" href="#carImageCarousel" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -37,76 +128,182 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
-
-    <!-- Car Details and Total Fee -->
     <div class="row">
-        <!-- Left Column: Car Details -->
         <div class="col-md-8">
-            <h1 class="display-4 fw-bold mb-4">@Model.Brand @Model.Model</h1> <!-- Slightly larger than before -->
-            <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
-                <!-- Increased list font size -->
-                <li><strong>License Plate:</strong> @Model.LicensePlate</li>
-                <li><strong>Fuel type:</strong> @Model.FuelType</li>
-                <li><strong>Transmission:</strong> @Model.Transmission</li>
-                <li><strong>Manufacture Year:</strong> @Model.ManuYear.Year</li>
-                <li><strong>Number of Seats:</strong> @Model.NumberOfSeats</li>
-                <li><strong>Fuel consumption:</strong> @Model.FuelConsumption / 100km</li>
-                <li><strong>Pickup location:</strong> @Model.Location</li>
+            <div class="card shadow">
+                <div class="card-body">
 
-                <li><strong>Rental Fee (Per Kilo):</strong> @Model.RentalFeePerKilo</li>
-            </ul>
-            <h3 class="fw-bold mb-2" style="font-size: 1.5rem;">Description</h3>
-            <p style="font-size: 1.2rem;" class="text-muted mb-4">@Model.Description</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="display-4 fw-bold mb-4">@Model.Brand @Model.Model @Model.ManuYear.Year</h1>
+                        </div>
+                    </div>
+                    <div class="row mb-3" style="font-size: 1.1rem;">
+                        <div class="col-md-6">
+                            <span><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 5.0</span>
+                            <span class="mx-2">|</span>
+                            <span><i class="fa-solid fa-location-dot"></i> @Model.Location</span>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-outline-primary rounded-pill px-3 py-1" data-bs-toggle="modal" data-bs-target="#compare-modal">
+                                Make Comparison
+                            </button>
+                            <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-outline-primary rounded-pill px-3 py-1 ms-2">
+                                Rent
+                            </a>
+                        </div>
+                    </div>
 
-            <h3 class="fw-bold mb-2" style="font-size: 1.5rem;">Contact</h3>
-            <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
-                <li><strong>Name:</strong> @Model.Owner.UserName </li>
-                <li><strong>Email:</strong> @Model.Owner.Email </li>
-                <li><strong>Phone number:</strong> @Model.Owner.PhoneNumber </li>
-            </ul>
+                    <hr />
+
+                    <h5 class="fw-bold mb-3">Specifications</h5>
+
+                    <div class="row mb-4" style="font-size: 1.2rem;">
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gears me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Transmission</p>
+                                    <p class="mb-0">@Model.Transmission</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-chair me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Seats</p>
+                                    <p class="mb-0">@Model.NumberOfSeats</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gas-pump me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Fuel</p>
+                                    <p class="mb-0">@Model.FuelType</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gauge-high me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Consumption</p>
+                                    <p class="mb-0">@Model.FuelConsumption/100km</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5 class="fw-bold mb-3">Rental Documents</h5>
+
+                    <div class="alert alert-secondary" style="background-color: #fef7f4">
+                        <p class="mb-1 fw-bold"><i class="fa-solid fa-circle-question me-2"></i>Choose 1 of the 2 options</p>
+                        <ul class="mb-0">
+                            <li><i class="fa-regular fa-file-lines me-2"></i>Driver's License (for verification) & Passport (kept)</li>
+                            <li><i class="fa-solid fa-user-check me-2"></i></i>Driver's License (for verification) & National ID (verified on VNeID)</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-secondary" style="background-color: #fef7f4">
+                        <p class="mb-1 fw-bold"><i class="fa-solid fa-circle-question me-2"></i>Deposit</p>
+                        <p class="mb-0">No cash or motorcycle deposit required.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="compare-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl custom-fullscreen-modal modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">Choose a vehicle to compare</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="partialDisplay">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-        <!-- Right Column: Total Fee -->
         <div class="col-md-4">
             <div class="card shadow">
                 <div class="card-body">
-                    <h2 class="display-5 fw-bold text-center mb-4" style="font-size: 1.75rem;">Charge Fee</h2> <!-- Larger and bolder -->
-                    <h3 class="text-center text-success" style="font-size: 2rem;">@Model.RentalFeePerDay$/day</h3>
+                    <div class="owner-info">
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" alt="Owner Avatar" class="owner-avatar me-3">
+                            <div>
+                                <div class="owner-name">@Model.Owner.UserName</div>
+                                <div class="owner-stats">
+                                    <span><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 5.0 | 100+ trips</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-around">
+                            <div>
+                                <div class="fw-bold text-center">90%</div>
+                                <div class="text-muted small">Response Rate</div>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-center">5 minutes</div>
+                                <div class="text-muted small">Response Time</div>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-center">100%</div>
+                                <div class="text-muted small">Acceptance Rate</div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="alert alert-warning small">
+                            <i class="fa-solid fa-crown me-1" style="color: #FFD43B;"></i>
+                            5* Car Owner with fast response time, high acceptance rate, competitive price & service received many good reviews from customers.
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <h5 class="fw-bold"><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 5.0 - 100+ reviews</h5>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="https://via.placeholder.com/50" alt="Reviewer Avatar" class="review-avatar me-3">
+                            <div>
+                                <div class="review-name">Huy Kun</div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <span class="review-date ms-2">10/12/2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="https://via.placeholder.com/50" alt="Reviewer Avatar" class="review-avatar me-3">
+                            <div>
+                                <div class="review-name">Khoa chan</div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    <span class="review-date ms-2">08/12/2024</span>
+                                </div>
+                                <p class="review-comment">
+                                    Enthusiastic and attentive car owner, offers many car options to suit the needs of each trip.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-secondary">See More</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <button class="btn btn-primary w-75 mx-auto" data-bs-toggle="modal" data-bs-target="#compare-modal">Make comparison</button>
-            </div>
-            <div class="row mt-4">
-                <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-primary w-75 mx-auto">Rent</a>
-            </div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="compare-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl custom-fullscreen-modal modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myLargeModalLabel">Choose a vehicle to compare</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <!-- Modal Body -->
-                    <div class="modal-body" id="partialDisplay">
-                        <!-- Render code -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-
     </div>
 </div>
-
-
 
 @section Scripts {
     <script>
