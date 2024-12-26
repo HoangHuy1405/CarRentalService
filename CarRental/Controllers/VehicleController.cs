@@ -61,7 +61,7 @@ namespace CarRental.Controllers
 			if (vehicle.RentalVehicleID == 0) {
 				if (ModelState.IsValid) {
 					//add
-					service.AddVehicleAsync(vehicle);
+					vehicleService.AddVehicleAsync(vehicle);
 					return RedirectToAction("Index", "ApplicationUser");
 				}
 			} else {
@@ -74,7 +74,7 @@ namespace CarRental.Controllers
 					ModelState.Remove("ImageGallery"); // Remove validation for ImageGallery
 				}
 				if (ModelState.IsValid) {
-                    var result = await service.EditVehicleAsync(vehicle);
+                    var result = await vehicleService.EditVehicleAsync(vehicle);
                     if (!result.Success) {
                         ModelState.AddModelError("", result.Errors.FirstOrDefault());
                         return View(); // Return an error view
@@ -96,7 +96,7 @@ namespace CarRental.Controllers
 
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id) {
-            var result = await service.DeleteVehicleAsync(id);
+            var result = await vehicleService.DeleteVehicleAsync(id);
             if (!result.Success) {
                 foreach (var error in result.Errors) {
                     ModelState.AddModelError("", error); // Add error messages to ModelState
@@ -168,12 +168,11 @@ namespace CarRental.Controllers
 		public async Task<IActionResult> Rent(Rental rental) {
 			rental.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (ModelState.IsValid) {
-				// must add the functionality to validate the overlapping of the rental vehicle id 
-				// before can actually 
-				var result = await service.AddRentAsync(rental);
+                var result = await rentalService.rent(rental);
+
                 if (!result.Success) {
                     foreach (var error in result.Errors) {
-                        ModelState.AddModelError("", error); // Add error messages to ModelState
+                        ModelState.AddModelError("", error);
                     }
                     return View(rental);
                 }

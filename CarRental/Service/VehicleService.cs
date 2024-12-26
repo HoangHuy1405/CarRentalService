@@ -3,6 +3,7 @@ using CarRental.Models;
 using CarRental.Repository;
 using Microsoft.AspNetCore.Hosting;
 
+
 namespace CarRental.Service
 {
     public class VehicleService
@@ -121,10 +122,8 @@ namespace CarRental.Service
             }
         }
 
-        public async Task<ServiceResult> AddRentAsync(Rental rental) {
-            rental.Status = Status.Confirmed;
-            await rentalRepo.Add(rental);
-            return ServiceResult.SuccessResult();
-        }
+
+
+
     }
 }
