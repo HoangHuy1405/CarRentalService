@@ -113,13 +113,13 @@ namespace CarRental.Service
             return "/" + folderPath;
         }
 
-		public async Task<IEnumerable<RentalVehicle>> searchVehicles(string keyword)
+		public async Task<IEnumerable<Vehicle>> searchVehicles(string keyword)
 		{
 			if (string.IsNullOrWhiteSpace(keyword))
-				return Enumerable.Empty<RentalVehicle>();
+				return Enumerable.Empty<Vehicle>();
 
 			keyword = keyword.ToLower().Trim(); 
-			IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
+			IEnumerable<Vehicle> vehicles = await rentalVehicleRepo.GetAll();
 
 			return vehicles.Where(rv =>
 				(!string.IsNullOrEmpty(rv.Brand) && rv.Brand.ToLower().Contains(keyword)) ||

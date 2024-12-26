@@ -5,7 +5,7 @@
 }
 <div class="container my-5">
     <div class="row g-3">
-        @foreach (RentalVehicle vehicle in Model)
+        @foreach (Vehicle vehicle in Model)
         {
             @if (!isForDetails && @vehicle.RentalVehicleID == @currentId)
             {
@@ -45,11 +45,11 @@
                     <div class="card-footer bg-transparent border-0 text-center">
                         @if (isForDetails)
                         {
-                            <a asp-controller="RentalVehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-outline-primary w-100">See details</a>
+                            <a asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-outline-primary w-100">See details</a>
                         }
                         else
                         {
-                            <a asp-controller="RentalVehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary w-100">Compare</a>
+                            <a asp-controller="Vehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary w-100">Compare</a>
                         }
                     </div>
                 </div>

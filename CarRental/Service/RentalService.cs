@@ -1,6 +1,6 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
-using CarRental.Services;
+using CarRental.Repository;
 using System.Linq;
 
 using static CarRental.Service.ServiceResult;

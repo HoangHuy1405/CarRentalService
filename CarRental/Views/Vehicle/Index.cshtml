@@ -20,7 +20,7 @@
 @section Scripts {
     <script>
         function refreshPartialView(searchString = '') {
-            let url = "/RentalVehicle/AllVehiclePartial?isForDetails=true";
+            let url = "/Vehicle/AllVehiclePartial?isForDetails=true";
             if (searchString) {
                 url += "&searchString=" + encodeURIComponent(searchString);
             }

@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CarRental.Models.ShareDrive;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers {
     public class ShareDriveController : Controller {
-
-
-        public IActionResult Index() {
-            return View();
+        public IActionResult PassengerRide() {
+            return View(new PassengerRideView());
         }
+
+        [HttpGet]
+        public IActionResult DriverOpen() {
+            return View(new DriverRide()); 
+        }
+
+        /*[HttpPost]
+        public Task<IActionResult> DriverOpen(DriverRide driver) {
+
+        }*/
     }
 }

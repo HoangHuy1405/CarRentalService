@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\mapDriver.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\mapDriver.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
@@ -20,6 +28,10 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\Licenses\" />
     <Folder Include="wwwroot\images\NationalID\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\mapDriver.js" />
   </ItemGroup>
 
 </Project>

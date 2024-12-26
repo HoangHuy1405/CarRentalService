@@ -1,10 +1,12 @@
 ﻿using CarRental.Models;
+using CarRental.Models.ShareDrive;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
-namespace CarRental.Data {
+namespace CarRental.Data
+{
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
@@ -14,6 +16,7 @@ namespace CarRental.Data {
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
 		public DbSet<Driver> Drivers { get; set; }
+		public DbSet<DriverRide> DriverRides { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);

@@ -18,20 +18,21 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace CarRental.Controllers
 {
     public class VehicleController : Controller {
-        
+		private VehicleService vehicleService;
+		private RentalService rentalService;
 
-		private VehicleService service;
 
 		public VehicleController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {
 
-            service = new VehicleService(context, webHostEnvironment);
+            vehicleService = new VehicleService(context, webHostEnvironment);
+            rentalService = new RentalService(context, webHostEnvironment);
         }
         public async Task<IActionResult> Index() {
 			return View();
 		}
 		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
             //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
-            IEnumerable<Vehicle> vehicles = await service.getAllAsync();
+            IEnumerable<Vehicle> vehicles = await vehicleService.getAllAsync();
             ViewData["IsForDetails"] = isForDetails;
             ViewData["CurrentId"] = currentId;
 
@@ -51,7 +52,7 @@ namespace CarRental.Controllers
                 var queryOption = new QueryOption<Vehicle> {
                     Includes = "Gallery"
                 };
-                Vehicle vehicle = await service.GetByIdAsync(id, queryOption);
+                Vehicle vehicle = await vehicleService.GetByIdAsync(id, queryOption);
 				return View(vehicle);
 			}
 		}
@@ -113,7 +114,7 @@ namespace CarRental.Controllers
 			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery, Owner"
 			};
-			Vehicle vehicle = await service.GetByIdAsync(id, queryOption);
+			Vehicle vehicle = await vehicleService.GetByIdAsync(id, queryOption);
 			return View(vehicle);
 		}
 
@@ -123,8 +124,8 @@ namespace CarRental.Controllers
 				Includes = "Gallery"
 			};
 
-			Vehicle currentVehicle = await service.GetByIdAsync(currentId, queryOption);
-			Vehicle compareVehicle = await service.GetByIdAsync(id, queryOption);
+			Vehicle currentVehicle = await vehicleService.GetByIdAsync(currentId, queryOption);
+			Vehicle compareVehicle = await vehicleService.GetByIdAsync(id, queryOption);
 
 			List<Vehicle> vehicles = new List<Vehicle>();
 			vehicles.Add(currentVehicle);
@@ -152,7 +153,7 @@ namespace CarRental.Controllers
 			var queryOption = new QueryOption<Vehicle> {
 				Includes = "Gallery, Owner"
 			};
-			Vehicle vehicleData = await service.GetByIdAsync(rentalVehicleId, queryOption);
+			Vehicle vehicleData = await vehicleService.GetByIdAsync(rentalVehicleId, queryOption);
 
 			if (vehicleData == null) {
 				return NotFound("Rental Vehicle data not found.");
@@ -186,7 +187,7 @@ namespace CarRental.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Search(string keyword)
 		{
-			IEnumerable<RentalVehicle> vehicles = await vehicleService.searchVehicles(keyword);
+			IEnumerable<Vehicle> vehicles = await vehicleService.searchVehicles(keyword);
 			if (!vehicles.Any())
 			{
 				return NotFound();

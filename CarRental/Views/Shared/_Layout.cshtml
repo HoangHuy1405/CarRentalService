@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,7 +26,7 @@
     <header class="fixed-top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CAPY</a>
+                <a class="navbar-brand" href="#" id="toggleSidebar">CAPY</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,14 +37,36 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Vehicle" asp-action="Index">Rent</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShareDrive" asp-action="Index">Book</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ShareDrive" asp-action="PassengerRide">Book</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
+
+                <!-- Sidebar -->
+                <div id="sidebar">
+                    <span class="close-btn" id="closeSidebar">&times;</span>
+                    <ul>
+                        <li><a class="" asp-controller="ApplicationUser" asp-action="Index"> <i class="fa-solid fa-car-side"></i> My Car</a></li>
+                        @if (!User.IsInRole("Driver")) {
+                            <li><a class="" asp-controller="Driver" asp-action="RegisterDriver"><i class="fas fa-car"></i> Register as driver</a></li>
+                        } else {
+                            @* meaning that this user already a driver *@
+                            <li><a class="" asp-controller="ShareDrive" asp-action="DriverOpen"><i class="fas fa-car"></i> Open share drive</a></li>
+                            <li><a class="" asp-controller="ShareDrive" asp-action="Close"><i class="fas fa-car"></i> Close share drive</a></li>
+                        }
+                        <li><a class="" asp-controller="" asp-action=""><i class="fas fa-history"></i> History</a></li>
+                        @if (User.IsInRole("Admin")) {
+                            <li><a class="" asp-controller="Admin" asp-action="Approve"><i class="fas fa-person"></i> Approval</a></li>
+                        }
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
+
+
     <div class="container content">
         <main role="main" class="pb-3" >
             @RenderBody()
@@ -53,12 +78,36 @@
             &copy; 2024 - CarRental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer> *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const toggleSidebar = document.getElementById('toggleSidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+
+            toggleSidebar.addEventListener('click', function () {
+                sidebar.classList.add('active');
+            });
+
+            closeSidebar.addEventListener('click', function () {
+                sidebar.classList.remove('active');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!sidebar.contains(e.target) && !toggleSidebar.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
 </html>
+
 
 

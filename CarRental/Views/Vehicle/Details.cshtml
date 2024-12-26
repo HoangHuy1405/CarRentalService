@@ -104,15 +104,13 @@
 <div class="container mt-5">
     <div id="carImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
         <ol class="carousel-indicators">
-            @for (int i = 0; i < Model.Gallery.Count; i++)
-            {
+            @for (int i = 0; i < Model.Gallery.Count; i++) {
                 <li data-bs-target="#carImageCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
             }
         </ol>
 
         <div class="carousel-inner">
-            @foreach (var image in Model.Gallery)
-            {
+            @foreach (var image in Model.Gallery) {
                 <div class="carousel-item @(Model.Gallery.IndexOf(image) == 0 ? "active" : "")">
                     <img src="@Url.Content(image?.ImageUrl)" class="d-block w-100" alt="Car Image" style="height: 400px; object-fit: cover;" />
                 </div>
@@ -158,21 +156,61 @@
 
                     <h5 class="fw-bold mb-3">Specifications</h5>
 
-        <!-- Right Column: Total Fee -->
-        <div class="col-md-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h2 class="display-5 fw-bold text-center mb-4" style="font-size: 1.75rem;">Charge Fee</h2> <!-- Larger and bolder -->
-                    <h3 class="text-center text-success" style="font-size: 2rem;">@Model.RentalFeePerDay$/day</h3>
+                    <div class="row mb-4" style="font-size: 1.2rem;">
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gears me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Transmission</p>
+                                    <p class="mb-0">@Model.Transmission</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-chair me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Seats</p>
+                                    <p class="mb-0">@Model.NumberOfSeats</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gas-pump me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Fuel</p>
+                                    <p class="mb-0">@Model.FuelType</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-gauge-high me-2"></i>
+                                <div>
+                                    <p class="mb-0 fw-bold">Consumption</p>
+                                    <p class="mb-0">@Model.FuelConsumption/100km</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5 class="fw-bold mb-3">Rental Documents</h5>
+
+                    <div class="alert alert-secondary" style="background-color: #fef7f4">
+                        <p class="mb-1 fw-bold"><i class="fa-solid fa-circle-question me-2"></i>Choose 1 of the 2 options</p>
+                        <ul class="mb-0">
+                            <li><i class="fa-regular fa-file-lines me-2"></i>Driver's License (for verification) & Passport (kept)</li>
+                            <li><i class="fa-solid fa-user-check me-2"></i></i>Driver's License (for verification) & National ID (verified on VNeID)</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-secondary" style="background-color: #fef7f4">
+                        <p class="mb-1 fw-bold"><i class="fa-solid fa-circle-question me-2"></i>Deposit</p>
+                        <p class="mb-0">No cash or motorcycle deposit required.</p>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <button class="btn btn-primary w-75 mx-auto" data-bs-toggle="modal" data-bs-target="#compare-modal">Make comparison</button>
-            </div>
-            <div class="row mt-4">
-                <a asp-controller="RentalVehicle" asp-action="Rent" asp-route-id="@Model.RentalVehicleID" class="btn btn-primary w-75 mx-auto">Rent</a>
-            </div>
-        </div>
 
             <div class="modal fade" id="compare-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl custom-fullscreen-modal modal-dialog-scrollable">
@@ -267,6 +305,6 @@
 
 @section Scripts {
     <script>
-        $('#partialDisplay').load(`/Vehicle/AllVehiclePartial?isForDetails=false&currentId=${@Model.RentalVehicleID}`)
+        $('#partialDisplay').load(`/RentalVehicle/AllVehiclePartial?isForDetails=false&currentId=${@Model.RentalVehicleID}`)
     </script>
 }
