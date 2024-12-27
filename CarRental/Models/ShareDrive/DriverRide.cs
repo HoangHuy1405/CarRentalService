@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.VisualStudio.TextTemplating;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,5 +30,7 @@ namespace CarRental.Models.ShareDrive
         [Required]
         [Display(Name = "Departure date")]
         public DateTime? DepartDate { get; set; }
+
+        
     }
 }

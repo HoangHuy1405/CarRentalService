@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\mapDriver.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\js\mapDriver.js" />
+    <Content Remove="wwwroot\js\displayPath.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\js\mapDriver.js" />
+    <None Include="wwwroot\js\FindRoute\findRoute.js" />
   </ItemGroup>
 
 </Project>

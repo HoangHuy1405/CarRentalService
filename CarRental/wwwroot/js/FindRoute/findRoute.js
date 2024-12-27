@@ -1,4 +1,8 @@
-﻿// Initialize the map
+﻿import { DriverRouteHandler } from './DriverRouteHandler.js'
+import { PassengerRouteHandler } from './PassengerRouteHandler.js'
+import { RouteContext } from './RouteContext.js'
+
+// Initialize the map
 let map = L.map('map').setView([0, 0], 2); // Default global view
 
 // Add OpenStreetMap tile layer
@@ -6,11 +10,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Global variable for the route layer
-let routeLayer = null;
+
+
+
 
 // Function to find the route and display it on the map
-async function findSharedRoute() {
+async function findRoute(userType) {
     // Get user input values
     const startLocation = document.getElementById('start-location').value;
     const endLocation = document.getElementById('end-location').value;
@@ -25,18 +30,38 @@ async function findSharedRoute() {
         geocodeLocation(startLocation),
         geocodeLocation(endLocation) // Fixed variable name
     ]);
-
-    if (!startCoords || !targetCoords) {
-        alert('Could not find one or both locations. Please try again.');
+    if (!startCoords) {
+        alert('Could not find ' + startLocation);
         return;
     }
-
+    if (!targetCoords) {
+        alert('Could not find ' + endLocation);
+        return;
+    }
     // Add markers for the locations
     addMarker(startCoords[0], startCoords[1], 'start');
     addMarker(targetCoords[0], targetCoords[1], 'target');
 
-    // Fetch and display the route
-    await getRoute(startCoords, targetCoords);
+    let handler = null;
+    if (userType === 'driver') {
+        handler = new DriverRouteHandler();
+    } else if (userType === 'passenger') {
+        handler = new PassengerRouteHandler();
+    } else {
+        throw new Error("Unknown user type");
+    }
+    const formData = {
+        StartLocation: startLocation,
+        EndLocation: endLocation,
+        Seats: document.querySelector('[name="Seats"]').value,
+        DepartTime: document.querySelector('[name="DepartTime"]').value + ":00",
+        DepartDate: document.querySelector('[name="DepartDate"]').value,
+    };
+    console.log(formData);
+
+    const routeContext = new RouteContext(handler);
+    await routeContext.executeRoute(startCoords, targetCoords, formData);
+    
 }
 
 // Helper function to add a marker to the map
@@ -44,9 +69,12 @@ function addMarker(lat, lon, type) {
     const marker = L.marker([lat, lon]).addTo(map);
     marker.bindPopup(`${type === 'start' ? 'Start' : 'End'} Location: [${lat}, ${lon}]`).openPopup();
 }
-
 // Helper function to fetch and display the route
-async function getRoute(startCoords, targetCoords) {
+
+
+
+let routeLayer = null;
+export async function getRoute(startCoords, targetCoords) {
     const apiKey = '5b3ce3597851110001cf6248e2f1acef377948cbb257b744da9b7764'; // Replace with your API key
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${startCoords[1]},${startCoords[0]}&end=${targetCoords[1]},${targetCoords[0]}`;
 
@@ -65,12 +93,14 @@ async function getRoute(startCoords, targetCoords) {
 
         // Fit map to route bounds
         map.fitBounds(routeLayer.getBounds());
+
+        return true; // a route is found and display
     } catch (error) {
         console.error('Error fetching route:', error);
         alert('Could not fetch route. Please try again.');
+        return false;
     }
 }
-
 // Helper function to geocode a location using OpenStreetMap's Nominatim API
 async function geocodeLocation(location) {
     try {
@@ -86,3 +116,6 @@ async function geocodeLocation(location) {
         return null;
     }
 }
+
+window.findRoute = findRoute;
+
