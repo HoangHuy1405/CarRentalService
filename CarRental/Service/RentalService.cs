@@ -33,7 +33,7 @@ namespace CarRental.Service
             }
 
             //check overlap
-            if(await isVehicleExist((int)rental.RentalVehicleID, rental.StartDate, rental.EndDate))
+            if(await isOverlap((int)rental.RentalVehicleID, rental.StartDate, rental.EndDate))
             {
                 return FailureResult("Overlap");
             }
@@ -57,10 +57,10 @@ namespace CarRental.Service
             return rentals.Any(r => r.RentalVehicleID == vehicleId);
         }
 
-        private async Task<bool> isVehicleExist(int vehicleId, DateTime start, DateTime end)
+        private async Task<bool> isOverlap(int vehicleId, DateTime start, DateTime end)
         {
             IEnumerable<Rental> rentals = await rentalRepo.GetAll();
-            return rentals.Any(r => r.RentalVehicleID == vehicleId && start <= r.StartDate && end <= r.EndDate);
+            return rentals.Any(r => r.RentalVehicleID == vehicleId && ((r.StartDate >= start && r.StartDate <= end) || (r.EndDate >= start && r.EndDate <= end)));
         }
 
         public async Task<ServiceResult> AddRentAsync(Rental rental)
