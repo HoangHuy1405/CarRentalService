@@ -2,7 +2,8 @@
 using CarRental.Models.ShareDrive;
 using CarRental.Repository;
 
-namespace CarRental.Service {
+namespace CarRental.Service
+{
     public class ShareDriveService {
         private readonly DriverRideRepository driverRepo;
 

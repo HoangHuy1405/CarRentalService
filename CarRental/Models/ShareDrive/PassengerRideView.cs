@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRental.Models.ShareDrive {
-    public class PassengerRideView {
+namespace CarRental.Models.ShareDrive
+{
+    public class PassengerRideView
+    {
         [Required]
         [Display(Name = "Starting location*")]
         public string StartLocation { get; set; }

@@ -1,13 +1,14 @@
 ﻿using CarRental.Data;
-using CarRental.Models;
 using CarRental.Service;
 using CarRental.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using CarRental.Models;
 
-namespace CarRental.Controllers {
-	public class DriverController : Controller {
+namespace CarRental.Controllers
+{
+    public class DriverController : Controller {
 
 		private readonly DriverService service;
 		public DriverController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {

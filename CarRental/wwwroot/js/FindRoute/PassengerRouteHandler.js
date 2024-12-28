@@ -42,6 +42,8 @@ async function getAllValidRoute(formData) {
 
             console.log("Valid driver routes:", driversArray);
             console.log("Valid shared driver routes:", sortedDrivers);
+
+            await chooseDriver(sortedDrivers, formData);
         } else {
             console.error('Error saving route:', response.statusText);
             alert('Failed to fetch driver routes');
@@ -51,7 +53,6 @@ async function getAllValidRoute(formData) {
         alert('An error occurred. Please try again.');
     }
 }
-
 async function filterSharedRoute(drivers, passenger) {
     // Loop through the sorted drivers and check for shared routes
     // Initialize an empty array to hold the valid (shared) drivers
@@ -73,5 +74,22 @@ async function filterSharedRoute(drivers, passenger) {
     }
     console.log(validDrivers);
     return validDrivers;
+}
+
+async function chooseDriver(sortedDrivers, passenger) {
+    try {
+        await fetch('/ShareDrive/ChooseDriverPost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                drivers: sortedDrivers,
+                passenger: passenger,
+            }),
+        });
+    } catch (error) {
+        console.error('Error during fetch:', error);
+    }
 }
 

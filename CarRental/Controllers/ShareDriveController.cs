@@ -1,10 +1,13 @@
-﻿using CarRental.Data;
+﻿using Azure.Core;
+using CarRental.Data;
 using CarRental.Models.ShareDrive;
 using CarRental.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
-namespace CarRental.Controllers {
+namespace CarRental.Controllers
+{
     public class ShareDriveController : Controller {
 
         ShareDriveService shareDriveService;
@@ -60,6 +63,34 @@ namespace CarRental.Controllers {
 
             IEnumerable<DriverRide> drivers = await shareDriveService.GetAllValidRides(passenger);
             return Json(drivers);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChooseDriverPost([FromBody] ChooseDriverView request) {
+            if (request == null || request.Drivers == null || request.passenger == null) {
+                return BadRequest("Invalid request data. ChooseDriver");
+            }
+            Console.WriteLine("Choose driver valid " + request);
+            TempData["ChooseDriverData"] = JsonConvert.SerializeObject(request); // Pass data via TempData or query string
+            return RedirectToAction("ChooseDriver", "ShareDrive"); // Redirect to the GET method
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChooseDriver() {
+            Console.WriteLine("Redirect to action ChooseDriver()");
+
+            var requestData = TempData["ChooseDriverData"];
+            if (requestData == null) {
+                Console.WriteLine("No data in TempData for ChooseDriverData");
+                return View(new ChooseDriverView()); // Pass an empty model to prevent null references
+            }
+
+            ChooseDriverView request = JsonConvert.DeserializeObject<ChooseDriverView>(requestData.ToString());
+            TempData.Keep("ChooseDriverData"); // Retain TempData for subsequent requests
+
+            Console.WriteLine($"Returning view: ChooseDriver with model {JsonConvert.SerializeObject(request)}");
+
+            return View(request);
         }
     }
 }

@@ -3,8 +3,9 @@ using CarRental.Models;
 using CarRental.Repository;
 using System.Security.Claims;
 
-namespace CarRental.Service {
-	public class DriverService {
+namespace CarRental.Service
+{
+    public class DriverService {
 		private readonly DriverRepository driverRepo;
 		private readonly IWebHostEnvironment _webHostEnvironment;
 

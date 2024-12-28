@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarRental.Models {
-    public class DriverRegistrationView {
+namespace CarRental.Models
+{
+    public class DriverRegistrationView
+    {
         public string? LicenseNumber { get; set; }
         public DateTime? LicenseExpiryDate { get; set; }
 

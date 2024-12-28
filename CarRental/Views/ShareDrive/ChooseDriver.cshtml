@@ -1,0 +1,48 @@
+﻿@using CarRental.Models.ShareDrive
+@model ChooseDriverView
+
+<div class="container mt-4">
+    <!-- Passenger Details Heading -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Passenger Details</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Starting Location:</strong> @Model.passenger.StartLocation</p>
+            <p><strong>Ending Location:</strong> @Model.passenger.EndLocation</p>
+            <p><strong>Seats Needed:</strong> @Model.passenger.Seats</p>
+            <p><strong>Departure Time:</strong> @Model.passenger.DepartTime?.ToString("hh\\:mm") ?? "N/A"</p>
+            <p><strong>Departure Date:</strong> @Model.passenger.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A"</p>
+        </div>
+    </div>
+
+    <!-- Valid Drivers List -->
+    <div class="mt-4">
+        <h4 class="mb-3">Available Drivers</h4>
+        @if (Model.Drivers != null && Model.Drivers.Any()) {
+            <div class="row">
+                @foreach (var driver in Model.Drivers) {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Driver ID: @driver.DriverRideID</h5>
+                                <p class="card-text"><strong>Starting Location:</strong> @driver.StartLocation</p>
+                                <p class="card-text"><strong>Ending Location:</strong> @driver.EndLocation</p>
+                                <p class="card-text"><strong>Seats Left:</strong> @driver.SeatLeft</p>
+                                <p class="card-text"><strong>Departure Time:</strong> @driver.DepartTime?.ToString("hh\\:mm") ?? "N/A"</p>
+                                <p class="card-text"><strong>Departure Date:</strong> @driver.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A"</p>
+                                <button class="btn btn-primary btn-sm">Choose Driver</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        } else {
+            <div class="alert alert-warning">
+                No drivers are available for the given route.
+            </div>
+        }
+    </div>
+</div>
+
+

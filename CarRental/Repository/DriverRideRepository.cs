@@ -2,7 +2,8 @@
 using CarRental.Models.ShareDrive;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Repository {
+namespace CarRental.Repository
+{
     public class DriverRideRepository : Repository<DriverRide>, IDriverRideRepository {
         public DriverRideRepository(ApplicationDbContext context) : base(context) {
 
