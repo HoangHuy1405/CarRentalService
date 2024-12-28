@@ -7,10 +7,10 @@ using System.Security.Claims;
 namespace CarRental.Controllers {
     public class ShareDriveController : Controller {
 
-        DriverRideService driverRideService;
+        ShareDriveService shareDriveService;
 
         public ShareDriveController(ApplicationDbContext context) {
-            driverRideService = new DriverRideService(context);
+            shareDriveService = new ShareDriveService(context);
         }
 
         public IActionResult PassengerRide() {
@@ -35,7 +35,8 @@ namespace CarRental.Controllers {
                 Console.WriteLine(driver.Seats);
 
                 driver.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var result = await driverRideService.AddDriverRide(driver);
+                driver.SeatLeft = driver.Seats;
+                var result = await shareDriveService.AddDriverRide(driver);
                 // Save to database service
 
                 if(result.Success) {
@@ -44,6 +45,21 @@ namespace CarRental.Controllers {
                     return StatusCode(500, "An error occurred while saving the data.");
                 }
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetALLValidDriverRide([FromBody] PassengerRideView passenger) {
+            Console.WriteLine(passenger.StartLocation);
+            Console.WriteLine(passenger.EndLocation);
+            Console.WriteLine(passenger.Seats);
+            Console.WriteLine(passenger.DepartTime);
+            Console.WriteLine(passenger.DepartDate);
+            if (passenger == null) {
+                return BadRequest("passenger is invalid!");
+            }
+
+            IEnumerable<DriverRide> drivers = await shareDriveService.GetAllValidRides(passenger);
+            return Json(drivers);
         }
     }
 }

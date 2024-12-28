@@ -1,4 +1,6 @@
-﻿
+﻿import { map } from './FindRoute/findRoute.js'
+
+
 const apiKey = '5b3ce3597851110001cf6248e2f1acef377948cbb257b744da9b7764';
 let passengerRouteLayer, driverRouteLayer;
 
@@ -29,7 +31,7 @@ function areRoutesSimilar(route1, route2, threshold = 0.5) {
 
     // Define the similarity as a percentage of shared points
     const similarityPercentage = (sharedSegments / route1.length) * 100;
-    return similarityPercentage > 80; // Consider routes similar if 30% overlap
+    return similarityPercentage > 30; // Consider routes similar if 30% overlap
 }
 
 // Haversine distance to calculate proximity in kilometers
@@ -47,30 +49,7 @@ function haversineDistance(coord1, coord2) {
     return R * c; // Distance in km
 }
 
-// Compare routes for similarity
-function areRoutesSimilar(route1, route2, threshold = 0.5) {
-    let sharedSegments = 0;
-
-    route1.forEach(point1 => {
-        route2.forEach(point2 => {
-            const distance = haversineDistance(point1, point2);
-            if (distance <= threshold) {
-                sharedSegments++;
-            }
-        });
-    });
-
-    // Define similarity as a percentage of shared points
-    const similarityPercentage = (sharedSegments / route1.length) * 100;
-    return similarityPercentage > 30; // Shared ride possible if >30% of the route overlaps
-}
-
-
-async function findSharedRoute() {
-    const passengerStart = document.getElementById('passenger-start').value;
-    const passengerEnd = document.getElementById('passenger-end').value;
-    const driverStart = document.getElementById('driver-start').value;
-    const driverEnd = document.getElementById('driver-end').value;
+export async function findSharedRoute(passengerStart, passengerEnd, driverStart, driverEnd) {
 
     if (!passengerStart || !passengerEnd || !driverStart || !driverEnd) {
         alert('Please fill in all fields.');
@@ -99,8 +78,8 @@ async function findSharedRoute() {
         if (passengerRouteLayer) map.removeLayer(passengerRouteLayer);
         if (driverRouteLayer) map.removeLayer(driverRouteLayer);
 
-        passengerRouteLayer = drawRoute(passengerRoute, 'blue');
-        driverRouteLayer = drawRoute(driverRoute, 'green');
+        /*passengerRouteLayer = drawRoute(passengerRoute, 'blue');
+        driverRouteLayer = drawRoute(driverRoute, 'green');*/
 
         map.fitBounds(passengerRouteLayer.getBounds());
 
@@ -108,11 +87,14 @@ async function findSharedRoute() {
         const similar = areRoutesSimilar(passengerRoute, driverRoute, 0.5);
         if (similar) {
             alert('The routes are similar! A shared ride is possible.');
+            return true;
         } else {
             alert('The routes do not overlap significantly.');
+            return false;
         }
     } else {
         alert('Could not fetch one or both routes.');
+        return false;
     }
 }
 
@@ -131,6 +113,7 @@ async function geocodeLocation(location) {
         return null;
     }
 }
+
 
 function drawRoute(route, color) {
     return L.polyline(route, { color: color, weight: 5 }).addTo(map);
