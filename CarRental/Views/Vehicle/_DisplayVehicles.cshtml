@@ -3,7 +3,7 @@
     bool isForDetails = ViewData["IsForDetails"] != null && (bool)ViewData["IsForDetails"];
     var currentId = ViewData["CurrentId"] as int? ?? 0;
 }
-<div class="container my-5">
+<div class="container my-5" >
     <div class="row g-3">
         @foreach (Vehicle vehicle in Model)
         {

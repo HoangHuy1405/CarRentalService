@@ -17,6 +17,7 @@ namespace CarRental.Data
         public DbSet<CarImage> CarImages { get; set; }
 		public DbSet<Driver> Drivers { get; set; }
 		public DbSet<DriverRide> DriverRides { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
