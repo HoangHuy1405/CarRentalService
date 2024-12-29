@@ -15,6 +15,10 @@ namespace CarRental.Models.ShareDrive
         [ValidateNever]
         public Driver? Driver { get; set; }
 
+        [ValidateNever]
+        public ICollection<PassengerRide> PassengerRides { get; set; } // One-to-Many relationship with PassengerRide
+
+
         [Required]
         [Display(Name = "Starting location*")]
         public string StartLocation { get; set; }
@@ -32,6 +36,8 @@ namespace CarRental.Models.ShareDrive
         public DateTime? DepartDate { get; set; }
 
         public int SeatLeft { get; set; }
+
+        
 
 
         public DriverRide() {

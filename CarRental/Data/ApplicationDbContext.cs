@@ -22,50 +22,23 @@ namespace CarRental.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
             // Configure PassengerRide -> DriverRide relationship
-            /*builder.Entity<PassengerRide>()
-                .HasOne(pr => pr.DriverRide) // PassengerRide references DriverRide
-                .WithOne() // DriverRide does not have a collection of PassengerRide
-                .HasForeignKey<PassengerRide>(pr => pr.DriverRideID)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
-
-            // Configure PassengerRide -> Passenger (ApplicationUser) relationship
-            builder.Entity<PassengerRide>()
-                .HasOne(pr => pr.Passenger) // PassengerRide references Passenger (ApplicationUser)
-                .WithMany() // ApplicationUser does not have a collection of PassengerRides
-                .HasForeignKey(pr => pr.PassengerID)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
-
-            // Configure DriverRide -> Driver relationship
-            builder.Entity<DriverRide>()
-                .HasOne(dr => dr.Driver) // DriverRide references Driver
-                .WithOne() // Driver does not have a collection of DriverRides
-                .HasForeignKey<DriverRide>(dr => dr.DriverID)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
-
-            // Configure Driver -> ApplicationUser relationship
-            builder.Entity<Driver>()
-                .HasOne(d => d.User) // Driver references ApplicationUser
-                .WithOne() // ApplicationUser does not have a collection of Drivers
-                .HasForeignKey<Driver>(d => d.UserID)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
-            */
-            /*modelBuilder.Entity<Driver>()
+            modelBuilder.Entity<Driver>()
 				.HasOne(d => d.User)
 				.WithOne(u => u.Driver)
-				.HasForeignKey<Driver>(d => d.UserId)
+				.HasForeignKey<Driver>(d => d.UserID)
 				.OnDelete(DeleteBehavior.Restrict); // No cascading delete
 
             modelBuilder.Entity<PassengerRide>()
                 .HasOne(pr => pr.Passenger)
                 .WithMany(u => u.PassengerRides)
-                .HasForeignKey(pr => pr.PassengerId)
+                .HasForeignKey(pr => pr.PassengerID)
                 .OnDelete(DeleteBehavior.Restrict); // No cascading delete
 
             modelBuilder.Entity<PassengerRide>()
                 .HasOne(pr => pr.DriverRide)
                 .WithMany(dr => dr.PassengerRides)
-                .HasForeignKey(pr => pr.DriverRideId)
-                .OnDelete(DeleteBehavior.Restrict); // No cascading delete*/
+                .HasForeignKey(pr => pr.DriverRideID)
+                .OnDelete(DeleteBehavior.Restrict); // No cascading delete
             SeedData(modelBuilder);
         }
 		public void SeedData(ModelBuilder modelBuilder) {

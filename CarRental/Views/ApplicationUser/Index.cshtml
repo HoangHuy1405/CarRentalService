@@ -12,11 +12,7 @@
 }
 <div class="row">
     <div class="col">
-        <a asp-controller="RentalVehicle" asp-action="CreateEdit" class="btn-primary btn-lg">Upload Your Car</a>
-    </div>
-    <div class="col">
-        <a asp-controller="" asp-action="" class="btn-primary btn-lg">Open Share Drive</a>
-        <a asp-controller="" asp-action="" class="btn-primary btn-lg">Close Share Drive</a>
+        <a asp-controller="Vehicle" asp-action="CreateEdit" class="btn-primary btn-lg">Upload Your Car</a>
     </div>
 </div>
 
@@ -36,7 +32,7 @@
                     </ul>
                 </div>
                 <div class="card-footer bg-transparent border-0 text-center">
-                    <a asp-controller="RentalVehicle" asp-action="CreateEdit" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-info"><i class="bi bi-pencil-fill">Edit</i></a>
+                    <a asp-controller="Vehicle" asp-action="CreateEdit" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-info"><i class="bi bi-pencil-fill">Edit</i></a>
 
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(vehicle)">
                         <i class="bi bi-trash">Delete</i>
@@ -52,7 +48,7 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <form asp-controller="RentalVehicle" asp-action="Delete" method="post">
+                                    <form asp-controller="Vehicle" asp-action="Delete" method="post">
                                         <input type="hidden" name="id" value="@vehicle.RentalVehicleID" />
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>

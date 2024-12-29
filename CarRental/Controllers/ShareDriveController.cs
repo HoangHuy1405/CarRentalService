@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using CarRental.Repository;
 using CarRental.Models.ModelView;
 using Microsoft.AspNetCore.Authorization;
+using CarRental.Models.DTO;
 
 namespace CarRental.Controllers
 {
@@ -64,19 +65,19 @@ namespace CarRental.Controllers
                 return BadRequest("passenger is invalid!");
             }
 
-            IEnumerable<DriverRide> drivers = await shareDriveService.GetAllValidRides(passenger);
+            IEnumerable<DriverRideDto> drivers = await shareDriveService.GetAllValidRides(passenger);
             return Json(drivers);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChooseDriverPost([FromBody] ChooseDriverView request) {
-            if (request == null || request.Drivers == null || request.passenger == null) {
+        public async Task<IActionResult> ChooseDriver([FromBody] ChooseDriverView request) {
+            if (request == null || request.DriverRides == null || request.passenger == null) {
                 return BadRequest("Invalid request data. ChooseDriver");
             }
             Console.WriteLine("Choose driver valid " + request);
             TempData["ChooseDriverData"] = JsonConvert.SerializeObject(request); // Pass data via TempData or query string
             return RedirectToAction("ChooseDriver", "ShareDrive"); // Redirect to the GET method
-         }
+        }
 
         [HttpGet]
         public async Task<IActionResult> ChooseDriver() {
@@ -99,6 +100,13 @@ namespace CarRental.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(string PassengerStartLocation, string PassengerEndLocation, int PassengerSeats, string PassengerDepartTime, string PassengerDepartDate, int DriverRideID) {
+            Console.WriteLine("==============Process payment=================");
+            Console.WriteLine(PassengerStartLocation);
+            Console.WriteLine(PassengerEndLocation);
+            Console.WriteLine(PassengerSeats);
+            Console.WriteLine(PassengerDepartTime);
+            Console.WriteLine(PassengerDepartDate);
+            Console.WriteLine(DriverRideID);
             // Parse the passenger departure time and date if needed
             TimeOnly? departTime = !string.IsNullOrEmpty(PassengerDepartTime) ? TimeOnly.Parse(PassengerDepartTime) : null;
             DateTime? departDate = !string.IsNullOrEmpty(PassengerDepartDate) ? DateTime.Parse(PassengerDepartDate) : null;
@@ -126,12 +134,25 @@ namespace CarRental.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Pay(PassengerRide passengerRide) {
+            passengerRide.PassengerID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Console.WriteLine(passengerRide.PassengerID);
             Console.WriteLine(passengerRide.ToString());
-            var result = await shareDriveService.ProcessPassengerRide(passengerRide);
-            if(result.Success) {
-                return RedirectToAction("PassengerRide");
+
+            if (ModelState.IsValid) {
+                var result = await shareDriveService.ProcessPassengerRide(passengerRide);
+                if (result.Success) {
+                    return RedirectToAction("PassengerRide");
+                }
+            } else {
+                foreach (var key in ModelState.Keys) {
+                    var errors = ModelState[key].Errors;
+                    foreach (var error in errors) {
+                        Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
             }
             return RedirectToAction("PassengerRide");
+
         }
 
     }

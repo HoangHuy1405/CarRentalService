@@ -19,17 +19,16 @@
     <!-- Valid Drivers List -->
     <div>
         <h4 class="mb-3">Available Drivers</h4>
-        @if (Model.Drivers != null && Model.Drivers.Any()) {
+        @if (Model.DriverRides != null && Model.DriverRides.Any()) {
             <div class="list-group">
-                @foreach (var driver in Model.Drivers) {
+                @foreach (var driver in Model.DriverRides) {
                     <form asp-action="ProcessPayment" method="post" class="list-group-item mb-3">
                         <div class="list-group-item mb-3">
                         <div class="d-flex flex-column">
                             <h5 class="text-primary">Driver Information</h5>
-                            @{ApplicationUser? DriverUser = driver.Driver?.User;}
-                            <p><strong>Name:</strong> @(!string.IsNullOrEmpty(DriverUser?.UserName) ? DriverUser?.UserName : "N/A" ) </p>
-                            <p><strong>Email:</strong> @(!string.IsNullOrEmpty(DriverUser?.Email) ? DriverUser?.Email : "N/A")</p>
-                            <p><strong>Phone Number:</strong> @(!string.IsNullOrEmpty(DriverUser?.PhoneNumber) ? DriverUser?.PhoneNumber : "N/A")</p>
+                                <p><strong>Name:</strong> @(!string.IsNullOrEmpty(driver.DriverName) ? driver.DriverName : "N/A") </p>
+                                <p><strong>Email:</strong> @(!string.IsNullOrEmpty(driver.DriverEmail) ? driver.DriverEmail : "N/A")</p>
+                                <p><strong>Phone Number:</strong> @(!string.IsNullOrEmpty(driver.DriverPhone) ? driver.DriverPhone : "N/A")</p>
                             <hr>
                             <h5 class="text-primary">Ride Details</h5>
                             <p><strong>Starting Location:</strong> @driver.StartLocation</p>

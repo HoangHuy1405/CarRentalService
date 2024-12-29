@@ -1,4 +1,5 @@
 ﻿using CarRental.Data;
+using CarRental.Models.DTO;
 using CarRental.Models.ShareDrive;
 using CarRental.Repository;
 
@@ -10,6 +11,7 @@ namespace CarRental.Service
 
         public ShareDriveService(ApplicationDbContext context) {
             driverRepo = new DriverRideRepository(context);
+            passengerRepo = new Repository<PassengerRide>(context);
         }
         
         public async Task<DriverRide> GetDriverRideByID(int id) {
@@ -27,7 +29,7 @@ namespace CarRental.Service
         }
 
         // only check for seats left and date/time
-        public async Task<IEnumerable<DriverRide>> GetAllValidRides(PassengerRideView passenger) {
+        public async Task<IEnumerable<DriverRideDto>> GetAllValidRides(PassengerRideView passenger) {
             return await driverRepo.GetValidDriverRides(passenger);
         }
 
@@ -35,9 +37,11 @@ namespace CarRental.Service
             try {
                 passengerRide.Status = Models.Status.Confirmed;
                 await passengerRepo.Add(passengerRide);
-                DriverRide driver = passengerRide.DriverRide;
-                driver.SeatLeft -= passengerRide.Seats;
-                await driverRepo.Update(driver);
+                DriverRide? driver = await driverRepo.GetDriverRideByID(passengerRide.DriverRideID);
+                if (driver != null) {
+                    driver.SeatLeft -= passengerRide.Seats;
+                    await driverRepo.Update(driver);
+                }
                 return ServiceResult.SuccessResult();
             } catch (Exception ex) {
                 Console.WriteLine(ex.Message);

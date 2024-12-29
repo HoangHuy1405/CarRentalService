@@ -1,6 +1,8 @@
-﻿namespace CarRental.Models.ShareDrive {
+﻿using CarRental.Models.DTO;
+
+namespace CarRental.Models.ShareDrive {
     public class ChooseDriverView {
-        public IEnumerable<DriverRide> Drivers { get; set; }
+        public IEnumerable<DriverRideDto> DriverRides { get; set; }
         public PassengerRideView passenger { get; set; }
     }
 }

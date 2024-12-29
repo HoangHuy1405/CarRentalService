@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using CarRental.Models.ShareDrive;
 
 namespace CarRental.Models {
     public class Driver {
@@ -17,6 +18,9 @@ namespace CarRental.Models {
 
         public string? LicenseImageUrl { get; set; } = "https://via.placeholder.com/150";
         public string? NationalIdUrl { get; set; } = "https://via.placeholder.com/150";
+
+        [ValidateNever]
+        public ICollection<DriverRide> DriverRides { get; set; } // One-to-Many relationship with DriverRide
 
         public DriverStatus Status { get; set; } = DriverStatus.Pending; // Default status
     }

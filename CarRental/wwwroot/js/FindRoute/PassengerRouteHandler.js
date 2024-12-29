@@ -36,8 +36,7 @@ async function getAllValidRoute(formData) {
 
             const driversArray = drivers.$values || [];
             // sort drivers even more and send to new page
-            console.log(typeof drivers)
-            console.log(typeof driversArray)
+            console.log("driversArray = ", driversArray);
             const sortedDrivers = await filterSharedRoute(driversArray, formData);
 
             console.log("Valid driver routes:", driversArray);
@@ -78,13 +77,13 @@ async function filterSharedRoute(drivers, passenger) {
 
 async function chooseDriver(sortedDrivers, passenger) {
     try {
-        const response = await fetch('/ShareDrive/ChooseDriverPost', {
+        const response = await fetch('/ShareDrive/ChooseDriver', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                drivers: sortedDrivers,
+                DriverRides: sortedDrivers,
                 passenger: passenger,
             }),
         });

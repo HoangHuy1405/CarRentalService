@@ -10,9 +10,8 @@
     </div>
 
     <form asp-controller="ShareDrive" asp-action="Pay" method="post"> 
-        <input type="hidden" name="TotalFee" />
-        <input type="hidden" name="DepositFee" />
         <input type="hidden" asp-for="PassengerRideID" />
+        <input type="hidden" asp-for="PassengerID" />
         <input type="hidden" asp-for="DriverRideID" />
         <input type="hidden" asp-for="StartLocation" />
         <input type="hidden" asp-for="EndLocation" />
@@ -20,7 +19,9 @@
         <input type="hidden" asp-for="DepartTime" />
         <input type="hidden" asp-for="DepartDate" />
         <input type="hidden" asp-for="Status" />
-        
+        <input type="hidden" id="total-fee-input" asp-for="TotalFee" name="TotalFee" />
+        <input type="hidden" id="deposit-fee-input" asp-for="DepositFee" />
+
         <div class="row">
             <!-- Passenger Details -->
             <div class="col-md-6">
@@ -148,11 +149,12 @@
         let fee = (baseRatePerKM * distance) + (seatMultiplier * numberOfSeats);
         fee = Math.round(fee * 100) / 100;
         let depositFee = 0.1 * fee;
+        depositFee = Math.round(depositFee * 100) / 100;
         document.getElementById("total-fee-value").textContent = fee; 
         document.getElementById("final-price").textContent = depositFee;
         // Update hidden inputs
-        document.getElementById("total-fee").value = fee;
-        document.getElementById("deposit-fee").value = depositFee;
+        document.getElementById("total-fee-input").value = fee;
+        document.getElementById("deposit-fee-input").value = depositFee;
     }
 </script>
 

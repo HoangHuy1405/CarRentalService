@@ -7,11 +7,13 @@ namespace CarRental.Models.ShareDrive {
         [Key]
         public int PassengerRideID { get; set; }
 
+        [Required]
         [ForeignKey(nameof(Passenger))] // Defines it as a foreign key to ApplicationUser
         public string PassengerID { get; set; }
         [ValidateNever]
         public ApplicationUser? Passenger { get; set; }
 
+        [ForeignKey(nameof(DriverRide))]
         public int DriverRideID { get; set; }
         [ValidateNever]
         public DriverRide DriverRide { get; set; }
