@@ -159,30 +159,6 @@ namespace CarRental.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DriverRides",
-                columns: table => new
-                {
-                    DriverRideID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StartLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Seats = table.Column<int>(type: "int", nullable: false),
-                    DepartTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    DepartDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DriverRides", x => x.DriverRideID);
-                    table.ForeignKey(
-                        name: "FK_DriverRides_AspNetUsers_UserID",
-                        column: x => x.UserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Drivers",
                 columns: table => new
                 {
@@ -238,6 +214,31 @@ namespace CarRental.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DriverRides",
+                columns: table => new
+                {
+                    DriverRideID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DriverID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StartLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Seats = table.Column<int>(type: "int", nullable: false),
+                    DepartTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    DepartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SeatLeft = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DriverRides", x => x.DriverRideID);
+                    table.ForeignKey(
+                        name: "FK_DriverRides_Drivers_DriverID",
+                        column: x => x.DriverID,
+                        principalTable: "Drivers",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CarImages",
                 columns: table => new
                 {
@@ -286,14 +287,48 @@ namespace CarRental.Migrations
                         principalColumn: "RentalVehicleID");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Passengers",
+                columns: table => new
+                {
+                    PassengerRideID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PassengerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DriverRideID = table.Column<int>(type: "int", nullable: false),
+                    StartLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EndLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Seats = table.Column<int>(type: "int", nullable: false),
+                    DepartTime = table.Column<TimeOnly>(type: "time", nullable: true),
+                    DepartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TotalFee = table.Column<float>(type: "real", nullable: false),
+                    DepositFee = table.Column<float>(type: "real", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Passengers", x => x.PassengerRideID);
+                    table.ForeignKey(
+                        name: "FK_Passengers_AspNetUsers_PassengerID",
+                        column: x => x.PassengerID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Passengers_DriverRides_DriverRideID",
+                        column: x => x.DriverRideID,
+                        principalTable: "DriverRides",
+                        principalColumn: "DriverRideID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "10fbc611-27e0-4921-8305-3f4a33361384", null, "Driver", "DRIVER" },
-                    { "547ca490-9612-422f-bb1f-ace2d90358f3", null, "User", "USER" },
-                    { "e2e8da2e-44a3-44c2-b918-cdf129d9d142", null, "Admin", "ADMIN" }
+                    { "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9", null, "User", "USER" },
+                    { "8eef332e-d30b-410e-95b6-829632c94d5f", null, "Driver", "DRIVER" },
+                    { "b38cb7e7-da47-46f8-8efc-a1b3216603f0", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -301,11 +336,11 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "Admin", 0, "6c7f9f86-3c53-4589-9ad2-a59b639e5070", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHDFAqKkC9qE2sia2MphkdPbupln8ms2XN275pb6l20+cLDlzvulYLg27/g0qNB5Wg==", null, false, "a394493f-d2a3-48fd-8644-76c09b89cde1", false, "Admin" },
-                    { "owner1", 0, "ab2ba68d-b9e7-461f-a0de-8c114cf896ab", "owner1@example.com", true, false, null, "OWNER1@EXAMPLE.COM", "OWNER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEBLz+3iJUanUpr8rBXjYSQLErAJ5NvlVINUjjNzLhaO4yq6gXJpR8PhOELtAOvHt5Q==", null, false, "c9509f46-e8e2-4f1d-9630-a5f4b427f63d", false, "owner1" },
-                    { "owner2", 0, "e7adc58c-85f7-485b-8711-461f38a6947c", "owner2@example.com", true, false, null, "OWNER2@EXAMPLE.COM", "OWNER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHbsxTZdvSTi6sRS47rKIXwaZ4Va3fqaFdowqWaVBD6ELO8Nei/0DNQkPDYjtiNI/g==", null, false, "32f75e22-7855-4425-909d-7c9288bf08d6", false, "owner2" },
-                    { "user1", 0, "bafedd71-e89a-42b2-bed1-3f6349e734e8", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEL05hn4eZHbkUUEVyUSCUsMJv8q7CMEDMz7NwH44WyYfZhqh9WugX/iuPNmf2z7Wiw==", null, false, "18ac4c9e-a8b8-4abd-b6a8-70765c15966a", false, "user1" },
-                    { "user2", 0, "436334a6-71ea-4285-8657-57511bcab7de", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAED6BiKNDhkKoD9q4jPn2vTOt1Ljsd5j3BYPTggtqJKRLUSloLU4NsU4Dowf/qkaJYw==", null, false, "769100a9-df33-46ae-9e6b-73ad0aa6c874", false, "user2@example.co" }
+                    { "Admin", 0, "628dd775-38dc-4d63-afcb-551f4cb96f96", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEBnf8Vkij2oT9QuAXT8SL4bF/NYQjR/i78ILyHlYai6f2+ODWlFFj9FUlMOSSr3G/g==", null, false, "720ff030-005c-4f16-baf6-b42cae97865f", false, "Admin" },
+                    { "owner1", 0, "75e1e1f4-6031-4076-a90c-cf2f9693f356", "owner1@example.com", true, false, null, "OWNER1@EXAMPLE.COM", "OWNER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEA8jU3jcwkFf2H7APAv/N8FuCCMmIlOSdEzT99Um4lMtXYuKkneAoVZy5+mdnsf5aA==", null, false, "5e6b3545-22a7-4301-914d-a09b8af48833", false, "owner1" },
+                    { "owner2", 0, "9f413a35-52cd-455e-9f41-45cf8a36c54b", "owner2@example.com", true, false, null, "OWNER2@EXAMPLE.COM", "OWNER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEKpLN/Snmqd2HgFy3d/zf29Rgo1nMDazZIddQn03cRLPVKTKFAwArfk74vi1VJliVQ==", null, false, "ebb5d70a-0ea4-4673-b596-8c6f7339b04b", false, "owner2" },
+                    { "user1", 0, "68123284-fb2d-40db-a0ab-6332e5dc7c01", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJbhd2DSB+Pwdi47GldOKeJ884mzFKlvh1TAi7bjSx5IalBVW+j3ymD6Hg1je6GmEQ==", null, false, "facd7f20-4d8c-4188-990a-8c798fdc0cd3", false, "user1" },
+                    { "user2", 0, "5f477c76-fdaa-44b6-94fe-7fe453261146", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAECXmv1qL2o4xVFJQ5MFR/b7NX5yT6oHu3/K/u0saLTDsQ6hVcrh98rOm00EudAhrNA==", null, false, "c8803100-f8e5-4666-a0fb-b94e742bdac2", false, "user2@example.co" }
                 });
 
             migrationBuilder.InsertData(
@@ -313,11 +348,20 @@ namespace CarRental.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "e2e8da2e-44a3-44c2-b918-cdf129d9d142", "Admin" },
-                    { "547ca490-9612-422f-bb1f-ace2d90358f3", "owner1" },
-                    { "547ca490-9612-422f-bb1f-ace2d90358f3", "owner2" },
-                    { "547ca490-9612-422f-bb1f-ace2d90358f3", "user1" },
-                    { "547ca490-9612-422f-bb1f-ace2d90358f3", "user2" }
+                    { "b38cb7e7-da47-46f8-8efc-a1b3216603f0", "Admin" },
+                    { "8eef332e-d30b-410e-95b6-829632c94d5f", "owner1" },
+                    { "8eef332e-d30b-410e-95b6-829632c94d5f", "owner2" },
+                    { "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9", "user1" },
+                    { "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9", "user2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Drivers",
+                columns: new[] { "UserID", "LicenseExpiryDate", "LicenseImageUrl", "LicenseNumber", "NationalIdUrl", "Status" },
+                values: new object[,]
+                {
+                    { "owner1", new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "/images/Licenses/license.jpg", "59-V1 793.79", "/images/NationalID/NationalID.jpg", 1 },
+                    { "owner2", new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "/images/Licenses/license.jpg", "DX-012321", "/images/NationalID/NationalID.jpg", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -325,12 +369,12 @@ namespace CarRental.Migrations
                 columns: new[] { "RentalVehicleID", "Brand", "Description", "FuelConsumption", "FuelType", "LicensePlate", "Location", "ManuYear", "Model", "NumberOfSeats", "OwnerId", "RentalFeePerDay", "RentalFeePerKilo", "ThumbnailUrl", "TimeCreated", "Transmission" },
                 values: new object[,]
                 {
-                    { 1, "Toyota", "Compact sedan, well-maintained, perfect for city driving.", 8f, 0, "ABC1234", "Quan 1, TP HCM", new DateTime(2018, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Corolla", 5, "user1", 25f, 0.18f, "/images/Thumbnail/ToyotaCorolla.jpg", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1291), 1 },
-                    { 2, "Ford", "Spacious hatchback, ideal for city drives and family trips.", 9f, 0, "XYZ5678", "Quan 2, TP HCM", new DateTime(2020, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Focus", 5, "user1", 30f, 0.2f, "/images/Thumbnail/FordFocus.jpg", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1328), 1 },
-                    { 3, "BMW", "Luxury SUV with premium features, perfect for long road trips.", 10f, 1, "LMN7890", "Quan 3, TP HCM", new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "X5", 7, "user1", 95f, 0.5f, "/images/Thumbnail/BMWx5.png", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1331), 1 },
-                    { 4, "Honda", "Economical sedan, perfect for daily use and city driving.", 11f, 0, "OPQ1122", "Quan 4, TP HCM", new DateTime(2019, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Civic", 5, "user2", 22f, 0.17f, "/images/Thumbnail/HondaCivic.png", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1334), 1 },
-                    { 5, "Mercedes", "High-end luxury sedan with modern technology and comfort features.", 8f, 0, "RST9876", "Quan 4, TP HCM", new DateTime(2021, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "E-Class", 5, "user2", 150f, 1f, "/images/Thumbnail/MercedesEclass.png", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1336), 1 },
-                    { 6, "Chevrolet", "Spacious full-size SUV, great for large families or group trips.", 10f, 0, "UVW6543", "Quan 4, TP HCM", new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tahoe", 8, "owner1", 85f, 0.6f, "/images/Thumbnail/ChervroletTahoe.png", new DateTime(2024, 12, 27, 17, 28, 2, 340, DateTimeKind.Local).AddTicks(1338), 1 }
+                    { 1, "Toyota", "Compact sedan, well-maintained, perfect for city driving.", 8f, 0, "ABC1234", "Quan 1, TP HCM", new DateTime(2018, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Corolla", 5, "user1", 25f, 0.18f, "/images/Thumbnail/ToyotaCorolla.jpg", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7547), 1 },
+                    { 2, "Ford", "Spacious hatchback, ideal for city drives and family trips.", 9f, 0, "XYZ5678", "Quan 2, TP HCM", new DateTime(2020, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Focus", 5, "user1", 30f, 0.2f, "/images/Thumbnail/FordFocus.jpg", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7563), 1 },
+                    { 3, "BMW", "Luxury SUV with premium features, perfect for long road trips.", 10f, 1, "LMN7890", "Quan 3, TP HCM", new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "X5", 7, "user1", 95f, 0.5f, "/images/Thumbnail/BMWx5.png", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7566), 1 },
+                    { 4, "Honda", "Economical sedan, perfect for daily use and city driving.", 11f, 0, "OPQ1122", "Quan 4, TP HCM", new DateTime(2019, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Civic", 5, "user2", 22f, 0.17f, "/images/Thumbnail/HondaCivic.png", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7569), 1 },
+                    { 5, "Mercedes", "High-end luxury sedan with modern technology and comfort features.", 8f, 0, "RST9876", "Quan 4, TP HCM", new DateTime(2021, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "E-Class", 5, "user2", 150f, 1f, "/images/Thumbnail/MercedesEclass.png", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7571), 1 },
+                    { 6, "Chevrolet", "Spacious full-size SUV, great for large families or group trips.", 10f, 0, "UVW6543", "Quan 4, TP HCM", new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tahoe", 8, "owner1", 85f, 0.6f, "/images/Thumbnail/ChervroletTahoe.png", new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7573), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -398,9 +442,19 @@ namespace CarRental.Migrations
                 column: "RentalVehicleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DriverRides_UserID",
+                name: "IX_DriverRides_DriverID",
                 table: "DriverRides",
-                column: "UserID");
+                column: "DriverID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Passengers_DriverRideID",
+                table: "Passengers",
+                column: "DriverRideID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Passengers_PassengerID",
+                table: "Passengers",
+                column: "PassengerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rentals_RentalVehicleID",
@@ -440,10 +494,7 @@ namespace CarRental.Migrations
                 name: "CarImages");
 
             migrationBuilder.DropTable(
-                name: "DriverRides");
-
-            migrationBuilder.DropTable(
-                name: "Drivers");
+                name: "Passengers");
 
             migrationBuilder.DropTable(
                 name: "Rentals");
@@ -452,7 +503,13 @@ namespace CarRental.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "DriverRides");
+
+            migrationBuilder.DropTable(
                 name: "Vehicles");
+
+            migrationBuilder.DropTable(
+                name: "Drivers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

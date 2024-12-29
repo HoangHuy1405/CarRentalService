@@ -5,12 +5,15 @@ using CarRental.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Newtonsoft.Json;
+using CarRental.Repository;
+using CarRental.Models.ModelView;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Controllers
 {
     public class ShareDriveController : Controller {
 
-        ShareDriveService shareDriveService;
+        private readonly ShareDriveService shareDriveService;
 
         public ShareDriveController(ApplicationDbContext context) {
             shareDriveService = new ShareDriveService(context);
@@ -37,7 +40,7 @@ namespace CarRental.Controllers
                 Console.WriteLine(driver.DepartTime);
                 Console.WriteLine(driver.Seats);
 
-                driver.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                driver.DriverID = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 driver.SeatLeft = driver.Seats;
                 var result = await shareDriveService.AddDriverRide(driver);
                 // Save to database service
@@ -73,7 +76,7 @@ namespace CarRental.Controllers
             Console.WriteLine("Choose driver valid " + request);
             TempData["ChooseDriverData"] = JsonConvert.SerializeObject(request); // Pass data via TempData or query string
             return RedirectToAction("ChooseDriver", "ShareDrive"); // Redirect to the GET method
-        }
+         }
 
         [HttpGet]
         public async Task<IActionResult> ChooseDriver() {
@@ -90,7 +93,46 @@ namespace CarRental.Controllers
 
             Console.WriteLine($"Returning view: ChooseDriver with model {JsonConvert.SerializeObject(request)}");
 
-            return View(request);
+            return View("ChooseDriver", request);
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ProcessPayment(string PassengerStartLocation, string PassengerEndLocation, int PassengerSeats, string PassengerDepartTime, string PassengerDepartDate, int DriverRideID) {
+            // Parse the passenger departure time and date if needed
+            TimeOnly? departTime = !string.IsNullOrEmpty(PassengerDepartTime) ? TimeOnly.Parse(PassengerDepartTime) : null;
+            DateTime? departDate = !string.IsNullOrEmpty(PassengerDepartDate) ? DateTime.Parse(PassengerDepartDate) : null;
+
+            // Retrieve the driver ride details using DriverRideID
+            DriverRide driverRide = await shareDriveService.GetDriverRideByID(DriverRideID);
+
+            if (driverRide == null) {
+                return NotFound("Invalid driver ride.");
+            }
+            PassengerRide passengerRide = new PassengerRide {
+                PassengerID = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                StartLocation = PassengerStartLocation,
+                EndLocation = PassengerEndLocation,
+                Seats = PassengerSeats,
+                DepartTime = departTime,
+                DepartDate = departDate,
+                DriverRideID = DriverRideID,
+                DriverRide = driverRide,
+                Status = Models.Status.Pending
+            };
+
+            return View("ShareDrivePayment", passengerRide);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Pay(PassengerRide passengerRide) {
+            Console.WriteLine(passengerRide.ToString());
+            var result = await shareDriveService.ProcessPassengerRide(passengerRide);
+            if(result.Success) {
+                return RedirectToAction("PassengerRide");
+            }
+            return RedirectToAction("PassengerRide");
+        }
+
     }
 }

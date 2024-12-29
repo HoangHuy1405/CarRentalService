@@ -1,8 +1,13 @@
-﻿import { map } from './FindRoute/findRoute.js'
-
-
-const apiKey = '5b3ce3597851110001cf6248e2f1acef377948cbb257b744da9b7764';
+﻿const apiKey = '5b3ce3597851110001cf6248e2f1acef377948cbb257b744da9b7764';
 let passengerRouteLayer, driverRouteLayer;
+
+// Initialize the map
+const map = L.map('map').setView([51.505, -0.09], 13);
+
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
 async function getRoute(start, end) {
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start[1]},${start[0]}&end=${end[1]},${end[0]}`;
@@ -19,19 +24,27 @@ async function getRoute(start, end) {
 
 function areRoutesSimilar(route1, route2, threshold = 0.5) {
     let sharedSegments = 0;
+    let totalSharedDistance = 0; // Accumulate shared distance
 
-    route1.forEach(point1 => {
-        route2.forEach(point2 => {
+    route1.forEach((point1, index1) => {
+        route2.forEach((point2, index2) => {
             const distance = haversineDistance(point1, point2);
             if (distance <= threshold) {
                 sharedSegments++;
+                // Add segment distance for overlapping routes
+                if (index1 > 0 && index2 > 0) {
+                    totalSharedDistance += haversineDistance(route1[index1 - 1], route2[index2 - 1]);
+                }
             }
         });
     });
 
     // Define the similarity as a percentage of shared points
     const similarityPercentage = (sharedSegments / route1.length) * 100;
-    return similarityPercentage > 30; // Consider routes similar if 30% overlap
+    return {
+        isSimilar: similarityPercentage > 30, // Consider routes similar if 30% overlap
+        sharedDistance: totalSharedDistance,
+    }
 }
 
 // Haversine distance to calculate proximity in kilometers
@@ -49,12 +62,16 @@ function haversineDistance(coord1, coord2) {
     return R * c; // Distance in km
 }
 
-export async function findSharedRoute(passengerStart, passengerEnd, driverStart, driverEnd) {
+async function findSharedRoute(passengerStart, passengerEnd, driverStart, driverEnd) {
 
     if (!passengerStart || !passengerEnd || !driverStart || !driverEnd) {
         alert('Please fill in all fields.');
-        return;
+        return 0;
     }
+    console.log(passengerStart)
+    console.log(passengerEnd)
+    console.log(driverStart)
+    console.log(driverEnd)
 
     // Geocode start and end locations using OpenRouteService (similar to Nominatim example)
     const passengerCoords = await Promise.all([
@@ -78,23 +95,23 @@ export async function findSharedRoute(passengerStart, passengerEnd, driverStart,
         if (passengerRouteLayer) map.removeLayer(passengerRouteLayer);
         if (driverRouteLayer) map.removeLayer(driverRouteLayer);
 
-        /*passengerRouteLayer = drawRoute(passengerRoute, 'blue');
-        driverRouteLayer = drawRoute(driverRoute, 'green');*/
+        passengerRouteLayer = drawRoute(passengerRoute, 'blue');
+        driverRouteLayer = drawRoute(driverRoute, 'green');
 
         map.fitBounds(passengerRouteLayer.getBounds());
 
         // Compare routes
-        const similar = areRoutesSimilar(passengerRoute, driverRoute, 0.5);
-        if (similar) {
+        const { isSimilar, sharedDistance } = areRoutesSimilar(passengerRoute, driverRoute, 0.5);
+        if (isSimilar) {
             alert('The routes are similar! A shared ride is possible.');
-            return true;
+            return sharedDistance;
         } else {
             alert('The routes do not overlap significantly.');
-            return false;
+            return -1;
         }
     } else {
         alert('Could not fetch one or both routes.');
-        return false;
+        return -1;
     }
 }
 
@@ -118,17 +135,3 @@ async function geocodeLocation(location) {
 function drawRoute(route, color) {
     return L.polyline(route, { color: color, weight: 5 }).addTo(map);
 }
-
-// Example: Call the function with user inputs
-/*findSharedRoute(
-    [51.505, -0.09],  // Passenger start
-    [51.515, -0.1],   // Passenger end
-    [51.506, -0.08],  // Driver start
-    [51.516, -0.11]   // Driver end
-);*/
-
-
-
-// Example: Draw both routes
-/*drawRoute(passengerRoute, 'blue'); // Passenger route
-drawRoute(driverRoute, 'green'); */

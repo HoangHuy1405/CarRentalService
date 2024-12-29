@@ -78,7 +78,7 @@ async function filterSharedRoute(drivers, passenger) {
 
 async function chooseDriver(sortedDrivers, passenger) {
     try {
-        await fetch('/ShareDrive/ChooseDriverPost', {
+        const response = await fetch('/ShareDrive/ChooseDriverPost', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,6 +88,14 @@ async function chooseDriver(sortedDrivers, passenger) {
                 passenger: passenger,
             }),
         });
+        if (response.ok) {
+            console.log("redirect to chooseDriver");
+            // Redirect to the ChooseDriver page
+            window.location.href = '/ShareDrive/ChooseDriver';
+        } else {
+            console.error('Error during fetch:', response.statusText);
+            alert('Failed to process the request. Please try again.');
+        }
     } catch (error) {
         console.error('Error during fetch:', error);
     }

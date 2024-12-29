@@ -17,10 +17,56 @@ namespace CarRental.Data
         public DbSet<CarImage> CarImages { get; set; }
 		public DbSet<Driver> Drivers { get; set; }
 		public DbSet<DriverRide> DriverRides { get; set; }
+		public DbSet<PassengerRide> PassengerRides { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder) {
-            base.OnModelCreating(builder);
-			SeedData(builder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+            // Configure PassengerRide -> DriverRide relationship
+            /*builder.Entity<PassengerRide>()
+                .HasOne(pr => pr.DriverRide) // PassengerRide references DriverRide
+                .WithOne() // DriverRide does not have a collection of PassengerRide
+                .HasForeignKey<PassengerRide>(pr => pr.DriverRideID)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            // Configure PassengerRide -> Passenger (ApplicationUser) relationship
+            builder.Entity<PassengerRide>()
+                .HasOne(pr => pr.Passenger) // PassengerRide references Passenger (ApplicationUser)
+                .WithMany() // ApplicationUser does not have a collection of PassengerRides
+                .HasForeignKey(pr => pr.PassengerID)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            // Configure DriverRide -> Driver relationship
+            builder.Entity<DriverRide>()
+                .HasOne(dr => dr.Driver) // DriverRide references Driver
+                .WithOne() // Driver does not have a collection of DriverRides
+                .HasForeignKey<DriverRide>(dr => dr.DriverID)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            // Configure Driver -> ApplicationUser relationship
+            builder.Entity<Driver>()
+                .HasOne(d => d.User) // Driver references ApplicationUser
+                .WithOne() // ApplicationUser does not have a collection of Drivers
+                .HasForeignKey<Driver>(d => d.UserID)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+            */
+            /*modelBuilder.Entity<Driver>()
+				.HasOne(d => d.User)
+				.WithOne(u => u.Driver)
+				.HasForeignKey<Driver>(d => d.UserId)
+				.OnDelete(DeleteBehavior.Restrict); // No cascading delete
+
+            modelBuilder.Entity<PassengerRide>()
+                .HasOne(pr => pr.Passenger)
+                .WithMany(u => u.PassengerRides)
+                .HasForeignKey(pr => pr.PassengerId)
+                .OnDelete(DeleteBehavior.Restrict); // No cascading delete
+
+            modelBuilder.Entity<PassengerRide>()
+                .HasOne(pr => pr.DriverRide)
+                .WithMany(dr => dr.PassengerRides)
+                .HasForeignKey(pr => pr.DriverRideId)
+                .OnDelete(DeleteBehavior.Restrict); // No cascading delete*/
+            SeedData(modelBuilder);
         }
 		public void SeedData(ModelBuilder modelBuilder) {
             // Seed Roles into AspNetRoles (with generated GUIDs for RoleId)
@@ -102,6 +148,26 @@ namespace CarRental.Data
                 new IdentityUserRole<string> { UserId = "owner2", RoleId = driverRoleId },
                 new IdentityUserRole<string> { UserId = "Admin", RoleId = adminRoleId } 
             );
+
+			var drivers = new List<Driver> {
+				new Driver {
+					UserID = "owner1",
+					LicenseNumber = "59-V1 793.79",
+					LicenseExpiryDate = new DateTime(2024, 1, 3),
+					LicenseImageUrl = "/images/Licenses/license.jpg",
+					NationalIdUrl = "/images/NationalID/NationalID.jpg",
+                    Status = DriverStatus.Approved
+				},
+                new Driver {
+                    UserID = "owner2",
+                    LicenseNumber = "DX-012321",
+                    LicenseExpiryDate = new DateTime(2024, 1, 3),
+                    LicenseImageUrl = "/images/Licenses/license.jpg",
+                    NationalIdUrl = "/images/NationalID/NationalID.jpg",
+                    Status = DriverStatus.Approved
+                }
+            };
+			modelBuilder.Entity<Driver>().HasData(drivers);
 
 
             // Seed RentalVehicle entities

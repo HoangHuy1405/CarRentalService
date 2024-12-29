@@ -3,7 +3,7 @@
 
 <div class="container mt-4">
     <!-- Passenger Details Heading -->
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             <h4>Passenger Details</h4>
         </div>
@@ -11,30 +11,48 @@
             <p><strong>Starting Location:</strong> @Model.passenger.StartLocation</p>
             <p><strong>Ending Location:</strong> @Model.passenger.EndLocation</p>
             <p><strong>Seats Needed:</strong> @Model.passenger.Seats</p>
-            <p><strong>Departure Time:</strong> @Model.passenger.DepartTime?.ToString("hh\\:mm") ?? "N/A"</p>
-            <p><strong>Departure Date:</strong> @Model.passenger.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A"</p>
+            <p><strong>Departure Time:</strong> @(Model.passenger.DepartTime?.ToString("hh\\:mm") ?? "N/A")</p>
+            <p><strong>Departure Date:</strong> @(Model.passenger.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
         </div>
     </div>
 
     <!-- Valid Drivers List -->
-    <div class="mt-4">
+    <div>
         <h4 class="mb-3">Available Drivers</h4>
         @if (Model.Drivers != null && Model.Drivers.Any()) {
-            <div class="row">
+            <div class="list-group">
                 @foreach (var driver in Model.Drivers) {
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Driver ID: @driver.DriverRideID</h5>
-                                <p class="card-text"><strong>Starting Location:</strong> @driver.StartLocation</p>
-                                <p class="card-text"><strong>Ending Location:</strong> @driver.EndLocation</p>
-                                <p class="card-text"><strong>Seats Left:</strong> @driver.SeatLeft</p>
-                                <p class="card-text"><strong>Departure Time:</strong> @driver.DepartTime?.ToString("hh\\:mm") ?? "N/A"</p>
-                                <p class="card-text"><strong>Departure Date:</strong> @driver.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A"</p>
-                                <button class="btn btn-primary btn-sm">Choose Driver</button>
-                            </div>
+                    <form asp-action="ProcessPayment" method="post" class="list-group-item mb-3">
+                        <div class="list-group-item mb-3">
+                        <div class="d-flex flex-column">
+                            <h5 class="text-primary">Driver Information</h5>
+                            @{ApplicationUser? DriverUser = driver.Driver?.User;}
+                            <p><strong>Name:</strong> @(!string.IsNullOrEmpty(DriverUser?.UserName) ? DriverUser?.UserName : "N/A" ) </p>
+                            <p><strong>Email:</strong> @(!string.IsNullOrEmpty(DriverUser?.Email) ? DriverUser?.Email : "N/A")</p>
+                            <p><strong>Phone Number:</strong> @(!string.IsNullOrEmpty(DriverUser?.PhoneNumber) ? DriverUser?.PhoneNumber : "N/A")</p>
+                            <hr>
+                            <h5 class="text-primary">Ride Details</h5>
+                            <p><strong>Starting Location:</strong> @driver.StartLocation</p>
+                            <p><strong>Ending Location:</strong> @driver.EndLocation</p>
+                            <p><strong>Seats Initially:</strong> @driver.Seats</p>
+                            <p><strong>Seats Left:</strong> @driver.SeatLeft</p>
+                            <p><strong>Departure Time:</strong> @(driver.DepartTime?.ToString("hh\\:mm") ?? "N/A")</p>
+                            <p><strong>Departure Date:</strong> @(driver.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
+
+                            <!-- Hidden fields for Passenger details -->
+                            <input type="hidden" name="PassengerStartLocation" value="@Model.passenger.StartLocation" />
+                            <input type="hidden" name="PassengerEndLocation" value="@Model.passenger.EndLocation" />
+                            <input type="hidden" name="PassengerSeats" value="@Model.passenger.Seats" />
+                            <input type="hidden" name="PassengerDepartTime" value="@(Model.passenger.DepartTime?.ToString() ?? string.Empty)" />
+                            <input type="hidden" name="PassengerDepartDate" value="@(Model.passenger.DepartDate?.ToString() ?? string.Empty)" />
+
+                            <!-- Hidden field for DriverRideID -->
+                            <input type="hidden" name="DriverRideID" value="@driver.DriverRideID" />
+
+                            <button type="submit" class="btn btn-primary btn-sm mt-3 align-self-start">Choose Driver</button>
                         </div>
                     </div>
+                    </form>
                 }
             </div>
         } else {
@@ -44,5 +62,3 @@
         }
     </div>
 </div>
-
-

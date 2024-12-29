@@ -1,0 +1,161 @@
+﻿@using CarRental.Models.ShareDrive
+@using Newtonsoft.Json
+
+@model PassengerRide
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="text-center mb-4">
+        <h2 class="text-primary">Share Drive Payment</h2>
+    </div>
+
+    <form asp-controller="ShareDrive" asp-action="Pay" method="post"> 
+        <input type="hidden" name="TotalFee" />
+        <input type="hidden" name="DepositFee" />
+        <input type="hidden" asp-for="PassengerRideID" />
+        <input type="hidden" asp-for="DriverRideID" />
+        <input type="hidden" asp-for="StartLocation" />
+        <input type="hidden" asp-for="EndLocation" />
+        <input type="hidden" asp-for="Seats" />
+        <input type="hidden" asp-for="DepartTime" />
+        <input type="hidden" asp-for="DepartDate" />
+        <input type="hidden" asp-for="Status" />
+        
+        <div class="row">
+            <!-- Passenger Details -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="text-primary">Driver Information</h5>
+                        @{
+                            ApplicationUser? DriverUser = Model.DriverRide?.Driver?.User;
+                        }
+                        <p><strong>Name:</strong> @(!string.IsNullOrEmpty(DriverUser?.UserName) ? DriverUser?.UserName : "N/A") </p>
+                        <p><strong>Email:</strong> @(!string.IsNullOrEmpty(DriverUser?.Email) ? DriverUser?.Email : "N/A")</p>
+                        <p><strong>Phone Number:</strong> @(!string.IsNullOrEmpty(DriverUser?.PhoneNumber) ? DriverUser?.PhoneNumber : "N/A")</p>
+                        <hr>
+                        <h5 class="text-primary">Ride Details</h5>
+                        <p><strong>Starting Location:</strong> @Model.DriverRide?.StartLocation</p>
+                        <p><strong>Ending Location:</strong> @Model.DriverRide?.EndLocation</p>
+                        <p><strong>Seats Initially:</strong> @Model.DriverRide?.Seats</p>
+                        <p><strong>Seats Left:</strong> @Model.DriverRide?.SeatLeft</p>
+                        <p><strong>Departure Time:</strong> @(Model.DriverRide?.DepartTime?.ToString("hh\\:mm") ?? "N/A")</p>
+                        <p><strong>Departure Date:</strong> @(Model.DriverRide?.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Driver Details -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="text-primary">Your Information</h5>
+                            <p><strong>Start Location:</strong> @Model.StartLocation </p>
+                            <p><strong>End Location:</strong> @Model.EndLocation </p>
+                            <p><strong>Seats:</strong> @Model.Seats </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Total Fee Section -->
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span id="total-seats" class="price-label"><strong>Seat(s):</strong> @Model.Seats</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Shared distance: </strong>
+                                <span id="shared-distance" class="price-label">  </span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total fee: </strong>
+                                <span id="total-fee-value" class="price-value"></span>
+                            </div>
+                        
+                            <hr />
+
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-0">Amount Due (10%)</h6>
+                                <h5 id="final-price" class="text-success fw-bold">0 ₫</h5>
+                            </div>
+
+                            @* init to disable to prevent book before calculating price *@
+                            <button class="btn btn-success w-100 mt-3" type="submit">
+                                <i class="bi bi-bag-check"></i> Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    @{
+        var passStart = Model.StartLocation;
+        var passEnd = Model.EndLocation;
+        var driverStart = Model.DriverRide?.StartLocation;
+        var driverEnd = Model.DriverRide?.EndLocation;
+    }
+
+    <!-- Map -->
+    <div class="row">
+        <button class="btn btn-primary w-25 mt-3 mx-auto mb-4" onclick="findSharedRoute('@passStart', '@passEnd', '@driverStart', '@driverEnd')">
+            <i class="fa-solid fa-map"></i> Show map
+        </button>
+        <div id="map"></div>
+    </div>
+</div>
+<style>
+    #book-button:disabled {
+        background-color: #ccc; /* Gray out the button */
+        cursor: not-allowed; /* Show not-allowed cursor */
+    }
+</style>
+<script src="~/js/shareDrive.js"></script>
+<script>
+    @{
+        var passStart2 = Model.StartLocation;
+        var passEnd2 = Model.EndLocation;
+        var driverStart2 = Model.DriverRide?.StartLocation;
+        var driverEnd2 = Model.DriverRide?.EndLocation;
+        var seats = Model.Seats;
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            // Embed Razor variables into JavaScript safely
+                const passStart = @Html.Raw(JsonConvert.SerializeObject(passStart2));
+                const passEnd = @Html.Raw(JsonConvert.SerializeObject(passEnd2));
+                const driverStart = @Html.Raw(JsonConvert.SerializeObject(driverStart2));
+                const driverEnd = @Html.Raw(JsonConvert.SerializeObject(driverEnd2));
+                const seats = @Html.Raw(JsonConvert.SerializeObject(seats));
+
+            // Call the JavaScript function with the embedded variables
+            let distance = await findSharedRoute(passStart, passEnd, driverStart, driverEnd);
+            // for some reason (convert to km)
+            distance = (distance / 100).toFixed(2);
+            alert("Total distance = " + distance);
+            document.getElementById("shared-distance").textContent = `${distance} km`;
+            calculateTotalFee(distance, seats);
+            // Enable the button after calculations are done
+            document.getElementById("book-button").disabled = false;
+        } catch (error) {
+            console.error("Error calculating shared route:", error);
+        }
+    });
+
+    function calculateTotalFee(distance, numberOfSeats, baseRatePerKM = 2, seatMultiplier = 10) {
+        let fee = (baseRatePerKM * distance) + (seatMultiplier * numberOfSeats);
+        fee = Math.round(fee * 100) / 100;
+        let depositFee = 0.1 * fee;
+        document.getElementById("total-fee-value").textContent = fee; 
+        document.getElementById("final-price").textContent = depositFee;
+        // Update hidden inputs
+        document.getElementById("total-fee").value = fee;
+        document.getElementById("deposit-fee").value = depositFee;
+    }
+</script>
+
+
+
+

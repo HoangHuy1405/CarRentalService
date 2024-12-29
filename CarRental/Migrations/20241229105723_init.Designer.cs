@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241227104246_changeSeed")]
-    partial class changeSeed
+    [Migration("20241229105723_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,15 +94,15 @@ namespace CarRental.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8e1897c7-be06-4814-a532-47ba13dca7ce",
+                            ConcurrencyStamp = "68123284-fb2d-40db-a0ab-6332e5dc7c01",
                             Email = "user1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJWHTXTW10sbCHkdSNt064BEf77oyQudpfwTYjyHtt+LjIFcy9CwYF/fJC1skXUJ2A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJbhd2DSB+Pwdi47GldOKeJ884mzFKlvh1TAi7bjSx5IalBVW+j3ymD6Hg1je6GmEQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f6468880-0df0-4595-b12e-61d297c59a01",
+                            SecurityStamp = "facd7f20-4d8c-4188-990a-8c798fdc0cd3",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
@@ -110,15 +110,15 @@ namespace CarRental.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b85fabd9-5a2a-4b34-b724-3544a661ae99",
+                            ConcurrencyStamp = "5f477c76-fdaa-44b6-94fe-7fe453261146",
                             Email = "user2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECuCkma3K/1p+aazh/NjwyU8nlqOPFrJLm/HvnW9AnTfjb0SE13Xb9VXx2okTGlMmw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECXmv1qL2o4xVFJQ5MFR/b7NX5yT6oHu3/K/u0saLTDsQ6hVcrh98rOm00EudAhrNA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "20a794ea-1de2-4907-83ef-c632df0912ac",
+                            SecurityStamp = "c8803100-f8e5-4666-a0fb-b94e742bdac2",
                             TwoFactorEnabled = false,
                             UserName = "user2@example.co"
                         },
@@ -126,15 +126,15 @@ namespace CarRental.Migrations
                         {
                             Id = "owner1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a3f10c6-fb6e-4d81-90a7-cb4fa2d83a2a",
+                            ConcurrencyStamp = "75e1e1f4-6031-4076-a90c-cf2f9693f356",
                             Email = "owner1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER1@EXAMPLE.COM",
                             NormalizedUserName = "OWNER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECmYpU7Q2EmS71K69NLeonB74hgE2+9oFnKtCN3Y84S+T0wfV3Zdf6bL4slOcTpOrQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA8jU3jcwkFf2H7APAv/N8FuCCMmIlOSdEzT99Um4lMtXYuKkneAoVZy5+mdnsf5aA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5bf9622b-9f29-423d-87ae-4cc2a545c38e",
+                            SecurityStamp = "5e6b3545-22a7-4301-914d-a09b8af48833",
                             TwoFactorEnabled = false,
                             UserName = "owner1"
                         },
@@ -142,15 +142,15 @@ namespace CarRental.Migrations
                         {
                             Id = "owner2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a8349cd1-3a1c-4d49-b9cb-b6c9840b6f1d",
+                            ConcurrencyStamp = "9f413a35-52cd-455e-9f41-45cf8a36c54b",
                             Email = "owner2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER2@EXAMPLE.COM",
                             NormalizedUserName = "OWNER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELy5zI5oAfbpCaAkz8ygn6UCc7piYT3t16Yk9jhZvtC4rpt1vriXFgROAuoEteyxvQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKpLN/Snmqd2HgFy3d/zf29Rgo1nMDazZIddQn03cRLPVKTKFAwArfk74vi1VJliVQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "21d46281-cce5-4232-b353-fdbfa83ed81f",
+                            SecurityStamp = "ebb5d70a-0ea4-4673-b596-8c6f7339b04b",
                             TwoFactorEnabled = false,
                             UserName = "owner2"
                         },
@@ -158,15 +158,15 @@ namespace CarRental.Migrations
                         {
                             Id = "Admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7e4e9247-0d05-4d37-857d-f3feece6150b",
+                            ConcurrencyStamp = "628dd775-38dc-4d63-afcb-551f4cb96f96",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPIec8r4JiCt3NTCfOHHmFmLQpwhhFPiymIFyMdsfwZ9/SLxDnqbd2C4p72Lh2KbmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBnf8Vkij2oT9QuAXT8SL4bF/NYQjR/i78ILyHlYai6f2+ODWlFFj9FUlMOSSr3G/g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "75057731-d958-4924-ae30-3f40ea515f8c",
+                            SecurityStamp = "720ff030-005c-4f16-baf6-b42cae97865f",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -295,6 +295,26 @@ namespace CarRental.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Drivers");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = "owner1",
+                            LicenseExpiryDate = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LicenseImageUrl = "/images/Licenses/license.jpg",
+                            LicenseNumber = "59-V1 793.79",
+                            NationalIdUrl = "/images/NationalID/NationalID.jpg",
+                            Status = 1
+                        },
+                        new
+                        {
+                            UserID = "owner2",
+                            LicenseExpiryDate = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LicenseImageUrl = "/images/Licenses/license.jpg",
+                            LicenseNumber = "DX-012321",
+                            NationalIdUrl = "/images/NationalID/NationalID.jpg",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("CarRental.Models.Rental", b =>
@@ -355,9 +375,16 @@ namespace CarRental.Migrations
                         .IsRequired()
                         .HasColumnType("time");
 
+                    b.Property<string>("DriverID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("EndLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SeatLeft")
+                        .HasColumnType("int");
 
                     b.Property<int>("Seats")
                         .HasColumnType("int");
@@ -366,15 +393,61 @@ namespace CarRental.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
+                    b.HasKey("DriverRideID");
+
+                    b.HasIndex("DriverID");
+
+                    b.ToTable("DriverRides");
+                });
+
+            modelBuilder.Entity("CarRental.Models.ShareDrive.PassengerRide", b =>
+                {
+                    b.Property<int>("PassengerRideID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PassengerRideID"));
+
+                    b.Property<DateTime?>("DepartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeOnly?>("DepartTime")
+                        .HasColumnType("time");
+
+                    b.Property<float>("DepositFee")
+                        .HasColumnType("real");
+
+                    b.Property<int>("DriverRideID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EndLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PassengerID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("DriverRideID");
+                    b.Property<int>("Seats")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserID");
+                    b.Property<string>("StartLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("DriverRides");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalFee")
+                        .HasColumnType("real");
+
+                    b.HasKey("PassengerRideID");
+
+                    b.HasIndex("DriverRideID");
+
+                    b.HasIndex("PassengerID");
+
+                    b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("CarRental.Models.Vehicle", b =>
@@ -460,7 +533,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 25f,
                             RentalFeePerKilo = 0.18f,
                             ThumbnailUrl = "/images/Thumbnail/ToyotaCorolla.jpg",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(200),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7547),
                             Transmission = 1
                         },
                         new
@@ -479,7 +552,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 30f,
                             RentalFeePerKilo = 0.2f,
                             ThumbnailUrl = "/images/Thumbnail/FordFocus.jpg",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(226),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7563),
                             Transmission = 1
                         },
                         new
@@ -498,7 +571,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 95f,
                             RentalFeePerKilo = 0.5f,
                             ThumbnailUrl = "/images/Thumbnail/BMWx5.png",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(231),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7566),
                             Transmission = 1
                         },
                         new
@@ -517,7 +590,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 22f,
                             RentalFeePerKilo = 0.17f,
                             ThumbnailUrl = "/images/Thumbnail/HondaCivic.png",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(234),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7569),
                             Transmission = 1
                         },
                         new
@@ -536,7 +609,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 150f,
                             RentalFeePerKilo = 1f,
                             ThumbnailUrl = "/images/Thumbnail/MercedesEclass.png",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(238),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7571),
                             Transmission = 1
                         },
                         new
@@ -555,7 +628,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 85f,
                             RentalFeePerKilo = 0.6f,
                             ThumbnailUrl = "/images/Thumbnail/ChervroletTahoe.png",
-                            TimeCreated = new DateTime(2024, 12, 27, 17, 42, 46, 131, DateTimeKind.Local).AddTicks(240),
+                            TimeCreated = new DateTime(2024, 12, 29, 17, 57, 23, 562, DateTimeKind.Local).AddTicks(7573),
                             Transmission = 1
                         });
                 });
@@ -589,19 +662,19 @@ namespace CarRental.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6529678-bbe6-490a-b824-e494c1debd6f",
+                            Id = "b38cb7e7-da47-46f8-8efc-a1b3216603f0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bb62129c-820d-450e-84ad-d17b52f5774d",
+                            Id = "8eef332e-d30b-410e-95b6-829632c94d5f",
                             Name = "Driver",
                             NormalizedName = "DRIVER"
                         },
                         new
                         {
-                            Id = "fb2c8ee4-a659-4556-b1a5-9e9b6c3b1e55",
+                            Id = "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -699,27 +772,27 @@ namespace CarRental.Migrations
                         new
                         {
                             UserId = "user1",
-                            RoleId = "fb2c8ee4-a659-4556-b1a5-9e9b6c3b1e55"
+                            RoleId = "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9"
                         },
                         new
                         {
                             UserId = "user2",
-                            RoleId = "fb2c8ee4-a659-4556-b1a5-9e9b6c3b1e55"
+                            RoleId = "8c58d9f6-3551-4f46-8681-9f4acd4b0fd9"
                         },
                         new
                         {
                             UserId = "owner1",
-                            RoleId = "bb62129c-820d-450e-84ad-d17b52f5774d"
+                            RoleId = "8eef332e-d30b-410e-95b6-829632c94d5f"
                         },
                         new
                         {
                             UserId = "owner2",
-                            RoleId = "bb62129c-820d-450e-84ad-d17b52f5774d"
+                            RoleId = "8eef332e-d30b-410e-95b6-829632c94d5f"
                         },
                         new
                         {
                             UserId = "Admin",
-                            RoleId = "a6529678-bbe6-490a-b824-e494c1debd6f"
+                            RoleId = "b38cb7e7-da47-46f8-8efc-a1b3216603f0"
                         });
                 });
 
@@ -783,13 +856,32 @@ namespace CarRental.Migrations
 
             modelBuilder.Entity("CarRental.Models.ShareDrive.DriverRide", b =>
                 {
-                    b.HasOne("CarRental.Models.ApplicationUser", "User")
+                    b.HasOne("CarRental.Models.Driver", "Driver")
                         .WithMany()
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("DriverID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Driver");
+                });
+
+            modelBuilder.Entity("CarRental.Models.ShareDrive.PassengerRide", b =>
+                {
+                    b.HasOne("CarRental.Models.ShareDrive.DriverRide", "DriverRide")
+                        .WithMany()
+                        .HasForeignKey("DriverRideID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.Models.ApplicationUser", "Passenger")
+                        .WithMany()
+                        .HasForeignKey("PassengerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DriverRide");
+
+                    b.Navigation("Passenger");
                 });
 
             modelBuilder.Entity("CarRental.Models.Vehicle", b =>

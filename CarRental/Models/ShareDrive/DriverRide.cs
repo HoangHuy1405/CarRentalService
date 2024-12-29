@@ -10,10 +10,10 @@ namespace CarRental.Models.ShareDrive
         [Key]
         public int DriverRideID { get; set; }
 
-        [ForeignKey(nameof(User))] // Defines it as a foreign key to ApplicationUser
-        public string UserID { get; set; }
+        [ForeignKey(nameof(Driver))] 
+        public string DriverID { get; set; }
         [ValidateNever]
-        public ApplicationUser? User { get; set; }
+        public Driver? Driver { get; set; }
 
         [Required]
         [Display(Name = "Starting location*")]
@@ -32,6 +32,8 @@ namespace CarRental.Models.ShareDrive
         public DateTime? DepartDate { get; set; }
 
         public int SeatLeft { get; set; }
+
+
         public DriverRide() {
             SeatLeft = Seats;
         }
