@@ -19,6 +19,8 @@ namespace CarRental.Data
 		public DbSet<DriverRide> DriverRides { get; set; }
 		public DbSet<PassengerRide> PassengerRides { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
             // Configure PassengerRide -> DriverRide relationship

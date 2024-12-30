@@ -3,132 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mioto Homepage</title>
+    <title>Capy Homepage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            color: #333;
+            background-color: #fff; /* White background */
         }
 
+        .container {
+            max-width: 100%;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            color: #333; /* Dark text on white background */
+        }
+
+        /* Hero Section */
         .hero-section {
-            background-image: url(''); /* Replace with actual image */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@Url.Content("~/images/PageIntro/herop1.jpg")'); /* Lighter overlay */
             background-size: cover;
             background-position: center;
-            color: #fff;
-            padding: 100px 20px;
+            background-repeat: no-repeat;
+            color: white; /* Dark text */
+            padding: 150px 20px;
             text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
+            .hero-section h1 {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+                text-shadow: none; /* Removed text-shadow */
+            }
+
+            .hero-section .lead {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+                text-shadow: none; /* Removed text-shadow */
+            }
+
+        /* CTA Button Styles */
+        .cta-button {
+            background-color: #5fcf86; /* Green color */
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+            .cta-button:hover {
+                background-color: #52b372;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                color: #fff;
+            }
+
+        /* Features Section */
         .features-section {
-            padding: 50px 20px;
-            background-color: #f8f9fa;
+            padding: 80px 20px;
+            background-color: #f8f9fa; /* Light gray background */
         }
 
         .feature {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            background-color: #fff; /* White background for each feature */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+            .feature:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
 
         .feature-icon {
-            font-size: 3rem;
-            color: #007bff;
+            width: 100px;
+            height: auto;
+            margin-bottom: 25px;
         }
 
+        .feature h5 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #333; /* Dark text */
+        }
+
+        .feature p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .row.g-4 .col-md-4 {
+            display: flex;
+        }
+
+        /* Promotion Section */
         .promotion-section {
-            padding: 50px 20px;
+            padding: 80px 20px;
+            background-color: #fff; /* White background */
         }
 
         .promotion-title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #333; /* Dark text */
         }
 
-        .promotion-card img {
-            width: 100%;
+        .promotion-card {
             border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+            .promotion-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .promotion-card img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+            }
+
+        /* Guide Section */
+        .guide-section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #333; /* Dark text */
+        }
+
+        .guide-step {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .step-image {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #5fcf86; /* Green color */
+            margin-bottom: 10px;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #5fcf86;
+        }
+
+        .step-description {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333; /* Dark text */
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 80px 20px;
+            background-color: #fff; /* White background */
+        }
+
+        .service-item {
+            margin-bottom: 40px;
+        }
+
+        .service-content {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa; /* Light gray background */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .service-item img {
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .service-text {
+            padding: 40px;
+            text-align: left;
+        }
+
+            .service-text h3 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+                line-height: 1.4;
+                color: #333; /* Dark text */
+            }
+
+            .service-text p {
+                font-size: 1rem;
+                margin-bottom: 20px;
+                color: #555;
+            }
+
+        .service-link {
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Dark text */
+            padding: 30px 20px;
+            border-top: 1px solid #ddd; /* Add a subtle top border */
+        }
+
+            footer a {
+                color: #5fcf86; /* Green link color */
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
     </style>
 </head>
 <body>
 
-    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1 class="display-4">Welcome to Mioto</h1>
-            <p class="lead">Your trusted car rental platform in Vietnam.</p>
-            <a href="/about" class="btn btn-primary btn-lg">Learn More</a>
+            <h1 class="display-4" style="color: white">Capy - With You</h1>
+            <p class="lead">On Every Journey</p>
+            <p>Experience the difference with over 10,000 new family cars across Vietnam</p>
+            <a href="/about" class="btn btn-primary btn-lg cta-button">Learn More</a>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container">
-            <h2 class="text-center mb-5">Why Choose Mioto?</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="feature">
-                        <i class="bi bi-car-front feature-icon"></i>
-                        <h5>Wide Range of Vehicles</h5>
-                        <p>From economy cars to luxury sedans, we have it all.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature">
-                        <i class="bi bi-shield-check feature-icon"></i>
-                        <h5>Trusted and Secure</h5>
-                        <p>All rentals are verified and come with full support.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature">
-                        <i class="bi bi-currency-exchange feature-icon"></i>
-                        <h5>Affordable Prices</h5>
-                        <p>Competitive pricing to suit your budget.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Promotion Section -->
     <section class="promotion-section">
         <div class="container">
-            <h2 class="promotion-title">Chương Trình Khuyến Mãi</h2>
-            <p class="text-center">Nhận nhiều ưu đãi hấp dẫn từ Mioto</p>
+            <h2 class="promotion-title">Promotions</h2>
+            <p class="text-center">Get attractive deals from Capy</p>
             <div class="row">
                 <div class="col-md-4">
                     <div class="promotion-card">
-                        <img src="https://via.placeholder.com/350x200" alt="Promotion 1">
-                        <h5 class="mt-2">Xe Tết Đã Có!</h5>
-                        <p>Đặt sớm, giá ưu đãi ngay.</p>
+                        <img src="@Url.Content("~/images/PageIntro/Prom1.jpg")" alt="Promotion 1">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="promotion-card">
-                        <img src="https://via.placeholder.com/350x200" alt="Promotion 2">
-                        <h5 class="mt-2">Xuân Sang Như Ý</h5>
-                        <p>Nhập mã MI25 để nhận ưu đãi 140K.</p>
+                        <img src="@Url.Content("~/images/PageIntro/Prom2.jpg")" alt="Promotion 2">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="promotion-card">
-                        <img src="https://via.placeholder.com/350x200" alt="Promotion 3">
-                        <h5 class="mt-2">Thuê Xe Theo Giờ</h5>
-                        <p>Giảm giá đến 100K cho chuyến thuê 4h và 8h.</p>
+                        <img src="@Url.Content("~/images/PageIntro/Prom3.jpg")" alt="Promotion 3">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Advantages of Capy</h2>
+            <p class="text-center">Features that make it easier for you to rent a car on Capy.</p>
+            <div class="row g-4">
+                <!-- Added g-4 for spacing -->
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet1.svg")" alt="Safe driving with Capy" class="feature-icon">
+                        <h5>Safe driving with Capy</h5>
+                        <p>Trips on Capy are protected by a self-drive car rental insurance package from MIC & VNI. Renters will only have to compensate a maximum of 2,000,000 VND in case of an unexpected incident.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet2.svg")" alt="Peace of mind booking" class="feature-icon">
+                        <h5>Peace of mind booking</h5>
+                        <p>No cancellation fees within 1 hour of payment. Refund and 100% compensation if the car owner cancels the trip within 7 days before the trip.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet3.svg")" alt="Simple procedures" class="feature-icon">
+                        <h5>Simple procedures</h5>
+                        <p>All you need is a chip-based ID card (or Passport) & a driver's license to rent a car on Capy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet4.svg")" alt="Easy payment" class="feature-icon">
+                        <h5>Easy payment</h5>
+                        <p>Various payment methods: ATM, Visa card & E-wallets (Momo, VnPay, ZaloPay).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet5.svg")" alt="Door-to-door delivery" class="feature-icon">
+                        <h5>Door-to-door delivery</h5>
+                        <p>You can choose to have your car delivered to your home/airport... Save fees from only 15k/km.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature">
+                        <img src="@Url.Content("~/images/PageIntro/fet6.svg")" alt="Various car models" class="feature-icon">
+                        <h5>Various car models</h5>
+                        <p>More than 100 car models for you to choose from: Mini, Sedan, CUV, SUV, MPV, Pickup.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="guide-section">
+        <div class="container">
+            <h2 class="section-title text-center">Rental Guide</h2>
+            <p class="text-center">Just 4 simple steps to experience Capy car rental quickly</p>
+            <div class="row">
+                <div class="col-md-3 guide-step">
+                    <img src="@Url.Content("~/images/PageIntro/guide1.svg")" alt="Book a car on the Capy app/web" class="step-image">
+                    <div class="step-number">01</div>
+                    <p class="step-description">Book a car on the Capy app/web</p>
+                </div>
+                <div class="col-md-3 guide-step">
+                    <img src="@Url.Content("~/images/PageIntro/guide2.svg")" alt="Receive the car" class="step-image">
+                    <div class="step-number">02</div>
+                    <p class="step-description">Receive the car</p>
+                </div>
+                <div class="col-md-3 guide-step">
+                    <img src="@Url.Content("~/images/PageIntro/guide3.svg")" alt="Start your journey" class="step-image">
+                    <div class="step-number">03</div>
+                    <p class="step-description">Start your journey</p>
+                </div>
+                <div class="col-md-3 guide-step">
+                    <img src="@Url.Content("~/images/PageIntro/guide4.svg")" alt="Return the car & end the trip" class="step-image">
+                    <div class="step-number">04</div>
+                    <p class="step-description">Return the car & end the trip</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="container">
+            <h2 class="section-title text-center">Capy's Services</h2>
+            <div class="row">
+                <div class="col-md-6 service-item">
+                    <div class="service-content">
+                        <img src="@Url.Content("~/images/PageIntro/service1.jpg")" alt="Self-drive car rental">
+                        <div class="service-text">
+                            <h3>Start your journey now!</h3>
+                            <p>Take the wheel of your favorite car to make your journey more exciting.</p>
+                            <a href="#" class="service-link cta-button">Self-drive car rental</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 service-item">
+                    <div class="service-content">
+                        <img src="@Url.Content("~/images/PageIntro/service2.jpg")" alt="Car rental with driver">
+                        <div class="service-text">
+                            <h3>Your driver has arrived!</h3>
+                            <p>Enjoy your trip with 5* drivers on Capy.</p>
+                            <a href="#" class="service-link cta-button">Car rental with driver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="text-center py-3">
-        <p>&copy; 2024 Mioto. All rights reserved. <a href="/privacy">Privacy Policy</a></p>
+        <p>&copy; 2024 Capy. All rights reserved. <a href="/privacy">Privacy Policy</a></p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
 </body>
 </html>

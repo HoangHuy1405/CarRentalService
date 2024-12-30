@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
+	<PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -28,6 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\images\PageIntro\fet1.svg" />
+    <None Include="wwwroot\images\PageIntro\fet2.svg" />
+    <None Include="wwwroot\images\PageIntro\fet3.svg" />
+    <None Include="wwwroot\images\PageIntro\fet4.svg" />
+    <None Include="wwwroot\images\PageIntro\fet5.svg" />
+    <None Include="wwwroot\images\PageIntro\fet6.svg" />
+    <None Include="wwwroot\images\PageIntro\guide1.svg" />
+    <None Include="wwwroot\images\PageIntro\guide2.svg" />
+    <None Include="wwwroot\images\PageIntro\guide3.svg" />
+    <None Include="wwwroot\images\PageIntro\guide4.svg" />
     <None Include="wwwroot\js\FindRoute\findRoute.js" />
   </ItemGroup>
 

@@ -1,30 +1,94 @@
 ﻿@model List<Vehicle>
 
 <div class="row">
-    @foreach (Vehicle vehicle in Model) {
-        <div class="col-md-6 mb-4">
-            <!-- Vehicle Card for comparison -->
-            <div class="card shadow-sm h-100">
-                <img src="@Url.Content(vehicle?.ThumbnailUrl)" class="card-img-top" alt="@vehicle.Brand @vehicle.Model" style="height: 200px; object-fit: cover;" />
-                <div class="card-body">
-                    <h1 class="display-4 fw-bold mb-4">@vehicle.Brand @vehicle.Model</h1> <!-- Larger vehicle name -->
-                    <ul class="list-unstyled mb-4" style="font-size: 1.25rem;">
-                        <li><strong>License Plate:</strong> @vehicle.LicensePlate</li>
-                        <li><strong>Fuel type:</strong> @vehicle.FuelType</li>
-                        <li><strong>Transmission:</strong> @vehicle.Transmission</li>
-                        <li><strong>Manufacture Year:</strong> @vehicle.ManuYear.Year</li>
-                        <li><strong>Number of Seats:</strong> @vehicle.NumberOfSeats</li>
-                        <li><strong>Fuel consumption:</strong> @vehicle.FuelConsumption / 100km</li>
-                        <li><strong>Pickup location:</strong> @vehicle.Location</li>
-                        <li><strong>Rental Fee (Per Kilo):</strong> @vehicle.RentalFeePerKilo</li>
-                        <li><strong>Rental Fee (Per Day):</strong> @vehicle.RentalFeePerDay</li>
-                    </ul>
-                    <h3 class="fw-bold mb-3" style="font-size: 1.5rem;">Description</h3>
-                    <p style="font-size: 1.2rem;" class="text-muted">@vehicle.Description</p>
-                </div>
-                <a asp-controller="Vehicle" asp-action="Rent" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary w-75 mx-auto mb-4">Rent</a>
-            </div>
-            
+    @foreach (var vehicleGroup in Model.Chunk(2))  // Group vehicles into pairs
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th></th> @* Header for the feature names column *@
+                        @foreach (var vehicle in vehicleGroup) {
+                            <th>
+                                <img src="@Url.Content(vehicle?.ThumbnailUrl)" class="img-fluid" alt="@vehicle.Brand @vehicle.Model" style="height: 150px; object-fit: cover;" />
+                                <h4 class="mt-2">@vehicle.Brand @vehicle.Model</h4>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>License Plate</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.LicensePlate</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Fuel Type</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.FuelType</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Transmission</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.Transmission</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Manufacture Year</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.ManuYear.Year</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Number of Seats</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.NumberOfSeats</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Fuel Consumption</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.FuelConsumption / 100km</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Pickup Location</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.Location</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Rental Fee (Per Kilo)</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.RentalFeePerKilo</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Rental Fee (Per Day)</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>@vehicle.RentalFeePerDay</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td><strong>Description</strong></td>
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>
+                                <p class="text-muted">@vehicle.Description</p>
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                        <td></td> @* Empty cell for alignment *@
+                        @foreach (var vehicle in vehicleGroup) {
+                            <td>
+                                <a asp-controller="Vehicle" asp-action="Rent" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-primary w-100">Rent</a> @* Rent button *@
+                            </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
         </div>
     }
 </div>
