@@ -1,4 +1,5 @@
 ﻿
+// VehicleController.cs
 using CarRental.Data;
 using CarRental.Models;
 using CarRental.Service;
@@ -14,18 +15,25 @@ using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using CarRental.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Controllers
 {
     public class VehicleController : Controller {
-		private VehicleService vehicleService;
-		private RentalService rentalService;
+        private VehicleService vehicleService;
+        private RentalService rentalService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-		public VehicleController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment) {
-
+        public VehicleController(
+            ApplicationDbContext context,
+            IWebHostEnvironment webHostEnvironment,
+            NotificationService notificationService,
+            UserManager<ApplicationUser> userManager)
+        {
             vehicleService = new VehicleService(context, webHostEnvironment);
-            rentalService = new RentalService(context, webHostEnvironment);
+            rentalService = new RentalService(context, webHostEnvironment, notificationService, userManager);
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index() {
 			return View();

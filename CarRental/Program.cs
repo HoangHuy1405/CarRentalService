@@ -1,5 +1,6 @@
 using CarRental.Data;
 using CarRental.Models;
+using CarRental.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString).EnableSensitiveDataLogging());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
+builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
@@ -29,7 +30,7 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 /*builder.Services.ConfigureApplicationCookie(options => {
     options.LoginPath = "/Identity/Account/Login"; // Path to the login page
     options.LogoutPath = "/Identity/Account/Logout"; // Path to the logout page
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Path to the access denied page
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Path to the access denied pag
 });*/
 
 

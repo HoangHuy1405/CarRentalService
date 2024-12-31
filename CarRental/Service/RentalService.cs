@@ -2,8 +2,11 @@
 using CarRental.Models;
 using CarRental.Repository;
 using System.Linq;
+using CarRental.Services;
+using Microsoft.AspNetCore.Identity;
 
 using static CarRental.Service.ServiceResult;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Service
 {
@@ -12,11 +15,17 @@ namespace CarRental.Service
         private Repository<Rental> rentalRepo;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly NotificationService _notificationService;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RentalService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public RentalService(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, NotificationService notificationService, UserManager<ApplicationUser> userManager)
         {
             rentalRepo = new Repository<Rental>(context);
             _webHostEnvironment = webHostEnvironment;
+            _notificationService = notificationService;
+            _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<Rental>> getAllAsync()
@@ -26,21 +35,34 @@ namespace CarRental.Service
         }
 
         public async Task<ServiceResult> rent(Rental rental)
-        {   
-            if(rental.RentalVehicleID == null)
-            {
+        {
+            if (rental.RentalVehicleID == null)
                 return FailureResult("Vehicle id is null");
-            }
 
-            //check overlap
-            if(await isOverlap((int)rental.RentalVehicleID, rental.StartDate, rental.EndDate))
-            {
+            // Check overlap
+            if (await isOverlap((int)rental.RentalVehicleID, rental.StartDate, rental.EndDate))
                 return FailureResult("Overlap");
+
+            var result = await AddRentAsync(rental);
+            if (result.Success)
+            {
+                // Create notifications
+                var vehicle = await _context.Vehicles.Include(v => v.Owner).FirstOrDefaultAsync(v => v.RentalVehicleID == rental.RentalVehicleID);
+                var renter = await _userManager.FindByIdAsync(rental.UserID);
+
+                if (vehicle != null && renter != null)
+                {
+                    // Renter Notification
+                    await _notificationService.CreateNotification(rental.UserID, $"You have rented the '{vehicle.Brand}' of '{vehicle.Owner.UserName}'.");
+
+                    // Owner Notification
+                    await _notificationService.CreateNotification(vehicle.OwnerId, $"{renter.UserName} has rented your '{vehicle.Brand} ({vehicle.ManuYear.Year})'.");
+                }
             }
 
-            return await AddRentAsync(rental);
-
+            return result;
         }
+
 
         public async Task<IEnumerable<Rental>> findByVehilce(int vehicleId)
         {

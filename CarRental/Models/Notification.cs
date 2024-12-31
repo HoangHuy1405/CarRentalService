@@ -1,5 +1,6 @@
 ﻿namespace CarRental.Models {
     public class Notification {
+        public int NotificationId { get; set; } // Add this
         public int Id { get; set; }
         public string UserId { get; set; } // ID of the user
         public string Message { get; set; }

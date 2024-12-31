@@ -168,6 +168,13 @@ header {
     background-color: #495057;
 }
 
+/* site.css */
+.read-notification {
+    color: gray; /* Or any style you prefer for read notifications */
+}
 
+.unread-notification {
+    font-weight: bold; /* Or any style you prefer for unread notifications */
+}
     
 
