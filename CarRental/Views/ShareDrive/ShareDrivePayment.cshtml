@@ -3,94 +3,83 @@
 
 @model PassengerRide
 
-<div class="container">
-    <!-- Page Header -->
-    <div class="text-center mb-4">
-        <h2 class="text-primary">Share Drive Payment</h2>
-    </div>
-
-    <form asp-controller="ShareDrive" asp-action="Pay" method="post"> 
-        <input type="hidden" asp-for="PassengerRideID" />
-        <input type="hidden" asp-for="PassengerID" />
-        <input type="hidden" asp-for="DriverRideID" />
-        <input type="hidden" asp-for="StartLocation" />
-        <input type="hidden" asp-for="EndLocation" />
-        <input type="hidden" asp-for="Seats" />
-        <input type="hidden" asp-for="DepartTime" />
-        <input type="hidden" asp-for="DepartDate" />
-        <input type="hidden" asp-for="Status" />
-        <input type="hidden" id="total-fee-input" asp-for="TotalFee" name="TotalFee" />
-        <input type="hidden" id="deposit-fee-input" asp-for="DepositFee" />
-
-        <div class="row">
-            <!-- Passenger Details -->
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="text-primary">Driver Information</h5>
-                        @{
-                            ApplicationUser? DriverUser = Model.DriverRide?.Driver?.User;
-                        }
-                        <p><strong>Name:</strong> @(!string.IsNullOrEmpty(DriverUser?.UserName) ? DriverUser?.UserName : "N/A") </p>
-                        <p><strong>Email:</strong> @(!string.IsNullOrEmpty(DriverUser?.Email) ? DriverUser?.Email : "N/A")</p>
-                        <p><strong>Phone Number:</strong> @(!string.IsNullOrEmpty(DriverUser?.PhoneNumber) ? DriverUser?.PhoneNumber : "N/A")</p>
-                        <hr>
-                        <h5 class="text-primary">Ride Details</h5>
-                        <p><strong>Starting Location:</strong> @Model.DriverRide?.StartLocation</p>
-                        <p><strong>Ending Location:</strong> @Model.DriverRide?.EndLocation</p>
-                        <p><strong>Seats Initially:</strong> @Model.DriverRide?.Seats</p>
-                        <p><strong>Seats Left:</strong> @Model.DriverRide?.SeatLeft</p>
-                        <p><strong>Departure Time:</strong> @(Model.DriverRide?.DepartTime?.ToString("hh\\:mm") ?? "N/A")</p>
-                        <p><strong>Departure Date:</strong> @(Model.DriverRide?.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Driver Details -->
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="text-primary">Your Information</h5>
-                            <p><strong>Start Location:</strong> @Model.StartLocation </p>
-                            <p><strong>End Location:</strong> @Model.EndLocation </p>
-                            <p><strong>Seats:</strong> @Model.Seats </p>
+<div class="container-fluid my-5">
+    <div class="row">
+        <div class="col-lg-4 py-4">
+            <div class="card border-0 shadow-lg rounded-4" style="background-color: #f8f9fa;">
+                <div class="card-body p-4">
+                    <h2 class="text-center text-dark mb-4" style="font-weight: 600;">Ride Summary</h2>
+                    <div class="card border-0 shadow-sm mb-4 rounded-3">
+                        <div class="card-body p-3">
+                            <h5 class="text-secondary mb-3" style="font-weight: 600;">Your Information</h5>
+                            <p class="mb-2"><i class="fas fa-map-marker-alt me-2" style="color: #5FCF86;"></i><strong>Start:</strong> @Model.StartLocation</p>
+                            <p class="mb-2"><i class="fas fa-map-marker-alt me-2" style="color: #5FCF86;"></i><strong>End:</strong> @Model.EndLocation</p>
+                            <p class="mb-0"><i class="fas fa-chair me-2" style="color: #5FCF86;"></i><strong>Seats:</strong> @Model.Seats</p>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!-- Total Fee Section -->
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-3">
-                                <span id="total-seats" class="price-label"><strong>Seat(s):</strong> @Model.Seats</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <strong>Shared distance: </strong>
-                                <span id="shared-distance" class="price-label">  </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <strong>Total fee: </strong>
-                                <span id="total-fee-value" class="price-value"></span>
-                            </div>
-                        
-                            <hr />
-
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-0">Amount Due (10%)</h6>
-                                <h5 id="final-price" class="text-success fw-bold">0 ₫</h5>
-                            </div>
-
-                            @* init to disable to prevent book before calculating price *@
-                            <button class="btn btn-success w-100 mt-3" type="submit">
-                                <i class="bi bi-bag-check"></i> Book
-                            </button>
+                    <div class="card border-0 shadow-sm mb-0 rounded-3">
+                        <div class="card-body p-3">
+                            <h5 class="text-secondary mb-3" style="font-weight: 600;">Driver Details</h5>
+                            @{
+                                var driver = Model.DriverRide;
+                                var user = driver?.Driver?.User;
+                            }
+                            <p class="mb-2"><i class="fas fa-user me-2" style="color: #5FCF86;"></i><strong>Name:</strong> @(!string.IsNullOrEmpty(user?.UserName) ? user.UserName : "N/A")</p>
+                            <p class="mb-2"><i class="fas fa-envelope me-2" style="color: #5FCF86;"></i><strong>Email:</strong> @(!string.IsNullOrEmpty(user?.Email) ? user.Email : "N/A")</p>
+                            <p class="mb-2"><i class="fas fa-phone me-2" style="color: #5FCF86;"></i><strong>Phone:</strong> @(!string.IsNullOrEmpty(user?.PhoneNumber) ? user.PhoneNumber : "N/A")</p>
+                            <p class="mb-2"><i class="fas fa-clock me-2" style="color: #5FCF86;"></i><strong>Departure Time:</strong> @(Model.DriverRide?.DepartTime?.ToString("hh\\:mm tt") ?? "N/A")</p>
+                            <p class="mb-0"><i class="fas fa-calendar-alt me-2" style="color: #5FCF86;"></i><strong>Departure Date:</strong> @(Model.DriverRide?.DepartDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4" style="background-color: #f8f9fa;">
+                <div class="card-body p-4">
+                    <h2 class="text-center text-dark mb-4" style="font-weight: 600;">Summary</h2>
+                    <form asp-controller="ShareDrive" asp-action="Pay" method="post">
+                        <input type="hidden" asp-for="PassengerRideID" />
+                        <input type="hidden" asp-for="PassengerID" />
+                        <input type="hidden" asp-for="DriverRideID" />
+                        <input type="hidden" asp-for="StartLocation" />
+                        <input type="hidden" asp-for="EndLocation" />
+                        <input type="hidden" asp-for="Seats" />
+                        <input type="hidden" asp-for="DepartTime" />
+                        <input type="hidden" asp-for="DepartDate" />
+                        <input type="hidden" asp-for="Status" />
+                        <input type="hidden" id="total-fee-input" asp-for="TotalFee" name="TotalFee" />
+                        <input type="hidden" id="deposit-fee-input" asp-for="DepositFee" name="DepositFee" />
+
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="mb-0" style="font-weight: 500;"><i class="fas fa-chair me-2" style="color: #5FCF86;"></i>Seats:</h5>
+                            <span id="total-seats" class="text-success" style="font-weight: 500;">@Model.Seats</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="mb-0" style="font-weight: 500;"><i class="fas fa-road me-2" style="color: #5FCF86;"></i>Total Distance:</h5>
+                            <span id="shared-distance" class="text-success" style="font-weight: 500;">-- km</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="mb-0" style="font-weight: 500;"><i class="fas fa-money-bill-wave me-2" style="color: #5FCF86;"></i>Total Fee:</h5>
+                            <span id="total-fee-value" class="text-success" style="font-weight: 500;">-- ₫</span>
+                        </div>
+
+                        <hr class="my-2" style="border-top: 2px solid #5FCF86;" />
+
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="mb-0" style="font-weight: 500;"><i class="fas fa-hand-holding-usd me-2" style="color: #5FCF86;"></i>Amount Due (10%):</h5>
+                            <span id="final-price" class="text-success fw-bold" style="font-weight: 600;">-- ₫</span>
+                        </div>
+
+                        <button id="book-button" class="btn btn-lg btn-block text-white rounded-pill" style="background-color: #5FCF86; font-weight: 600;" type="submit" disabled>
+                            Confirm Payment
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @{
         var passStart = Model.StartLocation;
@@ -99,20 +88,16 @@
         var driverEnd = Model.DriverRide?.EndLocation;
     }
 
-    <!-- Map -->
-    <div class="row">
-        <button class="btn btn-primary w-25 mt-3 mx-auto mb-4" onclick="findSharedRoute('@passStart', '@passEnd', '@driverStart', '@driverEnd')">
-            <i class="fa-solid fa-map"></i> Show map
-        </button>
-        <div id="map"></div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <button class="btn btn-outline-primary w-25 mx-auto d-block mb-3" onclick="findSharedRoute('@passStart', '@passEnd', '@driverStart', '@driverEnd')">
+                <i class="fas fa-map-marked-alt me-2"></i>Show Map
+            </button>
+            <div id="map" style="height: 400px; border-radius: 1rem;"></div>
+        </div>
     </div>
 </div>
-<style>
-    #book-button:disabled {
-        background-color: #ccc; /* Gray out the button */
-        cursor: not-allowed; /* Show not-allowed cursor */
-    }
-</style>
+
 <script src="~/js/shareDrive.js"></script>
 <script>
     @{
@@ -122,42 +107,80 @@
         var driverEnd2 = Model.DriverRide?.EndLocation;
         var seats = Model.Seats;
     }
-    document.addEventListener('DOMContentLoaded', async () => {
-        try {
-            // Embed Razor variables into JavaScript safely
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Embed Razor variables into JavaScript safely
                 const passStart = @Html.Raw(JsonConvert.SerializeObject(passStart2));
                 const passEnd = @Html.Raw(JsonConvert.SerializeObject(passEnd2));
                 const driverStart = @Html.Raw(JsonConvert.SerializeObject(driverStart2));
                 const driverEnd = @Html.Raw(JsonConvert.SerializeObject(driverEnd2));
                 const seats = @Html.Raw(JsonConvert.SerializeObject(seats));
 
-            // Call the JavaScript function with the embedded variables
-            let distance = await findSharedRoute(passStart, passEnd, driverStart, driverEnd);
-            // for some reason (convert to km)
-            distance = (distance / 100).toFixed(2);
-            alert("Total distance = " + distance);
-            document.getElementById("shared-distance").textContent = `${distance} km`;
-            calculateTotalFee(distance, seats);
-            // Enable the button after calculations are done
-            document.getElementById("book-button").disabled = false;
-        } catch (error) {
-            console.error("Error calculating shared route:", error);
-        }
-    });
+                // Call the JavaScript function with the embedded variables
+                let distance = await findSharedRoute(passStart, passEnd, driverStart, driverEnd);
+                distance = (distance / 100).toFixed(2);
+
+                document.getElementById("shared-distance").textContent = `${distance} km`;
+                calculateTotalFee(distance, seats);
+
+                // Enable the button after calculations are done
+                document.getElementById("book-button").disabled = false;
+            } catch (error) {
+                console.error("Error calculating shared route:", error);
+            }
+        });
 
     function calculateTotalFee(distance, numberOfSeats, baseRatePerKM = 2, seatMultiplier = 10) {
         let fee = (baseRatePerKM * distance) + (seatMultiplier * numberOfSeats);
         fee = Math.round(fee * 100) / 100;
-        let depositFee = 0.1 * fee;
+        let depositFee = fee - 0.1 * fee;
         depositFee = Math.round(depositFee * 100) / 100;
-        document.getElementById("total-fee-value").textContent = fee; 
-        document.getElementById("final-price").textContent = depositFee;
+
+        document.getElementById("total-fee-value").textContent = fee + " ₫";
+        document.getElementById("final-price").textContent = depositFee + " ₫";
+
         // Update hidden inputs
         document.getElementById("total-fee-input").value = fee;
         document.getElementById("deposit-fee-input").value = depositFee;
     }
 </script>
 
+<style>
+    .card {
+        border-radius: 1rem; /* More rounded corners */
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
 
+    .card-body {
+        background-color: #f8f9fa; /* Light background */
+        border-radius: 1rem;
+    }
 
+    h2, h5 {
+        font-weight: 600; /* Bolder headings */
+    }
 
+    button {
+        font-size: 1.2rem;
+        border-radius: 2rem; /* Pill-shaped button */
+        font-weight: 600;
+        transition: all 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+        button:hover {
+            background-color: #4ab66d; /* Slightly darker green on hover */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+    /* Custom styling for icons */
+    .fas {
+        color: #5FCF86;
+    }
+
+    /* Disable button */
+    #book-button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+</style>

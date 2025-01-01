@@ -1,6 +1,7 @@
 ﻿// Services/NotificationService.cs
 using CarRental.Data;
 using CarRental.Models;
+using CarRental.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,12 @@ namespace CarRental.Services
 {
     public class NotificationService
     {
-        private readonly ApplicationDbContext _context;
+        private NotificationRepository _notificationRepository;
+
 
         public NotificationService(ApplicationDbContext context)
         {
-            _context = context;
+            _notificationRepository = new NotificationRepository(context);
         }
 
         // Create a new notification
@@ -27,55 +29,37 @@ namespace CarRental.Services
                 IsRead = false,
                 CreatedAt = DateTime.UtcNow
             };
-            _context.Notifications.Add(notification);
-            await _context.SaveChangesAsync();
+            await _notificationRepository.Add(notification);
+            //await _notificationRepository.SaveChangesAsync();
         }
 
         // Get unread notifications for a user
         public async Task<List<Notification>> GetUnreadNotifications(string userId)
         {
-            return await _context.Notifications
-                .Where(n => n.UserId == userId && !n.IsRead)
-                .OrderByDescending(n => n.CreatedAt)
-                .ToListAsync();
+            return await _notificationRepository.GetUnreadNotifications(userId);
         }
 
         // Mark a notification as read
         public async Task MarkNotificationAsRead(int notificationId)
         {
-            var notification = await _context.Notifications.FindAsync(notificationId);
-            if (notification != null)
-            {
-                notification.IsRead = true;
-                await _context.SaveChangesAsync();
-            }
+            await _notificationRepository.MarkNotificationAsRead(notificationId);
         }
 
         // Mark all notifications for a user as read
         public async Task MarkAllNotificationsAsRead(string userId)
         {
-            var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId && !n.IsRead)
-                .ToListAsync();
-            foreach (var notification in notifications)
-            {
-                notification.IsRead = true;
-            }
-            await _context.SaveChangesAsync();
+            await _notificationRepository.MarkAllNotificationsAsRead(userId);
         }
 
         // Get the count of unread notifications
         public async Task<int> GetUnreadNotificationCount(string userId)
         {
-            return await _context.Notifications.CountAsync(n => n.UserId == userId && !n.IsRead);
+            return await _notificationRepository.GetUnreadNotificationCount(userId);
         }
 
         public async Task<List<Notification>> GetAllNotifications(string userId)
         {
-            return await _context.Notifications
-                .Where(n => n.UserId == userId)
-                .OrderByDescending(n => n.CreatedAt)
-                .ToListAsync();
+            return await _notificationRepository.GetAllNotifications(userId);
         }
     }
 }

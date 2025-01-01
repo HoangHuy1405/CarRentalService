@@ -2,52 +2,71 @@
 @model PassengerRideView
 
 <div class="container my-5">
-    <h1 class="text-center mb-4">Passenger</h1>
-    <!-- Input form -->
-    <div class="row mb-4">
-        <!-- Driver inputs -->
+    <h1 class="text-center mb-4" style="color: #5FCF86;">Passenger</h1>
+    <div class="row">
+        <!-- Input Fom -->
         <div class="col-md-6">
             <div class="form-group mb-4">
                 <label asp-for="StartLocation"></label>
-                <input asp-for="StartLocation" class="form-control" placeholder="Starting Location" id="start-location" />
-                <span asp-validation-for="StartLocation" class="text-danger"></span>
+                <div class="input-group">
+                    <span class="input-group-text bg-white" style="border-color: #5FCF86;">
+                        <i class="bi bi-geo-alt" style="color: #5FCF86;"></i>
+                    </span>
+                    <input asp-for="StartLocation" class="form-control" placeholder="Starting Location" id="start-location" style="border-color: #5FCF86;" />
+                    <span asp-validation-for="StartLocation" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label asp-for="EndLocation"></label>
-                <input asp-for="EndLocation" class="form-control" placeholder="Ending Location" id="end-location" />
+                <div class="input-group">
+                    <span class="input-group-text bg-white" style="border-color: #5FCF86;">
+                        <i class="bi bi-flag" style="color: #5FCF86;"></i>
+                    </span>
+                    <input asp-for="EndLocation" class="form-control" placeholder="Ending Location" id="end-location" style="border-color: #5FCF86;" />
+                </div>
                 <span asp-validation-for="EndLocation" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label asp-for="Seats"></label>
-                <input asp-for="Seats" class="form-control" value="1" min="1"/>
+                <div class="input-group">
+                    <span class="input-group-text bg-white" style="border-color: #5FCF86;">
+                        <i class="bi bi-person" style="color: #5FCF86;"></i>
+                    </span>
+                    <input asp-for="Seats" class="form-control" value="1" min="1" style="border-color: #5FCF86;" />
+                </div>
                 <span asp-validation-for="Seats" class="text-danger"></span>
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label asp-for="DepartDate"></label>
-                <input asp-for="DepartDate" class="form-control" placeholder="Ending time" type="date" />
+                <div class="input-group">
+                    <span class="input-group-text bg-white" style="border-color: #5FCF86;">
+                        <i class="bi bi-calendar" style="color: #5FCF86;"></i>
+                    </span>
+                    <input asp-for="DepartDate" class="form-control" placeholder="Departure Date" type="date" style="border-color: #5FCF86;" />
+                </div>
                 <span asp-validation-for="DepartDate" class="text-danger"></span>
             </div>
             <div class="form-group mb-4">
                 <label asp-for="DepartTime"></label>
-                <input asp-for="DepartTime" class="form-control" placeholder="Starting time" type="time" />
+                <div class="input-group">
+                    <span class="input-group-text bg-white" style="border-color: #5FCF86;">
+                        <i class="bi bi-clock" style="color: #5FCF86;"></i>
+                    </span>
+                    <input asp-for="DepartTime" class="form-control" placeholder="Departure Time" type="time" style="border-color: #5FCF86;" />
+                </div>
                 <span asp-validation-for="DepartTime" class="text-danger"></span>
             </div>
+
+            <div class="text-center">
+                <button onclick="findRoute('passenger')" class="btn" style="background-color: #5FCF86; color: white;">Find Location</button>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="col-md-6">
+            <div id="map" class="mt-4" style="height: 100%; min-height: 300px; border: 2px solid #5FCF86; border-radius: 10px;"></div>
         </div>
     </div>
-
-    <!-- Button -->
-    <div class="text-center">
-        <button onclick="findRoute('passenger')" class="btn btn-primary">Find Location</button>
-    </div>
-
-    <!-- Map -->
-    <div id="map" class="mt-4"></div>
 </div>
 
 <script type="module" src="~/js/FindRoute/findRoute.js"></script>
-
-
-
