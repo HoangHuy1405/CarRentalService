@@ -176,5 +176,11 @@ header {
 .unread-notification {
     font-weight: bold; /* Or any style you prefer for unread notifications */
 }
-    
+
+#notification-menu {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 350px;
+    left: -50px;
+}
 

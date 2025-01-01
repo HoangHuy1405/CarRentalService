@@ -4,6 +4,7 @@
 }
 
 <style>
+    /* ... (Your existing CSS styles) ... */
     .custom-card {
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -154,7 +155,7 @@
                                 <span class="insurance-title">Rental Insurance</span>
                             </div>
                             <p>
-                                Rental Insurance Included. In case of an accident, the renter is responsible for a maximum of 2,000,000 VND.
+                                Rental Insurance Included. In case of an accident, the renter is responsible for a maximum of $86.
                             </p>
                             <a href="#">View details</a>
                         </div>
@@ -169,7 +170,7 @@
                                 <span id="insurance-fee-value" class="price-value" style="margin-left: auto;"></span>
                             </div>
                             <p>
-                                In case of an unforeseen incident, the driver and passengers are insured up to 300,000,000 VND per person.
+                                In case of an unforeseen incident, the driver and passengers are insured up to $20,000 per person.
                             </p>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="additionalInsuranceCheck">
@@ -200,7 +201,7 @@
                                         <h6><i class="bi bi-dash-circle me-1"></i>Late Return Fee</h6>
                                         <p>Additional fee if the car is returned late. If delayed by more than 4 hours, an additional 1 day rental fee will be charged.</p>
                                     </div>
-                                    <span class="fee-value"></span>
+                                    <span class="fee-value">$4/h</span>
                                 </div>
                             </div>
                             <div class="fee-item">
@@ -209,7 +210,7 @@
                                         <h6><i class="bi bi-dash-circle me-1"></i>Cleaning Fee</h6>
                                         <p>Fee applies if the returned car is not clean (excessive dirt, sand, mud, etc.).</p>
                                     </div>
-                                    <span class="fee-value">120,000 VND</span>
+                                    <span class="fee-value">$5</span>
                                 </div>
                             </div>
                             <div class="fee-item">
@@ -218,7 +219,7 @@
                                         <h6><i class="bi bi-dash-circle me-1"></i>Odor Removal Fee</h6>
                                         <p>Fee applies if the returned car has an unpleasant odor (cigarette smell, strong food smell, etc.).</p>
                                     </div>
-                                    <span class="fee-value">200,000 VND</span>
+                                    <span class="fee-value">$8</span>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +232,13 @@
         <div class="col-md-5">
             <div class="card custom-card">
                 <div class="card-body">
-                    <h6 class="section-title">Total</h6>
+                    <h6 class="section-title">Summary</h6>
+
+                    <div class="mb-3">
+                        <i class="bi bi-geo-alt"></i>
+                        <span id="pickup-location-summary"></span>
+                    </div>
+
                     <div class="d-flex justify-content-between mb-3">
                         <span id="total-fee-label" class="price-label">Total</span>
                         <span id="total-fee-value" class="price-value"></span>
@@ -240,7 +247,7 @@
                         <span id="rental-insurance-fee-label" class="price-label">Car Rental Insurance</span>
                         <span id="rental-insurance-fee-value" class="price-value"></span>
                     </div>
-                    <div class="d-flex justify-content-between mb-3" id="occupant-insurance-row" style="display: none;">
+                    <div class=" justify-content-between mb-3" id="occupant-insurance-row" style="display: none;">
                         <span id="occupant-insurance-fee-label" class="price-label">Occupant Insurance</span>
                         <span id="occupant-insurance-fee-value" class="price-value"></span>
                     </div>
@@ -248,7 +255,7 @@
 
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0">Amount Due</h6>
-                        <h5 id="final-price" class="text-success fw-bold">0 ₫</h5>
+                        <h5 id="final-price" class="text-success fw-bold">$5</h5>
                     </div>
 
                     <button class="btn btn-success w-100 mt-3" type="submit">
@@ -297,14 +304,14 @@
         function displayData(data) {
             document.getElementById("ownerSupportText").textContent = `Car owner supports hourly rentals. Learn more`;
 
-            document.getElementById("rent-fee-value").textContent = `${data.feePerDay.toLocaleString()} ₫/ day`;
+            document.getElementById("rent-fee-value").textContent = `$${data.feePerDay.toFixed(2)}/ day`;
 
-            document.getElementById("insurance-fee-value").textContent = `2$/ day`;
+            document.getElementById("insurance-fee-value").textContent = `$2/ day`;
 
             document.getElementById("total-fee-label").textContent = `Total`;
 
             document.getElementById("rental-insurance-fee-label").textContent = `Car Rental Insurance`;
-            document.getElementById("rental-insurance-fee-value").textContent = `5$`;
+            document.getElementById("rental-insurance-fee-value").textContent = `$5`;
 
         }
 
@@ -316,8 +323,14 @@
             const rentalInsuranceFee = document.getElementById("rental-insurance-fee-value");
             const occupantInsuranceFee = document.getElementById("occupant-insurance-fee-value");
             const occupantInsuranceRow = document.getElementById("occupant-insurance-row");
+            const occupantInsuranceFeeLabel = document.getElementById("occupant-insurance-fee-label");
 
-            const today = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
+            // Get references to pickup/dropoff location elements
+            const pickupLocationInput = document.getElementById("PickUpLocation");
+            const pickupLocationSummary = document.getElementById("pickup-location-summary");
+            const dropoffLocationSummary = document.getElementById("dropoff-location-summary");
+
+            const today = new Date().toISOString().split("T")[0]; // Current date in அமைந்து-MM-DD format
 
             // Set the default value of both inputs to today's date
             startDateInput.value = today;
@@ -364,8 +377,8 @@
                     let totalFee = daysDiff * apiData.feePerDay;
                     let finalPrice = totalFee + 5; // Add fixed rental insurance fee
 
-                    totalFeeSpan.textContent = `${totalFee.toLocaleString()} ₫ x ${daysDiff} days`;
-                    finalPriceSpan.textContent = `${finalPrice.toLocaleString()} ₫`;
+                    totalFeeSpan.textContent = `$${apiData.feePerDay.toFixed(2)} x ${daysDiff} days`;
+                    finalPriceSpan.textContent = `$${finalPrice.toFixed(2)}`;
 
                     // Update hidden inputs to pass to the server
                     document.getElementById("totalFeeInput").value = totalFee;
@@ -384,18 +397,28 @@
 
                 if (this.checked) {
                     occupantInsuranceRow.style.display = "flex";
-                    occupantInsuranceFee.textContent = `${occupantInsuranceFeeValue.toLocaleString()} ₫`;
+                    occupantInsuranceFeeLabel.style.display = "block";
+                    occupantInsuranceFee.textContent = `$${occupantInsuranceFeeValue.toFixed(2)}`;
                     // Recalculate the final price
                     let currentFinalPrice = parseFloat(finalPriceSpan.textContent.replace(/[^0-9.-]+/g, ""));
                     let newFinalPrice = currentFinalPrice + occupantInsuranceFeeValue;
-                    finalPriceSpan.textContent = `${newFinalPrice.toLocaleString()} ₫`;
+                    finalPriceSpan.textContent = `$${newFinalPrice.toFixed(2)}`;
+
                 } else {
                     occupantInsuranceRow.style.display = "none";
+                    occupantInsuranceFeeLabel.style.display = "none";
+                    occupantInsuranceFee.textContent = ""; // Clear the occupant insurance fee value
                     // Recalculate the final price
                     let currentFinalPrice = parseFloat(finalPriceSpan.textContent.replace(/[^0-9.-]+/g, ""));
                     let newFinalPrice = currentFinalPrice - occupantInsuranceFeeValue;
-                    finalPriceSpan.textContent = `${newFinalPrice.toLocaleString()} ₫`;
+                    finalPriceSpan.textContent = `$${newFinalPrice.toFixed(2)}`;
+
                 }
+            });
+
+            // Update pickup/dropoff location summary when input changes
+            pickupLocationInput.addEventListener("input", function () {
+                pickupLocationSummary.textContent = this.value;
             });
 
             // Attach event listeners to both inputs
@@ -403,5 +426,5 @@
             endDateInput.addEventListener("change", validateInput);
         });
 
-</script>
+    </script>
 }
