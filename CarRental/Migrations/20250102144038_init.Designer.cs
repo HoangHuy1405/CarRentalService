@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250101034939_init")]
+    [Migration("20250102144038_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -49,6 +49,9 @@ namespace CarRental.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -94,15 +97,16 @@ namespace CarRental.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1e83dc1-9476-4aba-8db7-f29cf9ac2e43",
+                            ConcurrencyStamp = "7e5f503c-a787-4a96-bc11-3eed2034ef37",
                             Email = "user1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
+                            Money = 1000m,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPLgooEtKJfGiFpu6D5h/jhjb7BFbVCQkUOEfb/OKPajL7UggRPc8PCJhR6Zo/S2Gg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHsAN6ytJ7kSrbNH3KFbJgA4SjSRe1CVa4M61aMZNDzVPy8RFCRJaqcxmbpP7H8GZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "727b38c1-99ea-40ab-838a-98e8f5336051",
+                            SecurityStamp = "31ad76b1-093e-4c60-9dd6-d814419568f2",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
@@ -110,15 +114,16 @@ namespace CarRental.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d5aca75-986b-470e-85a7-401c1dbe964e",
+                            ConcurrencyStamp = "4e979f09-e1c7-4c13-9942-8894aea638ee",
                             Email = "user2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
+                            Money = 1000m,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF+xIoUmMDOkZ7dAYyh/OhBMwUr9McIdHzGFadaBE/qyUPQkQoPBQTJqzZdXGBZp4w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENBPZe/4y+nazj0BmCYckR/7Nm6zXQuZ7lTJbvkvlxV4Um6wQG8lI5pSaG0S0dn0iQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ab78bd05-6829-4148-bea1-4c51ae6e1f41",
+                            SecurityStamp = "bdf46704-ac5a-4f4b-bb66-0d30cdbdb414",
                             TwoFactorEnabled = false,
                             UserName = "user2@example.co"
                         },
@@ -126,15 +131,16 @@ namespace CarRental.Migrations
                         {
                             Id = "owner1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b92a234e-06ce-4cb3-99ba-4ad3850ec50f",
+                            ConcurrencyStamp = "7daff88f-cfb2-4d99-97b6-f52b92a1bbf3",
                             Email = "owner1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
+                            Money = 1000m,
                             NormalizedEmail = "OWNER1@EXAMPLE.COM",
                             NormalizedUserName = "OWNER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC+unMN59Pu3I/oCDDi7agfVOrAcxIL/GKiXKB9Y+xC4lRJ1so+OCw/wIkY2NvFqxw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFdu/hHirEuAnXuNpJwYFRoxtlcT1nNm6QX4Kb1rSH6OtYsVVluAtXhemRls3OzUXg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8e9227ef-c34f-43d1-8f93-fb98e00a98c8",
+                            SecurityStamp = "887f07f3-5b1f-46b1-8293-dbe3442b7c9b",
                             TwoFactorEnabled = false,
                             UserName = "owner1"
                         },
@@ -142,15 +148,16 @@ namespace CarRental.Migrations
                         {
                             Id = "owner2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "57bf14b6-7807-44ee-8065-181d2a6a4b28",
+                            ConcurrencyStamp = "75a8acd6-2655-4e90-a842-7f9b0f3acee0",
                             Email = "owner2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
+                            Money = 1000m,
                             NormalizedEmail = "OWNER2@EXAMPLE.COM",
                             NormalizedUserName = "OWNER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF0sSjmQCYMkDYplzi4W157G+t/MvWBW7mV50TOOZ80OhsQZtQSe58zkdmw/jOBbbQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF70uQhaRkUSditFpf8yDj6bpEvML0BUmRS6/GvvStyhR+BDnx1hkcqsTDqOAk0H9Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "182f12fb-48c6-4e7a-a31e-8feb2d070a42",
+                            SecurityStamp = "cf1719a3-5eca-4c3f-a065-4ac440a53d3d",
                             TwoFactorEnabled = false,
                             UserName = "owner2"
                         },
@@ -158,15 +165,16 @@ namespace CarRental.Migrations
                         {
                             Id = "Admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df8b92d6-a22c-41f7-8453-5dc053b15488",
+                            ConcurrencyStamp = "2aead61a-7411-4d37-a129-f6a605d07730",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
+                            Money = 1000m,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDaxh48Yg+5kv2eDCXD0p2yuk5ErraElvjLoMZj0PMB7xmoUk+NgkVmAfLwcnjYxDw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP7xykSLMpen3tBepRPWCucvyW8unjb54NcmTtbEpNYzVW2UQCVMPYPV1sUqLTr9cQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2d475ca5-996d-421e-9dd9-abc8aad2d511",
+                            SecurityStamp = "f9f7ef2e-5a80-46ff-acea-dad5788d1a92",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -563,7 +571,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 25f,
                             RentalFeePerKilo = 0.18f,
                             ThumbnailUrl = "/images/Thumbnail/ToyotaCorolla.jpg",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(2998),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5401),
                             Transmission = 1
                         },
                         new
@@ -582,7 +590,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 30f,
                             RentalFeePerKilo = 0.2f,
                             ThumbnailUrl = "/images/Thumbnail/FordFocus.jpg",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(3039),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5428),
                             Transmission = 1
                         },
                         new
@@ -601,7 +609,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 95f,
                             RentalFeePerKilo = 0.5f,
                             ThumbnailUrl = "/images/Thumbnail/BMWx5.png",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(3044),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5431),
                             Transmission = 1
                         },
                         new
@@ -620,7 +628,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 22f,
                             RentalFeePerKilo = 0.17f,
                             ThumbnailUrl = "/images/Thumbnail/HondaCivic.png",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(3047),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5433),
                             Transmission = 1
                         },
                         new
@@ -639,7 +647,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 150f,
                             RentalFeePerKilo = 1f,
                             ThumbnailUrl = "/images/Thumbnail/MercedesEclass.png",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(3050),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5435),
                             Transmission = 1
                         },
                         new
@@ -658,7 +666,7 @@ namespace CarRental.Migrations
                             RentalFeePerDay = 85f,
                             RentalFeePerKilo = 0.6f,
                             ThumbnailUrl = "/images/Thumbnail/ChervroletTahoe.png",
-                            TimeCreated = new DateTime(2025, 1, 1, 10, 49, 38, 550, DateTimeKind.Local).AddTicks(3054),
+                            TimeCreated = new DateTime(2025, 1, 2, 21, 40, 38, 108, DateTimeKind.Local).AddTicks(5437),
                             Transmission = 1
                         });
                 });
@@ -692,19 +700,19 @@ namespace CarRental.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "33f12208-8802-419a-ba33-ae49b3901331",
+                            Id = "d02f5eec-7833-4042-bce4-b0e6476c60f2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "581d15d6-a327-43a5-bc7b-5eb3f7ccafaa",
+                            Id = "314ea080-d58e-49d7-b430-56ab3f632eb0",
                             Name = "Driver",
                             NormalizedName = "DRIVER"
                         },
                         new
                         {
-                            Id = "64d69f31-19f7-4ed1-adc0-778dbe0662c0",
+                            Id = "59b2449c-2f4e-4ded-9fc0-0fa2524c9d0a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -802,27 +810,27 @@ namespace CarRental.Migrations
                         new
                         {
                             UserId = "user1",
-                            RoleId = "64d69f31-19f7-4ed1-adc0-778dbe0662c0"
+                            RoleId = "59b2449c-2f4e-4ded-9fc0-0fa2524c9d0a"
                         },
                         new
                         {
                             UserId = "user2",
-                            RoleId = "64d69f31-19f7-4ed1-adc0-778dbe0662c0"
+                            RoleId = "59b2449c-2f4e-4ded-9fc0-0fa2524c9d0a"
                         },
                         new
                         {
                             UserId = "owner1",
-                            RoleId = "581d15d6-a327-43a5-bc7b-5eb3f7ccafaa"
+                            RoleId = "314ea080-d58e-49d7-b430-56ab3f632eb0"
                         },
                         new
                         {
                             UserId = "owner2",
-                            RoleId = "581d15d6-a327-43a5-bc7b-5eb3f7ccafaa"
+                            RoleId = "314ea080-d58e-49d7-b430-56ab3f632eb0"
                         },
                         new
                         {
                             UserId = "Admin",
-                            RoleId = "33f12208-8802-419a-ba33-ae49b3901331"
+                            RoleId = "d02f5eec-7833-4042-bce4-b0e6476c60f2"
                         });
                 });
 
