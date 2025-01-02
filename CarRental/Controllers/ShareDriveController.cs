@@ -9,15 +9,65 @@ using CarRental.Repository;
 using CarRental.Models.ModelView;
 using Microsoft.AspNetCore.Authorization;
 using CarRental.Models.DTO;
+using CarRental.Models;
+using CarRental.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Controllers
 {
     public class ShareDriveController : Controller {
 
-        private readonly ShareDriveService shareDriveService;
+        private readonly ShareDriveService _shareDriveService;
+        private readonly NotificationService _notificationService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ShareDriveController(ApplicationDbContext context) {
-            shareDriveService = new ShareDriveService(context);
+        public ShareDriveController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, NotificationService notificationService)
+        {
+            _shareDriveService = new ShareDriveService(context, userManager);
+            _notificationService = notificationService;
+            _userManager = userManager;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Pay(PassengerRide model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Update the PassengerRide status to "Confirmed"
+                model.Status = Status.Confirmed;
+                var updateResult = await _shareDriveService.UpdatePassengerRideAsync(model);
+
+                if (updateResult.Success)
+                {
+                    // Create notifications for the passenger and driver
+                    var driverRide = await _shareDriveService.GetDriverRideByIdAsync(model.DriverRideID);
+                    var passenger = await _userManager.FindByIdAsync(model.PassengerID);
+
+                    if (driverRide != null && passenger != null)
+                    {
+                        var driver = await _userManager.FindByIdAsync(driverRide.DriverID);
+
+                        // Passenger Notification
+                        await _notificationService.CreateNotification(model.PassengerID, $"You have booked a ride from {model.StartLocation} to {model.EndLocation} with {driver.UserName}.");
+
+                        // Driver Notification
+                        await _notificationService.CreateNotification(driverRide.DriverID, $"{passenger.UserName} has booked a ride on your trip from {driverRide.StartLocation} to {driverRide.EndLocation}.");
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    // Handle errors if the update fails
+                    foreach (var error in updateResult.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+
+            // If model state is not valid or update fails, return to the Pay view with errors
+            return View(model);
         }
 
         public IActionResult PassengerRide() {
@@ -43,7 +93,7 @@ namespace CarRental.Controllers
 
                 driver.DriverID = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 driver.SeatLeft = driver.Seats;
-                var result = await shareDriveService.AddDriverRide(driver);
+                var result = await _shareDriveService.AddDriverRide(driver);
                 // Save to database service
 
                 if(result.Success) {
@@ -65,7 +115,7 @@ namespace CarRental.Controllers
                 return BadRequest("passenger is invalid!");
             }
 
-            IEnumerable<DriverRideDto> drivers = await shareDriveService.GetAllValidRides(passenger);
+            IEnumerable<DriverRideDto> drivers = await _shareDriveService.GetAllValidRides(passenger);
             return Json(drivers);
         }
 
@@ -112,7 +162,7 @@ namespace CarRental.Controllers
             DateTime? departDate = !string.IsNullOrEmpty(PassengerDepartDate) ? DateTime.Parse(PassengerDepartDate) : null;
 
             // Retrieve the driver ride details using DriverRideID
-            DriverRide driverRide = await shareDriveService.GetDriverRideByID(DriverRideID);
+            DriverRide driverRide = await _shareDriveService.GetDriverRideByID(DriverRideID);
 
             if (driverRide == null) {
                 return NotFound("Invalid driver ride.");
@@ -133,13 +183,13 @@ namespace CarRental.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Pay(PassengerRide passengerRide) {
+        public async Task<IActionResult> Pay_hitch(PassengerRide passengerRide) {
             passengerRide.PassengerID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Console.WriteLine(passengerRide.PassengerID);
             Console.WriteLine(passengerRide.ToString());
 
             if (ModelState.IsValid) {
-                var result = await shareDriveService.ProcessPassengerRide(passengerRide);
+                var result = await _shareDriveService.ProcessPassengerRide(passengerRide);
                 if (result.Success) {
                     return RedirectToAction("PassengerRide");
                 }

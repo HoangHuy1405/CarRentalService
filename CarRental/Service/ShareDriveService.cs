@@ -1,19 +1,47 @@
 ﻿using CarRental.Data;
+using CarRental.Models;
 using CarRental.Models.DTO;
 using CarRental.Models.ShareDrive;
 using CarRental.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Service
 {
     public class ShareDriveService {
         private readonly DriverRideRepository driverRepo;
-        private readonly Repository<PassengerRide> passengerRepo; 
+        private readonly Repository<PassengerRide> passengerRepo;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public ShareDriveService(ApplicationDbContext context) {
+        public ShareDriveService(ApplicationDbContext context, UserManager<ApplicationUser> userManager) {
             driverRepo = new DriverRideRepository(context);
             passengerRepo = new Repository<PassengerRide>(context);
+            _userManager = userManager;
+            _context = context;
         }
-        
+
+        // Add this method to update the PassengerRide
+        public async Task<ServiceResult> UpdatePassengerRideAsync(PassengerRide model)
+        {
+            try
+            {
+                _context.PassengerRides.Update(model);
+                await _context.SaveChangesAsync();
+                return new ServiceResult { Success = true };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if you have a logging mechanism
+                return new ServiceResult { Success = false, Errors = new List<string> { ex.Message } };
+            }
+        }
+
+        // Get Driver Ride By Id
+        public async Task<DriverRide> GetDriverRideByIdAsync(int driverRideId)
+        {
+            return await _context.DriverRides.FindAsync(driverRideId);
+        }
+
         public async Task<DriverRide> GetDriverRideByID(int id) {
             return await driverRepo.GetDriverRideByID(id);
         }
