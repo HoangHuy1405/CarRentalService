@@ -4,29 +4,127 @@
 
 @model DriverRide
 <script type="module" src="~/js/FindRoute/findRoute.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" /> @* Add Font Awesome CDN *@
 
+<style>
+    /* Uber-like theme */
+    body {
+        background-color: #f5f5f5;
+    }
 
-@if (!User.IsInRole("Driver")) {
+    .container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    h1 {
+        color: #000;
+        font-weight: 600;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: #5fcf86;
+            box-shadow: 0 0 0 0.2rem rgba(95, 207, 134, 0.25);
+        }
+
+    label {
+        font-weight: 500;
+        color: #212529;
+        margin-bottom: 5px; /* Add some space between label and icon */
+    }
+
+    .btn-primary {
+        background-color: #5fcf86;
+        border-color: #5fcf86;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+    }
+
+        .btn-primary:hover {
+            background-color: #4ab66e;
+            border-color: #4ab66e;
+        }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    #map {
+        height: 400px;
+        border-radius: 10px;
+    }
+
+    /* Icon Styles */
+    .input-group-text {
+        background-color: transparent; /* Remove background */
+        border: none; /* Remove border */
+        padding: 0; /* Remove padding */
+    }
+
+        .input-group-text i {
+            color: #5fcf86; /* Uber green icon */
+            font-size: 1.2rem;
+        }
+
+    .form-group {
+        position: relative; /* To position icons inside the input */
+    }
+
+    .icon-inside {
+        position: absolute;
+        left: 10px; /* Adjust icon position */
+        top: 60%;
+        
+        color: #5fcf86; /* Uber green icon */
+        z-index: 2; /* Ensure icon is above input */
+    }
+
+    .form-control {
+        padding-left: 35px; /* Make space for the icon */
+    }
+</style>
+
+@if (!User.IsInRole("Driver"))
+{
     <h1 class="text-center mb-4">You are not a driver </h1>
-} else {
+}
+else
+{
     <div class="container my-5">
         <h1 class="text-center mb-4">Driver </h1>
-        <!-- Input form -->
         <div class="row mb-4">
-            <!-- Driver inputs -->
             <div class="col-md-6">
                 <div class="form-group mb-4">
-                    <label asp-for="StartLocation"></label>
+                    <label asp-for="StartLocation">
+                        <i class="fas fa-map-marker-alt icon-inside"></i>
+                        Start Location
+                    </label>
                     <input asp-for="StartLocation" class="form-control" placeholder="Starting Location" id="start-location" />
                     <span asp-validation-for="StartLocation" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="EndLocation"></label>
+                    <label asp-for="EndLocation">
+                        <i class="fas fa-map-marker-alt icon-inside"></i>
+                        End Location
+                    </label>
                     <input asp-for="EndLocation" class="form-control" placeholder="Ending Location" id="end-location" />
                     <span asp-validation-for="EndLocation" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Seats"></label>
+                    <label asp-for="Seats">
+                        <i class="fas fa-users icon-inside"></i>
+                        Number of Seats
+                    </label>
                     <input asp-for="Seats" class="form-control" placeholder="Number Of Seat available" />
                     <span asp-validation-for="Seats" class="text-danger"></span>
                 </div>
@@ -34,28 +132,28 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="DepartDate"></label>
+                    <label asp-for="DepartDate">
+                        <i class="fas fa-calendar-alt icon-inside"></i>
+                        Departure Date
+                    </label>
                     <input asp-for="DepartDate" class="form-control" placeholder="Ending time" type="date" />
                     <span asp-validation-for="DepartDate" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-4">
-                    <label asp-for="DepartTime"></label>
+                    <label asp-for="DepartTime">
+                        <i class="fas fa-clock icon-inside"></i>
+                        Departure Time
+                    </label>
                     <input asp-for="DepartTime" class="form-control" placeholder="Starting time" type="time" />
                     <span asp-validation-for="DepartTime" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Button -->
         <div class="text-center">
-            <button onclick="findRoute('driver')" class="btn btn-primary">Find Location</button>
+            <button onclick="findRoute('driver')" class="btn btn-primary"><i class="fas fa-map-marked-alt"></i> Add route</button>
         </div>
 
-        <!-- Map -->
         <div id="map" class="mt-4"></div>
     </div>
-
-    
-    
 }
-

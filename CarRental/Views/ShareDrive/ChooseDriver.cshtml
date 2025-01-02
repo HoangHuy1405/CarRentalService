@@ -50,7 +50,7 @@
                                         <input type="hidden" name="PassengerDepartDate" value="@(Model.passenger.DepartDate?.ToString() ?? string.Empty)" />
                                         <input type="hidden" name="DriverRideID" value="@driver.DriverRideID" />
 
-                                        <button type="submit" class="btn btn-block text-white shadow-sm mt-3" style="background-color: #5FCF86;">Choose Driver</button>
+                                        <button type="submit" class="btn btn-block text-white shadow-sm mt-3 choose-driver-btn">Choose Driver</button>
                                     </div>
                                 </div>
                             </form>
@@ -71,7 +71,8 @@
 <style>
     /* General style enhancements */
     body {
-        background-color: #f4f4f4;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa;
         color: #333;
     }
 
@@ -89,22 +90,31 @@
 
     .card-body {
         background-color: #ffffff;
-        border-radius: 12px;
+        border-radius: 16px;
         padding: 1.5rem;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
-        font-weight: 700;
+        font-weight: bold;
     }
 
     button {
         font-size: 1.1rem;
-        border-radius: 10px;
-        transition: background-color 0.3s;
+        border-radius: 12px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-        button:hover {
+    .choose-driver-btn {
+        background-color: #5FCF86;
+    }
+
+        .choose-driver-btn:hover {
             background-color: #45b570;
+            transform: scale(1.05);
+        }
+
+        .choose-driver-btn:focus {
+            box-shadow: 0 0 0 4px rgba(95, 207, 134, 0.4);
         }
 </style>
