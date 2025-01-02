@@ -4,8 +4,8 @@
 @model PassengerRide
 
 <div class="container-fluid my-5">
-    <div class="row">
-        <div class="col-lg-4 py-4">
+    <div class="row mt-4" style="padding-bottom: 20px">
+        <div class="col-lg-4">
             <div class="card border-0 shadow-lg rounded-4" style="background-color: #f8f9fa;">
                 <div class="card-body p-4">
                     <h2 class="text-center text-dark mb-4" style="font-weight: 600;">Ride Summary</h2>
@@ -36,6 +36,27 @@
         </div>
 
         <div class="col-lg-8">
+            @{
+                var passStart = Model.StartLocation;
+                var passEnd = Model.EndLocation;
+                var driverStart = Model.DriverRide?.StartLocation;
+                var driverEnd = Model.DriverRide?.EndLocation;
+            }
+
+            <div class="row">
+                <div class="col-12">
+                    <div id="map" style="height: 480px; border-radius: 1rem;"></div>
+                    <button class="btn btn-outline-primary w-25 mx-auto d-block mt-3" onclick="findSharedRoute('@passStart', '@passEnd', '@driverStart', '@driverEnd')">
+                        <i class="fas fa-map-marked-alt me-2"></i>Show Map
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
             <div class="card border-0 shadow-lg rounded-4" style="background-color: #f8f9fa;">
                 <div class="card-body p-4">
                     <h2 class="text-center text-dark mb-4" style="font-weight: 600;">Summary</h2>
@@ -80,26 +101,6 @@
             </div>
         </div>
     </div>
-
-    @{
-        var passStart = Model.StartLocation;
-        var passEnd = Model.EndLocation;
-        var driverStart = Model.DriverRide?.StartLocation;
-        var driverEnd = Model.DriverRide?.EndLocation;
-    }
-
-    <div class="row mt-4">
-        <div class="col-12">
-            <button class="btn btn-outline-primary w-25 mx-auto d-block mb-3" onclick="findSharedRoute('@passStart', '@passEnd', '@driverStart', '@driverEnd')">
-                <i class="fas fa-map-marked-alt me-2"></i>Show Map
-            </button>
-            <div id="map" style="height: 400px; border-radius: 1rem;"></div>
-        </div>
-    </div>
-</div>
-
-<script src="~/js/shareDrive.js"></script>
-<script>
     @{
         var passStart2 = Model.StartLocation;
         var passEnd2 = Model.EndLocation;
@@ -107,6 +108,9 @@
         var driverEnd2 = Model.DriverRide?.EndLocation;
         var seats = Model.Seats;
     }
+
+    <script src="~/js/shareDrive.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 // Embed Razor variables into JavaScript safely
@@ -130,57 +134,57 @@
             }
         });
 
-    function calculateTotalFee(distance, numberOfSeats, baseRatePerKM = 2, seatMultiplier = 10) {
-        let fee = (baseRatePerKM * distance) + (seatMultiplier * numberOfSeats);
-        fee = Math.round(fee * 100) / 100;
-        let depositFee = fee - 0.1 * fee;
-        depositFee = Math.round(depositFee * 100) / 100;
+        function calculateTotalFee(distance, numberOfSeats, baseRatePerKM = 2, seatMultiplier = 10) {
+            let fee = (baseRatePerKM * distance) + (seatMultiplier * numberOfSeats);
+            fee = Math.round(fee * 100) / 100;
+            let depositFee = fee - 0.1 * fee;
+            depositFee = Math.round(depositFee * 100) / 100;
 
-        document.getElementById("total-fee-value").textContent = fee + " ₫";
-        document.getElementById("final-price").textContent = depositFee + " ₫";
+            document.getElementById("total-fee-value").textContent = "$" + fee ;
+            document.getElementById("final-price").textContent = "$" + depositFee;
 
-        // Update hidden inputs
-        document.getElementById("total-fee-input").value = fee;
-        document.getElementById("deposit-fee-input").value = depositFee;
-    }
-</script>
+            // Update hidden inputs
+            document.getElementById("total-fee-input").value = fee;
+            document.getElementById("deposit-fee-input").value = depositFee;
+        }
+    </script>
 
-<style>
-    .card {
-        border-radius: 1rem; /* More rounded corners */
-        border: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    }
-
-    .card-body {
-        background-color: #f8f9fa; /* Light background */
-        border-radius: 1rem;
-    }
-
-    h2, h5 {
-        font-weight: 600; /* Bolder headings */
-    }
-
-    button {
-        font-size: 1.2rem;
-        border-radius: 2rem; /* Pill-shaped button */
-        font-weight: 600;
-        transition: all 0.3s ease; /* Smooth transition for hover effect */
-    }
-
-        button:hover {
-            background-color: #4ab66d; /* Slightly darker green on hover */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    <style>
+        .card {
+            border-radius: 1rem; /* More rounded corners */
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
 
-    /* Custom styling for icons */
-    .fas {
-        color: #5FCF86;
-    }
+        .card-body {
+            background-color: #f8f9fa; /* Light background */
+            border-radius: 1rem;
+        }
 
-    /* Disable button */
-    #book-button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-</style>
+        h2, h5 {
+            font-weight: 600; /* Bolder headings */
+        }
+
+        button {
+            font-size: 1.2rem;
+            border-radius: 2rem; /* Pill-shaped button */
+            font-weight: 600;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+            button:hover {
+                background-color: #4ab66d; /* Slightly darker green on hover */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+        /* Custom styling for icons */
+        .fas {
+            color: #5FCF86;
+        }
+
+        /* Disable button */
+        #book-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
