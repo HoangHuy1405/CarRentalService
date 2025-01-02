@@ -28,6 +28,8 @@ namespace CarRental.Models.ShareDrive {
         public float DepositFee { get; set; }
 
         public Status Status { get; set; } = Status.Pending;
+        [ValidateNever]
+        public Ticket Ticket { get; set; } // Navigation property for the one-to-one relationship
 
         public override string ToString() {
             return $"PassengerRideID: {PassengerRideID}, " +

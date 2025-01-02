@@ -14,5 +14,12 @@ namespace CarRental.Repository {
             return ticket;
         }
 
+        public async Task<IEnumerable<Ticket>> GetAllTicketsByUserID(string userId) {
+            return await dbSet
+               .Include(t => t.PassengerRide) // Include the PassengerRide data (one-to-one relationship)
+               .Where(t => t.PassengerRide.PassengerID == userId) // Filter by the UserID in PassengerRide
+               .ToListAsync();
+        }
+
     }
 }

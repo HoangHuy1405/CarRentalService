@@ -17,8 +17,8 @@ namespace CarRental.Service.TicketService {
                 TotalFee = passengerRide.TotalFee,
                 DepositFee = passengerRide.DepositFee,
                 TicketDetails = $"Ticket for {passengerRide.Passenger.UserName} from {passengerRide.StartLocation} to {passengerRide.EndLocation}.",
-                PassengerID = passengerRide.PassengerID,
-                DriverID = passengerRide.DriverRide.DriverID
+                PassengerRideID = passengerRide.PassengerRideID,
+                PassengerID = passengerRide.PassengerID
             };
             string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "tickets");
             string filePath = Path.Combine(directoryPath, $"{ticket.TicketID}.pdf");

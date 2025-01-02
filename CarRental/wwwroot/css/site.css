@@ -184,3 +184,29 @@ header {
     left: -50px;
 }
 
+
+#sidebar .dropdown-content {
+    display: none;
+    list-style: none;
+    padding-left: 20px;
+}
+
+    #sidebar .dropdown-content li {
+        padding: 5px 0;
+    }
+
+#sidebar .dropdown-content a {
+    text-decoration: none;
+    color: #fff;
+}
+
+#sidebar .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-btn {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CarRental.Models.Rental>
+
+@{
+    ViewData["Title"] = "Past Rentals";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Past Rental Cars</h2>
+
+    @if (!Model.Any()) {
+        <div class="alert alert-info text-center">
+            <strong>No past rentals found.</strong>
+        </div>
+    } else {
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Vehicle</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Pick-Up Location</th>
+                    <th>Total Fee</th>
+                    <th>Deposit Fee</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rental in Model) {
+                    <tr>
+                        <td>@rental.RentalId</td>
+                        <td>@rental.RentalVehicle?.Model  @rental.RentalVehicle?.Brand</td>
+                        <td>@rental.StartDate.ToString("MM/dd/yyyy")</td>
+                        <td>@rental.EndDate.ToString("MM/dd/yyyy")</td>
+                        <td>@rental.PickUpLocation</td>
+                        <td>@rental.totalFee.ToString("C")</td>
+                        <td>@rental.depositFee.ToString("C")</td>
+                        <td>
+                            @switch (rental.Status) {
+                                case CarRental.Models.Status.Pending:
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    break;
+                                case CarRental.Models.Status.Confirmed:
+                                    <span class="badge bg-success">Confirmed</span>
+                                    break;
+                                case CarRental.Models.Status.Cancelled:
+                                    <span class="badge bg-danger">Cancelled</span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }

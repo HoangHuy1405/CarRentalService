@@ -43,12 +43,11 @@ namespace CarRental.Data
                 .HasForeignKey(pr => pr.DriverRideID)
                 .OnDelete(DeleteBehavior.Restrict); // No cascading delete
 
-            modelBuilder.Entity<Ticket>(entity =>
-            {
-                entity.HasKey(t => t.TicketID);
-                entity.Property(t => t.DriverID).IsRequired(); // Ensures DriverID is in the database
-                entity.Property(t => t.PassengerID).IsRequired(); // Ensures PassengerID is in the database
-            });
+            modelBuilder.Entity<Ticket>()
+				.HasOne(t => t.PassengerRide)
+				.WithOne(pr => pr.Ticket)
+				.HasForeignKey<Ticket>(t => t.PassengerRideID) // Foreign key for Ticket
+				.OnDelete(DeleteBehavior.Cascade); // Choose delete behavior, Cascade here
 
             SeedData(modelBuilder);
 

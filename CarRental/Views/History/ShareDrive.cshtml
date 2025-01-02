@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CarRental.Models.ShareDrive.Ticket>
+
+@{
+    ViewData["Title"] = "Past Tickets";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Past Booked Tickets</h2>
+    
+    @if (Model.Any()) {
+            <div class="list-group">
+                @foreach (var ticket in Model) {
+                    <div class="list-group-item d-flex justify-content-between align-items-center mb-3 shadow-sm rounded border-0">
+                        <div>
+                            <p class="mb-1"><strong>TicketID:</strong> @ticket.TicketID</p>
+                            <p class="mb-1"><strong>Driver:</strong> @ticket.DriverName</p>
+                            <p class="mb-1"><strong>Departure:</strong> @ticket.DepartureDate?.ToString("MMMM dd, yyyy") @ticket.DepartureTime?.ToString("hh:mm tt")</p>
+                            <p class="mb-1"><strong>Route:</strong> @ticket.StartLocation <strong>to</strong> @ticket.EndLocation</p>
+                            <p class="mb-0"><strong>Total Fee:</strong> $@ticket.TotalFee</p>
+                        </div>
+
+                        <div>
+                            <div>
+                                <!-- Use a link to route to the Ticket details page -->
+                                <a href="@Url.Action("Ticket", "ShareDrive", new { ticketId = ticket.TicketID })" class="btn btn-outline-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+    } else {
+        <div class="alert alert-info text-center" role="alert">
+            You have not booked any tickets yet.
+        </div>
+    }
+    
+</div>
+
+<!-- Optional: Add CSS for a cleaner look -->
+<style>
+    .list-group-item {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .list-group-item .btn {
+        padding: 0.5rem 1rem;
+    }
+    .list-group-item h5 {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+</style>

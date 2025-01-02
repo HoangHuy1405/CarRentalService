@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Text.Json.Serialization;
 namespace CarRental.Models.ShareDrive {
     public class Ticket {
         public string TicketID { get; set; } // Unique ID for the ticket
@@ -16,9 +17,9 @@ namespace CarRental.Models.ShareDrive {
         public string? pdfPath { get; set; }
 
         // Database-only properties
-        [JsonIgnore] // Ensures these properties are not serialized in JSON responses
-        public string DriverID { get; set; }
-
+        [JsonIgnore] 
+        public int PassengerRideID { get; set; }
+        public PassengerRide PassengerRide { get; set; }
         [JsonIgnore]
         public string PassengerID { get; set; }
     }

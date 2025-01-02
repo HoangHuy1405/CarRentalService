@@ -187,7 +187,8 @@ namespace CarRental.Controllers
 					}
 					return View(rental);
 				}
-				return RedirectToAction("Index");
+                TempData["SuccessMessage"] = "Car rental was successful!";
+                return RedirectToAction("Index");
 			}
 			return View(rental);
 		}

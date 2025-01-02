@@ -15,8 +15,8 @@ namespace CarRental.Service.TicketService {
                 TotalFee = passengerRide.TotalFee,
                 DepositFee = passengerRide.DepositFee,
                 TicketDetails = $"Ticket for {passengerRide.Passenger.UserName} from {passengerRide.StartLocation} to {passengerRide.EndLocation}.",
+                PassengerRideID = passengerRide.PassengerRideID,
                 PassengerID = passengerRide.PassengerID,
-                DriverID = passengerRide.DriverRide.DriverID
             };
 
             var qrCode = await GenerateQRCodeAsync(ticket); // Generate QR code asynchronously
