@@ -20,6 +20,7 @@ namespace CarRental.Data
 		public DbSet<PassengerRide> PassengerRides { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
+		public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -41,9 +42,18 @@ namespace CarRental.Data
                 .WithMany(dr => dr.PassengerRides)
                 .HasForeignKey(pr => pr.DriverRideID)
                 .OnDelete(DeleteBehavior.Restrict); // No cascading delete
+
+            modelBuilder.Entity<Ticket>(entity =>
+            {
+                entity.HasKey(t => t.TicketID);
+                entity.Property(t => t.DriverID).IsRequired(); // Ensures DriverID is in the database
+                entity.Property(t => t.PassengerID).IsRequired(); // Ensures PassengerID is in the database
+            });
+
             SeedData(modelBuilder);
+
         }
-		public void SeedData(ModelBuilder modelBuilder) {
+        public void SeedData(ModelBuilder modelBuilder) {
             // Seed Roles into AspNetRoles (with generated GUIDs for RoleId)
             var adminRoleId = Guid.NewGuid().ToString();
             var driverRoleId = Guid.NewGuid().ToString();

@@ -9,15 +9,24 @@ using CarRental.Repository;
 using CarRental.Models.ModelView;
 using Microsoft.AspNetCore.Authorization;
 using CarRental.Models.DTO;
+using CarRental.Service.TicketService;
+using CarRental.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Controllers
 {
     public class ShareDriveController : Controller {
 
         private readonly ShareDriveService shareDriveService;
+        private readonly TicketService ticketService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly TicketRepository _ticketRepository;
 
-        public ShareDriveController(ApplicationDbContext context) {
+        public ShareDriveController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) {
             shareDriveService = new ShareDriveService(context);
+            ticketService = new TicketService(context);
+            _userManager = userManager;
+            _ticketRepository = new TicketRepository(context);
         }
 
         public IActionResult PassengerRide() {
@@ -141,7 +150,16 @@ namespace CarRental.Controllers
             if (ModelState.IsValid) {
                 var result = await shareDriveService.ProcessPassengerRide(passengerRide);
                 if (result.Success) {
-                    return RedirectToAction("PassengerRide");
+                    var pdfTicketStrategy = new PDFTicket();
+                    var qrCodeTicketStrategy = new QRCodeTicket();
+
+                    // Get the passenger object for the passengerRide
+                    passengerRide.Passenger = await _userManager.FindByIdAsync(passengerRide.PassengerID);
+
+                    // Generate both tickets
+                    Ticket ticket = await ticketService.GenerateTicketAsync(passengerRide, pdfTicketStrategy, qrCodeTicketStrategy);
+                    //HttpContext.Session.SetString("Ticket", JsonConvert.SerializeObject(ticket));
+                    return RedirectToAction("Ticket", new { ticketId = ticket.TicketID });
                 }
             } else {
                 foreach (var key in ModelState.Keys) {
@@ -152,8 +170,12 @@ namespace CarRental.Controllers
                 }
             }
             return RedirectToAction("PassengerRide");
-
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Ticket(string ticketId) {
+            var ticket = await _ticketRepository.GetTicketByID(ticketId);
+            return View(ticket);
+        }
     }
 }

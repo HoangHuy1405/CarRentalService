@@ -11,9 +11,6 @@ export class PassengerRouteHandler extends RouteHandler {
             // => use js to find all the driverRide with the sameRoute (10%)
             alert("Route found successfully!");
             getAllValidRoute(formData);
-
-            
-
         } else {
             alert("Route not found or invalid.");
         }
