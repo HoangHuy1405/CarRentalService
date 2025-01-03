@@ -60,7 +60,11 @@ namespace CarRental.Service
         }
         public async Task<ServiceResult> ProcessRefund(int DriverRideID) {
             try {
-                DriverRide? driverRide = await driverRepo.GetDriverRideByID(DriverRideID) ?? throw new Exception("Driver ride not found");
+
+                DriverRide? driverRide = await driverRepo.GetById(DriverRideID, new QueryOption<DriverRide>()
+                {
+                    Includes = "PassengerRides"
+                }) ?? throw new Exception("Driver ride not found");
                 List<PassengerRide> passengerRides = driverRide.PassengerRides.Where(p => p.Status == Status.Confirmed).ToList();
 
                 foreach (PassengerRide passengerRide in passengerRides) {

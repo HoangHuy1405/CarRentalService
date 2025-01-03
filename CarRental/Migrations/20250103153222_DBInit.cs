@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class DBInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -375,9 +375,9 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1bcb9365-7088-462c-8058-8be7823f3a86", null, "Admin", "ADMIN" },
-                    { "a2475d61-77a8-48c3-b413-d6010dff6074", null, "User", "USER" },
-                    { "de86d4d7-b5e7-4302-8866-9c9ab71c03f5", null, "Driver", "DRIVER" }
+                    { "6c2860a2-8fbb-4578-8f17-d5f97461f78a", null, "User", "USER" },
+                    { "96bd1a78-8821-4293-a30d-5ec83ff4bd8b", null, "Driver", "DRIVER" },
+                    { "ffe7b9b3-f7c1-4908-a179-a8cabf15ab4d", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,11 +385,11 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "Admin", 0, 10f, "2f0349c9-831b-4426-a157-926f1a64c7ae", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEPq6f1NPsvcbUtbD62C2shnAMImHdunfeGIBpfpC+leMaJBvdmEnYflBlwrYwWUujw==", null, false, "47d3a090-4a82-4473-8efd-e90ed85ae990", false, "Admin" },
-                    { "owner1", 0, 1000000f, "02411d16-5216-423a-b456-67c828d2dd64", "owner1@example.com", true, false, null, "OWNER1@EXAMPLE.COM", "OWNER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEOr+8g0Eq1VQecNr1G/3yJIOb2gkKlMPCxVEhPcn5zOsDcW0tLnXGs2kBmGyUhmGrw==", null, false, "fe3f90d6-9c6c-481d-9348-9cfd700b1857", false, "owner1" },
-                    { "owner2", 0, 1000000f, "59930784-e55a-49ca-b566-5f6731746820", "owner2@example.com", true, false, null, "OWNER2@EXAMPLE.COM", "OWNER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAELcH2vj03C2EfF0Tci6QKtm8bClCVCWtRavFEgAQ/HiZCrUQ6pi4cRo/5oj74qaFOQ==", null, false, "1b7e6d82-21a9-46e3-8e6e-0e99e8b26179", false, "owner2" },
-                    { "user1", 0, 1000000f, "714e9e52-61de-4785-a7d2-b014598f8d1f", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAENubDQDiGILiYiTmKe9HfXPqhv2hy7nqQY+wWBZQB4cDk5ofNor5jytxLaUA8SOS1g==", null, false, "48695aaf-737f-4dc5-be67-fd0e2a29a6ff", false, "user1" },
-                    { "user2", 0, 1000000f, "99484c48-800c-4dd5-b65c-0cae5b2ad974", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEKbeyxCD5GbuZ88KrnO43uMTyEgoUs4a6Y/Vcvm4H/O75ntaDuBQMSDwIsxLhZNb4w==", null, false, "a2223b06-2ad7-4450-90f2-8e90b4ca4500", false, "user2@example.co" }
+                    { "Admin", 0, 10f, "de847970-df12-4d45-8f73-28b342054a9a", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHHQKutCOca7lwzvqgTBi5407QuJ3ApaIHEIhsQJHtc9lFAAvutmRwOEsYNFQxf6Pg==", null, false, "64151f5d-941d-4d16-99bc-9f3203acbda3", false, "Admin" },
+                    { "owner1", 0, 1000000f, "5e6a2881-e009-4651-a718-4497b577a74e", "owner1@example.com", true, false, null, "OWNER1@EXAMPLE.COM", "OWNER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHC1sLbl7lcOs88B94zKXAWBdlor2LTkE5aQPVVwd1G7pcj4DGrOfbEJu89KuYbVOg==", null, false, "6116b8d0-2cb0-4788-81d7-95647d213daa", false, "owner1" },
+                    { "owner2", 0, 1000000f, "8df31956-f30c-4b37-8261-2d8ff551215e", "owner2@example.com", true, false, null, "OWNER2@EXAMPLE.COM", "OWNER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEC1t/+v2GTMXDruTqeBNnopiESFklZVyCeosrfUEpBIByYd0RVhSlYOULQ0gEBLD6g==", null, false, "e86d3980-2df9-4059-a0e7-3bf4fc5edb26", false, "owner2" },
+                    { "user1", 0, 1000000f, "bf4987e7-77eb-43a0-a7a3-28a72248005e", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHqPmISAwtsJEPQOJ1I4gVRjbwUjgk3/cJDjT0BBhuBGMmzRDUOhVnEd4OrfgmNNvg==", null, false, "791489da-5621-4922-aa39-236ed86ae912", false, "user1" },
+                    { "user2", 0, 1000000f, "2ca0118a-b179-481c-859c-14997091c1dc", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGo2KRhmiZgBvelsDzf2cBMw90erg5gCq9fBj6D3txCUvUjQIGIsY3rEXzSExhg5sg==", null, false, "565859ad-f168-49f0-8fbf-b71fb520c27f", false, "user2@example.co" }
                 });
 
             migrationBuilder.InsertData(
@@ -397,11 +397,11 @@ namespace CarRental.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "1bcb9365-7088-462c-8058-8be7823f3a86", "Admin" },
-                    { "de86d4d7-b5e7-4302-8866-9c9ab71c03f5", "owner1" },
-                    { "de86d4d7-b5e7-4302-8866-9c9ab71c03f5", "owner2" },
-                    { "a2475d61-77a8-48c3-b413-d6010dff6074", "user1" },
-                    { "a2475d61-77a8-48c3-b413-d6010dff6074", "user2" }
+                    { "ffe7b9b3-f7c1-4908-a179-a8cabf15ab4d", "Admin" },
+                    { "96bd1a78-8821-4293-a30d-5ec83ff4bd8b", "owner1" },
+                    { "96bd1a78-8821-4293-a30d-5ec83ff4bd8b", "owner2" },
+                    { "6c2860a2-8fbb-4578-8f17-d5f97461f78a", "user1" },
+                    { "6c2860a2-8fbb-4578-8f17-d5f97461f78a", "user2" }
                 });
 
             migrationBuilder.InsertData(
@@ -418,12 +418,12 @@ namespace CarRental.Migrations
                 columns: new[] { "RentalVehicleID", "Brand", "Description", "FuelConsumption", "FuelType", "LicensePlate", "Location", "ManuYear", "Model", "NumberOfSeats", "OwnerId", "RentalFeePerDay", "RentalFeePerKilo", "ThumbnailUrl", "TimeCreated", "Transmission" },
                 values: new object[,]
                 {
-                    { 1, "Toyota", "Compact sedan, well-maintained, perfect for city driving.", 8f, 0, "ABC1234", "Quan 1, TP HCM", new DateTime(2018, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Corolla", 5, "user1", 25f, 4f, "/images/Thumbnail/ToyotaCorolla.jpg", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(539), 1 },
-                    { 2, "Ford", "Spacious hatchback, ideal for city drives and family trips.", 9f, 0, "XYZ5678", "Quan 2, TP HCM", new DateTime(2020, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Focus", 5, "user1", 30f, 5f, "/images/Thumbnail/FordFocus.jpg", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(573), 1 },
-                    { 3, "BMW", "Luxury SUV with premium features, perfect for long road trips.", 10f, 1, "LMN7890", "Quan 3, TP HCM", new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "X5", 7, "user1", 95f, 15f, "/images/Thumbnail/BMWx5.png", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(578), 1 },
-                    { 4, "Honda", "Economical sedan, perfect for daily use and city driving.", 11f, 0, "OPQ1122", "Quan 4, TP HCM", new DateTime(2019, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Civic", 5, "user2", 22f, 4f, "/images/Thumbnail/HondaCivic.png", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(581), 1 },
-                    { 5, "Mercedes", "High-end luxury sedan with modern technology and comfort features.", 8f, 0, "RST9876", "Quan 4, TP HCM", new DateTime(2021, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "E-Class", 5, "user2", 150f, 20f, "/images/Thumbnail/MercedesEclass.png", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(584), 1 },
-                    { 6, "Chevrolet", "Spacious full-size SUV, great for large families or group trips.", 10f, 0, "UVW6543", "Quan 4, TP HCM", new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tahoe", 8, "owner1", 85f, 12f, "/images/Thumbnail/ChervroletTahoe.png", new DateTime(2025, 1, 3, 22, 4, 47, 358, DateTimeKind.Local).AddTicks(588), 1 }
+                    { 1, "Toyota", "Compact sedan, well-maintained, perfect for city driving.", 8f, 0, "ABC1234", "Quan 1, TP HCM", new DateTime(2018, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Corolla", 5, "user1", 25f, 4f, "/images/Thumbnail/ToyotaCorolla.jpg", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5327), 1 },
+                    { 2, "Ford", "Spacious hatchback, ideal for city drives and family trips.", 9f, 0, "XYZ5678", "Quan 2, TP HCM", new DateTime(2020, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Focus", 5, "user1", 30f, 5f, "/images/Thumbnail/FordFocus.jpg", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5356), 1 },
+                    { 3, "BMW", "Luxury SUV with premium features, perfect for long road trips.", 10f, 1, "LMN7890", "Quan 3, TP HCM", new DateTime(2022, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "X5", 7, "user1", 95f, 15f, "/images/Thumbnail/BMWx5.png", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5359), 1 },
+                    { 4, "Honda", "Economical sedan, perfect for daily use and city driving.", 11f, 0, "OPQ1122", "Quan 4, TP HCM", new DateTime(2019, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Civic", 5, "user2", 22f, 4f, "/images/Thumbnail/HondaCivic.png", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5361), 1 },
+                    { 5, "Mercedes", "High-end luxury sedan with modern technology and comfort features.", 8f, 0, "RST9876", "Quan 4, TP HCM", new DateTime(2021, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "E-Class", 5, "user2", 150f, 20f, "/images/Thumbnail/MercedesEclass.png", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5363), 1 },
+                    { 6, "Chevrolet", "Spacious full-size SUV, great for large families or group trips.", 10f, 0, "UVW6543", "Quan 4, TP HCM", new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tahoe", 8, "owner1", 85f, 12f, "/images/Thumbnail/ChervroletTahoe.png", new DateTime(2025, 1, 3, 22, 32, 22, 63, DateTimeKind.Local).AddTicks(5365), 1 }
                 });
 
             migrationBuilder.InsertData(

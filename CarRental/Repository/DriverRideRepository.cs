@@ -14,6 +14,7 @@ namespace CarRental.Repository
             return await context.DriverRides
                 .Include(dr => dr.Driver!) // Include the Driver
                 .ThenInclude(d => d.User!) // Include the User inside the Driver
+                .ThenInclude(d => d.PassengerRides!)
                 .FirstOrDefaultAsync(dr => dr.DriverRideID == id);
         }
 
