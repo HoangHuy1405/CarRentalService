@@ -20,7 +20,7 @@ namespace CarRental.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Approve(string id) {
-            var result = await _driverService.ApproveDriverAsync(id); // Approve driver logic
+            var result = await _driverService.ApproveDriverAsync(id); // Approve driver ogic
             if (result.Success) {
                 TempData["Message"] = "Driver approved successfully!";
             } else {
