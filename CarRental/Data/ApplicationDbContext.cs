@@ -287,6 +287,32 @@ namespace CarRental.Data
 				new CarImage { CarImageID = "12", RentalVehicleID = 6, ImageUrl = "/images/Gallery/ChervroletTahoe_1.png" },
 				new CarImage { CarImageID = "13", RentalVehicleID = 6, ImageUrl = "/images/Gallery/ChervroletTahoe_2.png" }
 			);
-		}
-	}
+
+			// Seed DriverRide entities
+			modelBuilder.Entity<DriverRide>().HasData(
+				new DriverRide
+				{
+					DriverRideID = 1,
+					DriverID = "Owner1",
+					DepartTime = new TimeOnly(23, 0, 0),
+					DepartDate = new DateTime(2023, 1, 1),
+					StartLocation = "THPT Thủ Đức",
+					EndLocation = "Đại học Quốc Tế",
+					Seats = 3,
+					SeatLeft = 3
+				},
+				new DriverRide
+				{
+					DriverRideID = 2,
+					DriverID = "Owner2",
+					DepartTime = new TimeOnly(10, 0, 0),
+					DepartDate = new DateTime(2023, 1, 1),
+					StartLocation = "THPT Thủ Đức",
+					EndLocation = "Đại học Quốc Tế",
+					Seats = 3,
+                    SeatLeft = 3
+                }
+			);
+        }
+    }
 }
