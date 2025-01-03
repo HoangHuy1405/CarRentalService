@@ -294,7 +294,8 @@ namespace CarRental.Data
 				{
 					DriverRideID = 1,
 					DriverID = "Owner1",
-					DepartTime = new TimeOnly(23, 0, 0),
+                    Status = Status.Pending,
+                    DepartTime = new TimeOnly(23, 0, 0),
 					DepartDate = new DateTime(2023, 1, 1),
 					StartLocation = "THPT Thủ Đức",
 					EndLocation = "Đại học Quốc Tế",
@@ -305,7 +306,8 @@ namespace CarRental.Data
 				{
 					DriverRideID = 2,
 					DriverID = "Owner2",
-					DepartTime = new TimeOnly(10, 0, 0),
+                    Status = Status.Pending,
+                    DepartTime = new TimeOnly(10, 0, 0),
 					DepartDate = new DateTime(2023, 1, 1),
 					StartLocation = "THPT Thủ Đức",
 					EndLocation = "Đại học Quốc Tế",
