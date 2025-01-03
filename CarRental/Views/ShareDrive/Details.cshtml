@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CarRental.Models.DTO.PassengerRideDto>
+
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Passenger Rides</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Passenger Name</th>
+                    <th>Start Location</th>
+                    <th>End Location</th>
+                    <th>Seats</th>
+                    <th>Departure Date</th>
+                    <th>Departure Time</th>
+                    <th>Total Fee</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ride in Model) {
+                    <tr>
+                        <td>@ride.PassengerName</td>
+                        <td>@ride.StartLocation</td>
+                        <td>@ride.EndLocation</td>
+                        <td>@ride.Seats</td>
+                        <td>@ride.DepartDate?.ToString("yyyy-MM-dd")</td>
+                        <td>@ride.DepartTime?.ToString("hh\\:mm")</td>
+                        <td>@ride.TotalFee</td>
+                        <td>@ride.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

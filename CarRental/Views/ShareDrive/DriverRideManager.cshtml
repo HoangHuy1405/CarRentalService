@@ -1,0 +1,44 @@
+﻿@using CarRental.Models.DTO
+@model IEnumerable<DriverRideDto>
+
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Driver Rides</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Ride Details</th>
+                    <th>Actions</th> <!-- New column for action buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ride in Model) {
+                    <tr>
+                        <td>@ride.DriverRideID</td>
+                        <td>
+                            <p class="mb-1"> <span class="fw-bold"> From: </span>@ride.StartLocation</p>
+                            <p class="mb-1"> <span class="fw-bold"> To: </span> @ride.EndLocation</p>
+                            <p class="mb-1"> <span class="fw-bold"> Date: </span>Date: @ride.DepartDate?</p>
+                            <p class="mb-1"> <span class="fw-bold"> Time: </span>Time: @ride.DepartTime?</p>
+                            <p class="mb-1"> <span class="fw-bold"> Seats: </span>Seats: @ride.Seats</p>
+                            <p class="mb-1"> <span class="fw-bold"> Seats Left: </span> @ride.SeatLeft</p>
+                        </td>
+                        <td>
+                            <!-- Details Button -->
+                            <a href="@Url.Action("Details", "ShareDrive", new { id = ride.DriverRideID })" class="btn btn-info btn-sm">
+                                Details
+                            </a>
+
+                            <!-- Cancel Button -->
+                            <a href="@Url.Action("CloseShareDrive", "ShareDrive", new { id = ride.DriverRideID })" class="btn btn-danger btn-sm">
+                                Cancel
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

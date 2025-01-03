@@ -75,8 +75,9 @@ namespace CarRental.Data
 					NormalizedUserName = "USER1@EXAMPLE.COM",
 					NormalizedEmail = "USER1@EXAMPLE.COM",
 					EmailConfirmed = true,
-					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-				},
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
+                    Balance = 1000000
+                },
 				new ApplicationUser
 				{
 					Id = "user2",
@@ -86,8 +87,9 @@ namespace CarRental.Data
 					NormalizedUserName = "USER2@EXAMPLE.COM",
 					NormalizedEmail = "USER2@EXAMPLE.COM",
 					EmailConfirmed = true,
-					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-				},
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
+                    Balance = 1000000
+                },
 				new ApplicationUser
 				{
 					Id = "owner1",
@@ -97,8 +99,9 @@ namespace CarRental.Data
 					NormalizedUserName = "OWNER1@EXAMPLE.COM",
 					NormalizedEmail = "OWNER1@EXAMPLE.COM",
 					EmailConfirmed = true,
-					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-				},
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
+                    Balance = 1000000
+                },
 				new ApplicationUser
 				{
 					Id = "owner2",
@@ -108,8 +111,9 @@ namespace CarRental.Data
 					NormalizedUserName = "OWNER2@EXAMPLE.COM",
 					NormalizedEmail = "OWNER2@EXAMPLE.COM",
 					EmailConfirmed = true,
-					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
-				},
+					PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
+                    Balance = 1000000
+                },
                 new ApplicationUser
                 {
                     Id = "Admin",
@@ -119,7 +123,8 @@ namespace CarRental.Data
                     NormalizedUserName = "ADMIN@EXAMPLE.COM",
                     NormalizedEmail = "ADMIN@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!")
+                    PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Password123!"),
+                    Balance = 10
                 }
             };
 			modelBuilder.Entity<ApplicationUser>().HasData(users);

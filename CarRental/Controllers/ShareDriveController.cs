@@ -160,6 +160,14 @@ namespace CarRental.Controllers
                     Ticket ticket = await ticketService.GenerateTicketAsync(passengerRide, pdfTicketStrategy, qrCodeTicketStrategy);
                     //HttpContext.Session.SetString("Ticket", JsonConvert.SerializeObject(ticket));
                     return RedirectToAction("Ticket", new { ticketId = ticket.TicketID });
+                } else {
+                    foreach (string error in result.Errors) {
+                        if(error.Equals("Insufficient Fund")) {
+                            TempData["Insufficient"] = "Insufficient Fund";
+                        }
+                        ModelState.AddModelError(string.Empty, error);
+                    }
+                    return View("ShareDrivePayment", passengerRide);
                 }
             } else {
                 foreach (var key in ModelState.Keys) {
@@ -172,10 +180,35 @@ namespace CarRental.Controllers
             return RedirectToAction("PassengerRide");
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Ticket(string ticketId) {
             var ticket = await _ticketRepository.GetTicketByID(ticketId);
             return View(ticket);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> YourDriverRideList() {
+            string driverID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            IEnumerable<DriverRideDto> driverRides = await shareDriveService.GetAllDriverRideByID(driverID);
+            return View("DriverRideManager", driverRides);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CloseShareDrive(int id) {
+            var result = await shareDriveService.ProcessRefund(id);
+            if(result.Success) {
+                return RedirectToAction("YourDriverRideList");
+            } else {
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id) {
+            IEnumerable<PassengerRideDto> passengerRideDto = await shareDriveService.GetPassRidesOfDriverRide(id);
+            return View(passengerRideDto);
         }
     }
 }

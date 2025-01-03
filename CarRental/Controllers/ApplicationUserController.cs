@@ -26,7 +26,6 @@ namespace CarRental.Controllers {
             // Return a view with the rental vehicles (cars) owned by the user
             return View(vehicles); // Pass the list of cars to the view
         }
-
         
     }
 }

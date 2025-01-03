@@ -29,8 +29,8 @@
                 <i class="fas fa-user-circle"></i> Hello @User.Identity?.Name!
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" asp-controller="ApplicationUser" asp-action="ChangePassword"><i class="fas fa-key"></i> Change password</a></li>
-                <li><a class="dropdown-item" asp-controller="ApplicationUser" asp-action="Profile"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a class="dropdown-item" asp-controller="" asp-action=""><i class="fas fa-key"></i> Change password</a></li>
+                <li><a class="dropdown-item" asp-controller="" asp-action=""><i class="fas fa-user"></i> Profile</a></li>
 
                 @if (User.IsInRole("Admin"))
                 {

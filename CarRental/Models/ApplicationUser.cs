@@ -16,6 +16,8 @@ namespace CarRental.Models {
         [ValidateNever]
         public ICollection<PassengerRide> PassengerRides { get; set; } // One-to-Many relationship with PassengerRide
 
+        public float Balance { get; set; }
+
         public ApplicationUser() { 
             RentalVehicles = new List<Vehicle>();
             PassengerRides = new List<PassengerRide>();

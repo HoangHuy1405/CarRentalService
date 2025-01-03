@@ -61,5 +61,62 @@ namespace CarRental.Repository
             }
 
         }
+
+        public async Task<IEnumerable<DriverRideDto>> GetAllDriverRideByID(string driverID) {
+            try {
+                var query = context.DriverRides
+                        .Include(driverRide => driverRide.Driver) // Load related Driver entity
+                        .ThenInclude(driver => driver.User)
+                        .Where(driverRide => driverRide.DriverID == driverID);
+
+                var result = await query.Select(driverRide => new DriverRideDto {
+                    // DriverRide fields
+                    DriverRideID = driverRide.DriverRideID,
+                    DriverID = driverRide.DriverID,
+                    StartLocation = driverRide.StartLocation,
+                    EndLocation = driverRide.EndLocation,
+                    DepartDate = driverRide.DepartDate,
+                    DepartTime = driverRide.DepartTime,
+                    Seats = driverRide.Seats,
+                    SeatLeft = driverRide.SeatLeft,
+
+                    // Driver fields
+                    DriverName = driverRide.Driver.User.UserName, // From ApplicationUser
+                    DriverEmail = driverRide.Driver.User.Email,   // From ApplicationUser
+                    DriverPhone = driverRide.Driver.User.PhoneNumber, // From ApplicationUser
+                    LicenseNumber = driverRide.Driver.LicenseNumber,
+                    LicenseExpiryDate = driverRide.Driver.LicenseExpiryDate,
+                    LicenseImageUrl = driverRide.Driver.LicenseImageUrl,
+                    NationalIdUrl = driverRide.Driver.NationalIdUrl
+                })
+                .ToListAsync();
+
+                return result;
+            } catch (Exception ex) {
+                Console.WriteLine($"Error while querying DriverRideDtos (GetAllDriverRideByID): {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<PassengerRideDto>> GetPassRidesOfDriverRide(int driverRideID) {
+            Console.WriteLine("driverRideID = " + driverRideID);
+            var passengerRides = await context.PassengerRides
+                .Where(pr => pr.DriverRideID == driverRideID)  // Filter by driverID
+                .Select(pr => new PassengerRideDto {
+                    PassengerRideID = pr.PassengerRideID,
+                    PassengerName = pr.Passenger != null ? pr.Passenger.UserName : "N/A",
+                    StartLocation = pr.StartLocation,
+                    EndLocation = pr.EndLocation,
+                    Seats = pr.Seats,
+                    DepartDate = pr.DepartDate,
+                    DepartTime = pr.DepartTime,
+                    TotalFee = pr.TotalFee,
+                    Status = pr.Status
+                })
+                .ToListAsync();
+
+            return passengerRides;
+        }
+
     }
 }

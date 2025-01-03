@@ -3,6 +3,17 @@
 
 @model PassengerRide
 
+@{
+    var insufficient = TempData["Insufficient"] as string;
+}
+
+@if (!string.IsNullOrEmpty(insufficient)) {
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @insufficient
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="container-fluid my-5">
     <div class="row mt-4" style="padding-bottom: 20px">
         <div class="col-lg-4">

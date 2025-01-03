@@ -54,7 +54,7 @@
                         } else {
                             @* meaning that this user already a driver *@
                             <li><a class="" asp-controller="ShareDrive" asp-action="DriverOpen"><i class="fas fa-car"></i> Open share drive</a></li>
-                            <li><a class="" asp-controller="ShareDrive" asp-action="Close"><i class="fas fa-car"></i> Close share drive</a></li>
+                            <li><a class="" asp-controller="ShareDrive" asp-action="YourDriverRideList"><i class="fas fa-car"></i> Your rides</a></li>
                         }
                         @if (User.IsInRole("Admin")) {
                             <li><a class="" asp-controller="Admin" asp-action="Approve"><i class="fas fa-person"></i> Approval</a></li>
