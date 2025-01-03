@@ -73,7 +73,8 @@ namespace CarRental.Service
                     passengerRide.Status = Status.Cancelled;
                     await passengerRepo.Update(passengerRide);
                 }
-                
+
+                driverRide.Status = Status.Cancelled;
                 await driverRepo.Update(driverRide);
 
                 return ServiceResult.SuccessResult();
