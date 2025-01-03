@@ -47,6 +47,7 @@
                 <div id="sidebar">
                     <span class="close-btn" id="closeSidebar">&times;</span>
                     <ul>
+                        <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
                         <li><a class="" asp-controller="ApplicationUser" asp-action="Index"> <i class="fa-solid fa-car-side"></i> My Car</a></li>
                         @if (!User.IsInRole("Driver")) {
                             <li><a class="" asp-controller="Driver" asp-action="RegisterDriver"><i class="fas fa-car"></i> Register as driver</a></li>
