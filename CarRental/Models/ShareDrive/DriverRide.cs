@@ -33,12 +33,10 @@ namespace CarRental.Models.ShareDrive
         public TimeOnly? DepartTime { get; set; }
         [Required]
         [Display(Name = "Departure date*")]
-        public DateTime? DepartDate { get; set; }
+        public DateTime? DepartDate { get; set; } 
 
         public int SeatLeft { get; set; }
-
-        
-
+        public Status Status { get; set; } = Status.Pending;
 
         public DriverRide() {
             SeatLeft = Seats;

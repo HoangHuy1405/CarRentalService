@@ -72,8 +72,8 @@ namespace CarRental.Service
                     await userRepo.AddMoneyToBalance(passengerRide.PassengerID, passengerRide.DepositFee);
                     passengerRide.Status = Status.Cancelled;
                     await passengerRepo.Update(passengerRide);
-                    driverRide.SeatLeft -= passengerRide.Seats;
                 }
+                
                 await driverRepo.Update(driverRide);
 
                 return ServiceResult.SuccessResult();
