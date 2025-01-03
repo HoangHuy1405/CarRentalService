@@ -1,9 +1,11 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
 using CarRental.Models.ShareDrive;
+using CarRental.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarRental.Repository {
+namespace CarRental.Repository
+{
     public class TicketRepository : Repository<Ticket>, ITicketRepository {
         public TicketRepository(ApplicationDbContext context) : base(context) {
         }

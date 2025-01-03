@@ -1,6 +1,7 @@
 ﻿using CarRental.Data;
 using CarRental.Models.DTO;
 using CarRental.Models.ShareDrive;
+using CarRental.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Repository

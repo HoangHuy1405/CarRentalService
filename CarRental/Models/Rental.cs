@@ -6,6 +6,7 @@ namespace CarRental.Models {
         Pending,
         Confirmed,
         Cancelled,
+        Refunded
     }
     public class Rental {
         public int? RentalId { get; set; }
