@@ -7,139 +7,136 @@
     <div class="row g-3">
         @foreach (Vehicle vehicle in Model)
         {
-            @if (!isForDetails && @vehicle.RentalVehicleID == @currentId)
+            @if (!isForDetails && vehicle.RentalVehicleID == currentId)
             {
                 continue;
             }
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100 border border-light rounded-3 card-hover-effect">
-                    <div class="position-relative d-flex justify-content-center">
-                        <img src="@Url.Content(vehicle?.ThumbnailUrl)"
-                             class="card-img-top img-fluid"
-                             alt="@vehicle.Brand"
-                             style="height: 200px; object-fit: cover; margin: 15px; width:90%; border-radius: 10px">
-                    </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100 border border-light rounded-3 card-hover-effect">
+                        <div class="position-relative d-flex justify-content-center">
+                            <img src="@Url.Content(vehicle?.ThumbnailUrl)"
+                                 class="card-img-top img-fluid"
+                                 alt="@vehicle.Brand"
+                                 style="height: 200px; object-fit: cover; margin: 15px; width:90%; border-radius: 10px">
+                        </div>
 
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div style="background-color: #eef7ff; padding: 5px 10px; border-radius: 5px; font-size:0.9rem">
-                                <i class="bi bi-gear"></i> <span>@vehicle.Transmission</span>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div style="background-color: #eef7ff; padding: 5px 10px; border-radius: 5px; font-size:0.9rem">
+                                    <i class="bi bi-gear"></i> <span>@vehicle.Transmission</span>
+                                </div>
+                                <div style="background-color: #dff5e7; padding: 5px 10px; border-radius: 5px; font-size:0.9rem">
+                                    <i class="bi bi-truck"></i> <span>Delivery</span>
+                                </div>
                             </div>
-                            <div style="background-color: #dff5e7; padding: 5px 10px; border-radius: 5px; font-size:0.9rem">
-                                <i class="bi bi-truck"></i> <span>Delivery</span>
+
+                            <h5 class="card-title text-primary mb-1">@vehicle.Brand @vehicle.Model @vehicle.ManuYear.Year</h5>
+
+                            <p class="text-muted mb-3"><i class="bi bi-geo-alt"></i> @vehicle.Location</p>
+
+                            <hr />
+
+                            <div class="pricing d-flex justify-content-between align-items-center">
+                                <h5 class="text-success mb-0">$@String.Format("{0:N0}", vehicle.RentalFeePerDay)/day</h5>
+                                <p class="text-muted mb-0">$@String.Format("{0:N0}", vehicle.RentalFeePerKilo)/4 hours</p>
                             </div>
                         </div>
 
-                        <h5 class="card-title text-primary mb-1">@vehicle.Brand @vehicle.Model @vehicle.ManuYear.Year</h5>
-
-                        <p class="text-muted mb-3"><i class="bi bi-geo-alt"></i> @vehicle.Location</p>
-
-                        <hr />
-
-                        <div class="pricing d-flex justify-content-between align-items-center">
-                            <h5 class="text-success mb-0">$@String.Format("{0:N0}", vehicle.RentalFeePerDay)/day</h5>
-                            <p class="text-muted mb-0">$@String.Format("{0:N0}", vehicle.RentalFeePerKilo)/4 hours</p>
-                        </div>
-                    </div>
-
-                    <div class="card-footer bg-transparent border-0 text-center">
+                        <div class="card-footer bg-transparent border-0 text-center">
                         @if (isForDetails)
                         {
-                            <a asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-outline-primary w-100">See details</a>
+                                    <a asp-controller="Vehicle" asp-action="Details" asp-route-id="@vehicle.RentalVehicleID" class="btn btn-outline-primary w-100">See details</a>
                         }
                         else
                         {
-                            <a asp-controller="Vehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary w-100">Compare</a>
+                                    <a asp-controller="Vehicle" asp-action="Compare" asp-route-id="@vehicle.RentalVehicleID" asp-route-currentId="@currentId" class="btn btn-primary w-100">Compare</a>
                         }
+                        </div>
                     </div>
                 </div>
-            </div>
+        }
+        @if (!Model.Any())
+        {
+                <div class="col-12">
+                    <p>No vehicles found matching your search criteria.</p>
+                </div>
         }
     </div>
 </div>
 
 @section Styles {
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Roboto', sans-serif; /* Choose your preferred font */
-        }
-
-        .text-primary {
-            color: #3498db !important; /* Your primary color */
-        }
-
-        .text-secondary {
-            color: #6c757d !important; /* Your secondary color */
-        }
-
-        .bg-secondary {
-            background-color: #f8f9fa !important; /* Light gray background */
-        }
-
-        .btn-primary {
-            background-color: #3498db; /* Primary button color */
-            border-color: #3498db;
-        }
-
-            .btn-primary:hover {
-                background-color: #2980b9; /* Darker shade on hover */
-                border-color: #2980b9;
+        <style>
+            /* General Styles */
+            body {
+                font-family: 'Roboto', sans-serif; /* Choose your preferred font */
             }
 
-        .btn-outline-primary {
-            color: #3498db;
-            border-color: #3498db;
-        }
-
-            .btn-outline-primary:hover {
-                background-color: #2980b9; /* Darker shade on hover */
-                border-color: #2980b9;
-                color: #f8f9fa;
+            .text-primary {
+                color: #3498db !important; /* Your primary color */
             }
 
-        /* Card Styles */
-        .card {
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
-        }
+            .text-secondary {
+                color: #6c757d !important; /* Your secondary color */
+            }
 
-        .card-hover-effect:hover {
-            transform: translateY(-5px); /* Lift card slightly on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Larger shadow on hover */
-            border-color: #3498db;
-        }
+            .bg-secondary {
+                background-color: #f8f9fa !important; /* Light gray background */
+            }
 
-        .card-title {
-            font-weight: 600;
-        }
+            .btn-primary {
+                background-color: #3498db; /* Primary button color */
+                border-color: #3498db;
+            }
 
-        /* Image Styles */
-        .card-img-top {
-            border-top-left-radius: 10px; /* Match card corners */
-            border-top-right-radius: 10px;
-        }
+                .btn-primary:hover {
+                    background-color: #2980b9; /* Darker shade on hover */
+                    border-color: #2980b9;
+                }
 
-        /* Badge Styles */
-        .badge {
-            font-size: 0.85em;
-            font-weight: 500;
-            padding: 0.4em 0.8em;
-        }
+            .btn-outline-primary {
+                color: #3498db;
+                border-color: #3498db;
+            }
 
-        /* Pricing Styles */
-        .pricing {
-            font-size: 0.9em;
-        }
-    </style>
+                .btn-outline-primary:hover {
+                    background-color: #2980b9; /* Darker shade on hover */
+                    border-color: #2980b9;
+                    color: #f8f9fa;
+                }
+
+            /* Card Styles */
+            .card {
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            }
+
+            .card-hover-effect:hover {
+                transform: translateY(-5px); /* Lift card slightly on hover */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Larger shadow on hover */
+                border-color: #3498db;
+            }
+
+            .card-title {
+                font-weight: 600;
+            }
+
+            /* Image Styles */
+            .card-img-top {
+                border-top-left-radius: 10px; /* Match card corners */
+                border-top-right-radius: 10px;
+            }
+
+            /* Badge Styles */
+            .badge {
+                font-size: 0.85em;
+                font-weight: 500;
+                padding: 0.4em 0.8em;
+            }
+
+            /* Pricing Styles */
+            .pricing {
+                font-size: 0.9em;
+            }
+        </style>
 }
 
-@section Scripts {
-    <script>
-        // Function to get query parameter by name
-        function getQueryParam(param) {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-        var currentId = getQueryParam('currentId'); // Get the 'currentId' parameter from the URL
-    </script>
-}
+@* No need for the script section here as it's already in Index.cshtml *@

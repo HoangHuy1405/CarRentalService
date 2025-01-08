@@ -35,19 +35,33 @@ namespace CarRental.Controllers
             rentalService = new RentalService(context, webHostEnvironment, notificationService, userManager);
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index() {
-			return View();
-		}
-		public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId) {
-            //IEnumerable<RentalVehicle> vehicles = await rentalVehicleRepo.GetAll();
+        public async Task<IActionResult> Index(string searchString)
+        {
             IEnumerable<Vehicle> vehicles = await vehicleService.getAllAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return View(vehicles);
+        }
+        public async Task<IActionResult> AllVehiclePartial(bool isForDetails, int currentId, string searchString)
+        {
+            IEnumerable<Vehicle> vehicles = await vehicleService.getAllAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(v => v.Brand.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+            }
+
             ViewData["IsForDetails"] = isForDetails;
             ViewData["CurrentId"] = currentId;
 
-			return PartialView("_DisplayVehicles", vehicles);
-		}
+            return PartialView("_DisplayVehicles", vehicles);
+        }
 
-		[Authorize]
+        [Authorize]
 		[HttpGet]
 		public async Task<IActionResult> CreateEdit(int id) {
 			if (id == 0) {
@@ -193,7 +207,7 @@ namespace CarRental.Controllers
 			return View(rental);
 		}
 
-		[HttpGet]
+		/*[HttpGet]
 		public async Task<IActionResult> Search(string keyword)
 		{
 			IEnumerable<Vehicle> vehicles = await vehicleService.searchVehicles(keyword);
@@ -205,6 +219,6 @@ namespace CarRental.Controllers
 
 			ViewData["IsForDetails"] = false;
 			return PartialView("_DisplayVehicles", vehicles);
-		}
+		}*/
 	}
 }

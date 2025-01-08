@@ -2,8 +2,6 @@
 using CarRental.Models;
 using CarRental.Repository;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Service {
     public class DriverApprovalService {
