@@ -20,7 +20,7 @@
 </div>
 
 <div id="partialDisplay">
-    @await Html.PartialAsync("_DisplayVehicles", Model)
+    @* @await Html.PartialAsync("_DisplayVehicles", Model) *@
 </div>
 
 @section Scripts {
@@ -43,10 +43,14 @@
                 });
             }
 
-            // Trigger search on keyup
-            $("#searchString").keyup(function () {
-                searchVehicles();
-            });
+        // Initial Load
+        refreshPartialView();
+
+        // Handle Search Form Submission (using AJAX)
+        $('form').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            var searchString = $('input[name=searchString]').val();
+            refreshPartialView(searchString);
         });
     </script>
 }
