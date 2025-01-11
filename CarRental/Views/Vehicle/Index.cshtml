@@ -2,10 +2,8 @@
 @{
     ViewBag.Title = "Car Rental";
     var successMessage = TempData["SuccessMessage"] as string;
-    var searchString = Context.Request.Query["searchString"]; // Get the search string from the query
 }
-@if (!string.IsNullOrEmpty(successMessage))
-{
+@if (!string.IsNullOrEmpty(successMessage)) {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         @successMessage
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -13,35 +11,27 @@
 }
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <div class="input-group mb-3">
-            <input type="text" id="searchString" name="searchString" class="form-control" placeholder="Search by brand..." value="@searchString" />
-        </div>
+        <form asp-action="Index" method="get" class="input-group mb-3">
+            <input type="text" name="searchString" class="form-control" placeholder="Search by brand..." />
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class="bi bi-search"></i> Search
+            </button>
+        </form>
     </div>
 </div>
 
 <div id="partialDisplay">
-    @* @await Html.PartialAsync("_DisplayVehicles", Model) *@
 </div>
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            // Function to perform AJAX search
-            function searchVehicles() {
-                var searchString = $("#searchString").val();
-
-                $.ajax({
-                    url: "/Vehicle/AllVehiclePartial",
-                    type: "GET",
-                    data: { searchString: searchString },
-                    success: function (data) {
-                        $("#partialDisplay").html(data); // Update the partial view
-                    },
-                    error: function () {
-                        alert("An error occurred during the search.");
-                    }
-                });
+        function refreshPartialView(searchString = '') {
+            let url = "/Vehicle/AllVehiclePartial?isForDetails=true";
+            if (searchString) {
+                url += "&searchString=" + encodeURIComponent(searchString);
             }
+            $('#partialDisplay').load(url);
+        }
 
         // Initial Load
         refreshPartialView();
